@@ -1,0 +1,215 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --gutter: clamp(1.5rem, 5vw, 4rem);
+    --grid-gap: clamp(1rem, 2vw, 2rem);
+    color-scheme: light;
+  }
+
+  html {
+    background: #efe9de;
+    color: #1a1815;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-bone font-sans text-body text-ink;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: #7a6250;
+    color: #efe9de;
+  }
+
+  /* Visible keyboard focus on every interactive element: 2px accent, 2px offset. */
+  :focus-visible {
+    outline: 2px solid #7a6250;
+    outline-offset: 2px;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Lenis */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  .label {
+    @apply font-sans text-label uppercase;
+  }
+
+  .text-block {
+    width: min(600px, 100%);
+  }
+
+  .section-x {
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+  .section-y {
+    padding-top: clamp(4rem, 9vw, 9rem);
+    padding-bottom: clamp(4rem, 9vw, 9rem);
+  }
+
+  .grid-12 {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+  }
+
+  /* Film grain: one fixed global overlay, 4% opacity, flat color only. */
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+
+  /* Marquee: linear, time-based, duplicated content, pauses on hover or focus. */
+  .marquee {
+    overflow: hidden;
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-rtl var(--marquee-duration, 52s) linear infinite;
+  }
+  .marquee[data-direction='ltr'] .marquee-track {
+    animation-name: marquee-ltr;
+  }
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* Image tile: shared hover treatment. Touch devices see caption and overlay by default. */
+  .tile-img {
+    transition: transform 600ms var(--ease);
+  }
+  .tile-overlay {
+    opacity: 0;
+    transition: opacity 600ms var(--ease);
+  }
+  .tile-caption {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 300ms var(--ease) 100ms,
+      transform 300ms var(--ease) 100ms;
+  }
+  @media (hover: hover) {
+    .tile:hover .tile-img,
+    .tile:focus-visible .tile-img {
+      transform: scale(1.04);
+    }
+    .tile:hover .tile-overlay,
+    .tile:focus-visible .tile-overlay {
+      opacity: 0.15;
+    }
+    .tile:hover .tile-caption,
+    .tile:focus-visible .tile-caption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @media (hover: none) {
+    .tile-overlay {
+      opacity: 0.15;
+    }
+    .tile-caption {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Staggered letter lift for the mobile Menu / Exit trigger. */
+  .lift-letter {
+    display: inline-block;
+    transition: transform 150ms ease-out;
+    transition-delay: calc(var(--i) * 40ms);
+  }
+  .lift:hover .lift-letter,
+  .lift:focus-visible .lift-letter {
+    transform: translateY(-2px);
+  }
+
+  /* Custom cursor: only for fine pointers with hover. */
+  @media (hover: hover) and (pointer: fine) {
+    html.has-cursor,
+    html.has-cursor a,
+    html.has-cursor button,
+    html.has-cursor [role='button'],
+    html.has-cursor label,
+    html.has-cursor select {
+      cursor: none;
+    }
+  }
+}
+
+@keyframes marquee-rtl {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marquee-ltr {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+    width: auto;
+    flex-wrap: wrap;
+  }
+  .marquee-duplicate {
+    display: none !important;
+  }
+  .tile-img,
+  .tile-caption,
+  .lift-letter {
+    transition-property: opacity !important;
+  }
+  .tile:hover .tile-img,
+  .tile:focus-visible .tile-img {
+    transform: none !important;
+  }
+  .tile-caption {
+    transform: none !important;
+  }
+  .lift:hover .lift-letter,
+  .lift:focus-visible .lift-letter {
+    transform: none !important;
+  }
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: auto !important;
+  }
+}

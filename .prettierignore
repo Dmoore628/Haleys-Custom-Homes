@@ -1,0 +1,8 @@
+assets/
+.design/
+.next/
+out/
+node_modules/
+docs/
+public/
+src/lib/media.generated.json

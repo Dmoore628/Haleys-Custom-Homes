@@ -1,0 +1,22 @@
+[
+  {
+    "question": "What's the minimum project size?",
+    "answer": "New builds start at $4 million, with a minimum of 5,000 square feet. Remodels typically start around $600,000."
+  },
+  {
+    "question": "How long does a typical build take?",
+    "answer": "The national average for a contractor-built single-family home is 12 months, per the U.S. Census Bureau's Survey of Construction. [PLACEHOLDER, confirm before launch: Haley's own average build duration.]"
+  },
+  {
+    "question": "Do you take on remodels as well as new builds?",
+    "answer": "Yes. We build new custom homes and take on remodels, each with its own starting point: new builds from $4 million, remodels from around $600,000."
+  },
+  {
+    "question": "What areas do you build in?",
+    "answer": "Denver, Boulder, Cherry Hills Village, Greenwood Village, Centennial, Aspen, and Vail. [PLACEHOLDER, confirm before launch: Haley's Houzz profile also lists Englewood and Bow Mar and omits Aspen and Vail; reconcile the two lists.]"
+  },
+  {
+    "question": "How does the Accelerated Precision Building System actually save time?",
+    "answer": "It sequences trades and materials in a fixed order, based on LEAN construction principles, so no crew is left waiting on a delivery or a decision that should have already happened. One documented result: a client moved into their home a full month ahead of schedule."
+  }
+]
