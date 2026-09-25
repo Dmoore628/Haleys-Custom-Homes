@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import containerQueries from '@tailwindcss/container-queries';
 
 /**
  * Every value here comes from the Design System document. No ad hoc values
@@ -17,8 +18,8 @@ const config: Config = {
       black: '#000000',
     },
     fontFamily: {
-      serif: ['var(--font-fraunces)', 'Georgia', 'serif'],
-      sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+      serif: ['var(--font-bodoni)', 'Georgia', 'serif'],
+      sans: ['var(--font-switzer)', 'system-ui', 'sans-serif'],
     },
     screens: {
       md: '768px',
@@ -35,8 +36,10 @@ const config: Config = {
         card: ['clamp(1rem, 1.5vw, 1.25rem)', { lineHeight: '1.6' }],
       },
       fontWeight: {
-        light: '300',
         normal: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
       },
       spacing: {
         section: 'clamp(4rem, 9vw, 9rem)',
@@ -65,7 +68,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [containerQueries],
 };
 
 export default config;

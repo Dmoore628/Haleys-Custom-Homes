@@ -1,8 +1,6 @@
 /**
  * Business facts. Replace this file (with the rest of content/) to re-skin the template.
  */
-export const PLACEHOLDER = '[PLACEHOLDER, confirm before launch]';
-
 const siteConfig = {
   name: 'Haley Custom Homes',
   shortName: 'Haley',
@@ -13,26 +11,52 @@ const siteConfig = {
   buildsPerYear: { min: 3, max: 5 },
   url: 'https://haleycustomhomes.com',
   contact: {
-    // Verified on Houzz and BuildZoom.
     phone: '303-601-9446',
     phoneHref: 'tel:+13036019446',
-    // Only the masked form d***@haleycustomhomes.com is verified. Do not guess the address.
-    email: null as string | null,
-    emailPlaceholder: `${PLACEHOLDER.slice(0, -1)}: email address]`,
+    email: 'dan@haleycustomhomes.com',
   },
-  // Contact page list, per the Final Copy document.
+  office: {
+    address: '5211 S Quebec Street, Greenwood Village, CO 80111',
+    // OpenStreetMap geocode of the address.
+    lat: 39.6219767,
+    lng: -104.9057358,
+  },
+  // Contact page list, per the Final Copy document; coordinates are each city's center.
   serviceAreas: [
-    'Denver',
-    'Boulder',
-    'Cherry Hills Village',
-    'Greenwood Village',
-    'Centennial',
-    'Aspen',
-    'Vail',
+    { name: 'Denver', lat: 39.7392, lng: -104.9903 },
+    { name: 'Boulder', lat: 40.015, lng: -105.2705 },
+    { name: 'Cherry Hills Village', lat: 39.6417, lng: -104.9594 },
+    { name: 'Greenwood Village', lat: 39.6172, lng: -104.9508 },
+    { name: 'Centennial', lat: 39.5807, lng: -104.8772 },
+    { name: 'Aspen', lat: 39.1911, lng: -106.8175 },
+    { name: 'Vail', lat: 39.6403, lng: -106.3742 },
   ],
   heroServiceAreas: 'DENVER METRO. BOULDER. ASPEN. VAIL.',
-  // Social accounts are omitted until Haley confirms active, maintained ones.
-  social: [] as { label: string; href: string }[],
+  social: [
+    { id: 'pinterest', label: 'Pinterest', href: 'https://www.pinterest.com/haleycstmhomes/' },
+    {
+      id: 'youtube',
+      label: 'YouTube',
+      href: 'http://www.youtube.com/channel/UCCv8HSL4i52vp5CGe0tc-AQ',
+    },
+    { id: 'facebook', label: 'Facebook', href: 'https://www.facebook.com/HaleyCustomHomes/' },
+    {
+      id: 'linkedin',
+      label: 'LinkedIn',
+      href: 'https://www.linkedin.com/company/haley-custom-homes',
+    },
+    {
+      id: 'houzz',
+      label: 'Houzz',
+      href: 'https://www.houzz.com/pro/haleycustomhomes/haley-custom-homes',
+    },
+    { id: 'x', label: 'X', href: 'https://twitter.com/haleycustom' },
+    { id: 'instagram', label: 'Instagram', href: 'https://www.instagram.com/haleycustomhomes/' },
+  ],
+  credit: {
+    label: 'In support of the Institute of Classical Architecture & Art, Rocky Mountain Chapter',
+    href: 'https://www.classicist.org/membership-and-chapters/chapters/rocky-mountain/',
+  },
   seo: {
     titleSuffix: 'Haley Custom Homes',
     defaultTitle: 'Haley Custom Homes | Denver Custom Home Builder',
@@ -40,5 +64,7 @@ const siteConfig = {
       'Luxury custom home builder and remodeler serving Denver Metro, Boulder, Aspen and Vail since 1998. Three to five homes a year, built with the Accelerated Precision Building System.',
   },
 } as const;
+
+export type SocialId = (typeof siteConfig.social)[number]['id'];
 
 export default siteConfig;

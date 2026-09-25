@@ -22,3 +22,14 @@ describe('contact rate limiter', () => {
     expect(allow('ip', 1500)).toBe(true);
   });
 });
+
+describe('portfolio grid module', () => {
+  it('never leaves a hole in the 12-column grid, for any project count', async () => {
+    const { layoutSlots } = await import('@/components/sections/ProjectGrid');
+    const span = (s: string) => Number(s.match(/col-span-(\d+)/)?.[1]);
+    for (let n = 1; n <= 16; n++) {
+      const total = layoutSlots(n).reduce((sum, s) => sum + span(s.span), 0);
+      expect(total % 12, `count ${n}`).toBe(0);
+    }
+  });
+});

@@ -11,9 +11,8 @@ test('filter tabs switch categories and show the empty state when needed', async
 
   await remodels.click();
   await expect(remodels).toHaveAttribute('aria-selected', 'true');
-  if ((await tiles.count()) === 0) {
-    await expect(page.getByText('No projects in this category yet.')).toBeVisible();
-  }
+  await expect(tiles).toHaveCount(1);
+  await expect(tiles.first()).toContainText('Cherry Creek Historical Remodel');
   await newBuilds.click();
   await expect(tiles).toHaveCount(newCount);
 });
@@ -23,6 +22,8 @@ test('tile opens its project and the lightbox navigates', async ({ page, isMobil
   await page.locator('#portfolio-grid a').first().click();
   await expect(page).toHaveURL(/\/portfolio\/[a-z0-9-]+$/);
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  // Only sourced stats appear: no placeholder brackets anywhere on the page.
+  expect(await page.locator('main').innerText()).not.toContain('[');
 
   const firstImage = page.getByRole('button', { name: /Open image 1 of/ });
   await firstImage.scrollIntoViewIfNeeded();

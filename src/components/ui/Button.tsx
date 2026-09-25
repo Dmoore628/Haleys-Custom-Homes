@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import { Magnetic } from './Magnetic';
 
 type Variant = 'primary' | 'ghost';
 /** `dark` = the button sits on a dark surface (video, image overlay, ink footer). Same variant, inverted tones. */
@@ -9,20 +10,26 @@ interface CommonProps {
   variant: Variant;
   surface?: Surface;
   fullWidthMobile?: boolean;
+  /** Magnetic label: only "Start the Conversation" and "Send Inquiry" (Fixes spec item 24). */
+  magnetic?: boolean;
   className?: string;
   children: ReactNode;
 }
 
-function classes({ variant, surface = 'light', fullWidthMobile, className }: Omit<CommonProps, 'children'>) {
+function classes({
+  variant,
+  surface = 'light',
+  fullWidthMobile,
+  className,
+}: Omit<CommonProps, 'children' | 'magnetic'>) {
   const base =
     'group relative inline-flex items-center justify-center overflow-hidden rounded-btn px-7 py-4 font-sans text-label uppercase select-none disabled:pointer-events-none';
   const width = fullWidthMobile ? 'w-full md:w-auto' : '';
   if (variant === 'primary') {
-    const tone = surface === 'dark' ? 'bg-ink text-bone' : 'bg-ink text-bone';
+    const tone = 'bg-ink text-bone';
     return [base, tone, width, className].filter(Boolean).join(' ');
   }
-  const tone =
-    surface === 'dark' ? 'border border-bone text-bone' : 'border border-ink text-ink';
+  const tone = surface === 'dark' ? 'border border-bone text-bone' : 'border border-ink text-ink';
   return [base, tone, width, className].filter(Boolean).join(' ');
 }
 
@@ -54,11 +61,24 @@ type LinkButtonProps = CommonProps & { href: string } & Omit<
     'href' | 'className' | 'children'
   >;
 
-export function ButtonLink({ variant, surface, fullWidthMobile, className, children, href, ...rest }: LinkButtonProps) {
+export function ButtonLink({
+  variant,
+  surface,
+  fullWidthMobile,
+  magnetic,
+  className,
+  children,
+  href,
+  ...rest
+}: LinkButtonProps) {
   return (
-    <Link href={href} className={classes({ variant, surface, fullWidthMobile, className })} {...rest}>
+    <Link
+      href={href}
+      className={classes({ variant, surface, fullWidthMobile, className })}
+      {...rest}
+    >
       <Layers variant={variant} surface={surface} />
-      <span className="relative">{children}</span>
+      {magnetic ? <Magnetic>{children}</Magnetic> : <span className="relative">{children}</span>}
     </Link>
   );
 }
@@ -66,11 +86,24 @@ export function ButtonLink({ variant, surface, fullWidthMobile, className, child
 type NativeButtonProps = CommonProps &
   Omit<ComponentPropsWithoutRef<'button'>, 'className' | 'children'>;
 
-export function Button({ variant, surface, fullWidthMobile, className, children, type = 'button', ...rest }: NativeButtonProps) {
+export function Button({
+  variant,
+  surface,
+  fullWidthMobile,
+  magnetic,
+  className,
+  children,
+  type = 'button',
+  ...rest
+}: NativeButtonProps) {
   return (
-    <button type={type} className={classes({ variant, surface, fullWidthMobile, className })} {...rest}>
+    <button
+      type={type}
+      className={classes({ variant, surface, fullWidthMobile, className })}
+      {...rest}
+    >
       <Layers variant={variant} surface={surface} />
-      <span className="relative">{children}</span>
+      {magnetic ? <Magnetic>{children}</Magnetic> : <span className="relative">{children}</span>}
     </button>
   );
 }

@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import siteConfig from '@content/site.config';
-import { fraunces, inter } from '@/lib/fonts';
+import { bodoni, switzer } from '@/lib/fonts';
 import { SkipLink } from '@/components/layout/SkipLink';
 import { Nav } from '@/components/layout/Nav';
-import { Footer } from '@/components/layout/Footer';
+import { ScrollProgress } from '@/components/layout/ScrollProgress';
 import { CookieNotice } from '@/components/layout/CookieNotice';
 import { CustomCursor } from '@/components/layout/CustomCursor';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
@@ -18,21 +18,26 @@ export const metadata: Metadata = {
   description: siteConfig.seo.defaultDescription,
   // The Vercel demo is staging: never indexed until this is Haley's live domain.
   robots: isProduction ? { index: true, follow: true } : { index: false, follow: false },
-  openGraph: { siteName: siteConfig.name, type: 'website', locale: 'en_US' },
+  openGraph: {
+    siteName: siteConfig.name,
+    type: 'website',
+    locale: 'en_US',
+    images: [{ url: '/og/home.jpg', width: 1200, height: 630, alt: siteConfig.name }],
+  },
+  twitter: { card: 'summary_large_image' },
 };
 
 export const viewport: Viewport = { themeColor: '#EFE9DE' };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
+    <html lang="en" className={`${bodoni.variable} ${switzer.variable}`}>
       <body>
         <SkipLink />
+        <ScrollProgress />
         <Nav />
-        <main id="main" tabIndex={-1} className="outline-none">
-          {children}
-        </main>
-        <Footer />
+        {/* <main> and the footer are rendered by the (site) template and by not-found. */}
+        {children}
         <CookieNotice />
         <CustomCursor />
         <SmoothScroll />

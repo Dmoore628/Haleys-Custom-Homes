@@ -38,7 +38,9 @@ export function MobileMenuOverlay({ open, onClose, pathname }: Props) {
         return;
       }
       if (e.key !== 'Tab' || !panelRef.current) return;
-      const focusable = panelRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
+      const focusable = panelRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled])',
+      );
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
       if (e.shiftKey && document.activeElement === first) {
@@ -100,7 +102,7 @@ export function MobileMenuOverlay({ open, onClose, pathname }: Props) {
                   href={link.href}
                   onClick={onClose}
                   aria-current={pathname === link.href ? 'page' : undefined}
-                  className="font-serif text-section font-light"
+                  className="font-serif text-section font-normal"
                 >
                   {link.label}
                 </Link>

@@ -45,7 +45,10 @@ const copy = {
       button: { label: 'View Full Portfolio', href: '/portfolio' },
     },
     testimonials: { eyebrow: 'IN THEIR WORDS' },
-    awards: { caption: 'Recognized by Houzz, Energy Star, and the Luxury Lifestyle Awards.' },
+    awards: {
+      caption: 'Recognized by Houzz, Energy Star, and the Luxury Lifestyle Awards.',
+      asSeenIn: 'As Seen In: Modern In Denver, Colorado Homes & Lifestyles.',
+    },
   },
 
   // The Sequencing Ledger (docs/haley-custom-homes-sequencing-ledger-spec.md), used on Home and Process.
@@ -82,12 +85,20 @@ const copy = {
           'The wait a typical build risks here: a final walk-through finding problems that push move-in back.',
       },
     ],
-    supporting: 'One family moved into their new Haley home a full month ahead of schedule.',
+  },
+
+  // The Early Move-In Marker beneath the ledger's Move-In row.
+  moveIn: {
+    expected: 'Expected',
+    actual: 'Move-In',
+    quote: 'Yes, that is correct.',
+    attribution: 'Michael and Jane McDonald',
+    calendarLabel:
+      'Calendar strip: the Move-In marker slides from the expected date to a date about a month earlier.',
   },
 
   closingCta: {
-    scarcity:
-      '[PLACEHOLDER, confirm before launch: real current build-slot availability, e.g. "Now accepting a limited number of 2027 build slots."]',
+    scarcity: 'Now accepting a limited number of new projects.',
     headline: 'Building three to five homes a year. One of them could be yours.',
     button: { label: 'Start the Conversation', href: '/contact' },
   },
@@ -219,12 +230,14 @@ const copy = {
       projectType: 'Project Type',
       budget: 'Budget Range',
       location: 'Location or Neighborhood',
+      lot: 'Do you have a lot or site selected?',
       message: 'Message',
     },
     optional: '(optional)',
     selectPrompt: 'Select',
     projectTypes: ['New Custom Home', 'Remodel'],
     budgets: ['Under $600k', '$600k to $1M', '$1M to $4M', '$4M+'],
+    lotOptions: ['Yes', 'Not yet', 'Still deciding'],
     submit: 'Send Inquiry',
     sending: 'Sending',
     confirmation: "Thank you. We'll be in touch within one business day.",
@@ -233,7 +246,8 @@ const copy = {
     sendError:
       'Your inquiry could not be sent right now. Please call us directly, or try again in a moment.',
     serviceAreaHeading: 'Where We Build',
-    mapLabel: 'Line map of the Colorado Front Range service area',
+    mapLabel:
+      'Map of the Haley Custom Homes service area, centered on the Greenwood Village office',
     faqEyebrow: 'COMMON QUESTIONS',
   },
 

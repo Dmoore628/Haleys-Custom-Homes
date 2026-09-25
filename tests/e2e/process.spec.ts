@@ -22,11 +22,11 @@ test('sequencing ledger checks rows one at a time as they scroll up, and never r
     window.scrollTo(0, top - window.innerHeight * 0.3);
   });
   await expect(rows.last()).toHaveAttribute('data-checked', 'true');
-  await expect(
-    page
-      .getByText('One family moved into their new Haley home a full month ahead of schedule.')
-      .first(),
-  ).toBeVisible();
+  // The Early Move-In Marker plays once it scrolls into view; the old caption line is gone.
+  const marker = page.getByTestId('early-move-in');
+  await marker.scrollIntoViewIfNeeded();
+  await expect(marker).toHaveAttribute('data-played', 'true');
+  await expect(page.getByText('Yes, that is correct.')).toBeVisible();
 
   // Scrolling back to the top does not un-check anything.
   await page.evaluate(() => window.scrollTo(0, 0));
@@ -39,6 +39,17 @@ test('reduced motion: every ledger row renders already checked', async ({ page }
   const rows = page.getByTestId('ledger-row');
   await expect(rows).toHaveCount(6);
   for (let i = 0; i < 6; i++) await expect(rows.nth(i)).toHaveAttribute('data-checked', 'true');
+});
+
+test('framing square accent animates once, on first view', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'desktop-only accent');
+  await page.goto('/process');
+  const square = page.getByTestId('accent-framing-square');
+  await expect(square).toBeVisible();
+  await expect(square).toHaveAttribute('data-played', 'true');
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect(square).toHaveAttribute('data-played', 'true');
 });
 
 test('progress rail markers fill as the phases scroll past', async ({ page }) => {

@@ -12,8 +12,8 @@ Foundational layer. Every page and component spec pulls from this file. Nothing 
 
 ## Type
 
-- Display and headline typeface: Fraunces, a self-hosted variable serif via `next/font`. Chosen because it's genuinely available to self-host (no CDN dependency), comes as a variable font so both a light large-hero weight and a regular section-headline weight exist in one file, and its old-style, slightly irregular letterforms read as crafted rather than corporate, appropriate for a business whose entire pitch is handmade attention over volume. Weight 300 for the largest hero-scale text, weight 400 everywhere else it's used.
-- Body and UI typeface: Inter, self-hosted via `next/font`. Used for paragraph text, form fields, navigation, labels, and captions. A neutral, highly legible grotesk that stays out of the way of the serif everywhere it appears alongside it.
+- Display and headline typeface: Bodoni Moda, self-hosted via `next/font/google` (per haley-custom-homes-fixes-spec.md, item 1), using its optical-size axis so hairlines hold at small sizes and stay refined at hero scale. Weight 400. Italic Bodoni Moda is the signature accent for testimonial quotes, pull-quotes, and the Early Move-In Marker's quote. Serif settings use a slight negative tracking (-0.012em) with kerning on.
+- Body and UI typeface: Switzer (Indian Type Foundry, via Fontshare), self-hosted via `next/font/local`. Used for paragraph text, form fields, navigation, labels, and captions.
 - Never more than two typefaces on the site. No third font is introduced for a single section, however small.
 - Scale (desktop; use CSS `clamp()` for fluid scaling down to mobile rather than fixed breakpoint swaps):
   - Hero headline: `clamp(2.75rem, 6.5vw, 6rem)`, line-height 1.05
@@ -67,7 +67,7 @@ Foundational layer. Every page and component spec pulls from this file. Nothing 
 
 ## Signature Feature: the Sequencing Ledger
 
-- The Comparison Slider has been removed from this site. The single signature bespoke feature is now the Sequencing Ledger, fully specified in haley-custom-homes-sequencing-ledger-spec.md (visual form, checkmark and strikethrough motion, copy, placement on Home and Process, reduced-motion behavior).
+- The single signature bespoke feature is the Sequencing Ledger, fully specified in haley-custom-homes-sequencing-ledger-spec.md (visual form, checkmark and strikethrough motion, copy, placement on Home and Process, reduced-motion behavior).
 
 ## Process Page Progress Rail (a second, distinct device, not a duplicate of the Sequencing Ledger)
 
@@ -110,10 +110,7 @@ Foundational layer. Every page and component spec pulls from this file. Nothing 
 
 ## Service Area Map
 
-- Fact: Haley's real, specific coverage area, Denver Metro, Boulder, and the mountain communities, is concrete and mappable. A plain list of names says it but doesn't show it.
-- Device: a simple custom line-art outline (single 1px ink stroke, no fill, no photorealistic map tiles, no embedded map widget) of the Colorado Front Range service region, built as a static SVG. Small dots, not pins or icons, mark each real service area's approximate position, in the accent color.
-- Sits alongside, not instead of, the typographic list on the Contact page. The list is what a visitor actually reads; the map makes the coverage feel geographically real at a glance. Keep the SVG small and quiet, roughly 320px wide, positioned above or beside the list, never full-bleed or dominating the page.
-- A one-time static asset, not interactive or animated: no zoom, no pan, no hover tooltips, keeping it a quiet supporting visual rather than a feature competing with the form for attention.
+- Replaced by the interactive Mapbox map specified in haley-custom-homes-fixes-spec.md (item 16): custom-styled in the site's palette, centered on the office at 5211 S Quebec Street, Greenwood Village, with an accent marker per service city, a one-time outline draw-in, and fly-to on hover or focus of each city in the adjacent list. No default map chrome beyond the provider's required attribution.
 
 ## Category decisions: adopted or rejected, nothing left silent
 

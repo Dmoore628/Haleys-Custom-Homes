@@ -11,18 +11,22 @@ import { ClosingCta } from '@/components/sections/ClosingCta';
 export const metadata: Metadata = {
   title: { absolute: copy.home.meta.title },
   description: copy.home.meta.description,
+  openGraph: { images: [{ url: '/og/home.jpg', width: 1200, height: 630 }] },
 };
 
 export default function HomePage() {
   return (
     <>
-      <Hero />
-      <PositioningStatement />
+      {/* Pinned pair: the statement slides up over the hero. The wrapper ends the pin. */}
+      <div>
+        <Hero />
+        <PositioningStatement />
+      </div>
       <ProcessHighlight />
       <FeaturedPortfolio />
       <Testimonials />
       <AwardsStrip />
-      <ClosingCta />
+      <ClosingCta pinned />
     </>
   );
 }

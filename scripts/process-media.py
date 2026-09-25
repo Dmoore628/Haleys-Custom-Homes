@@ -26,24 +26,24 @@ MANIFEST = os.path.join(ROOT, 'src', 'lib', 'media.generated.json')
 BONE = (0xEF, 0xE9, 0xDE)
 INK = (0x1A, 0x18, 0x15)
 
-# Projects shown on the site. `cherry-hills-village` duplicates the Landeskog set and
-# `quincy` duplicates Polzin (plus one extra exterior), so both are left out.
-# The House 1-3 folders under videos/ are renamed duplicates of these projects.
+# The six real projects, matched to Haley's Houzz profile by comparing each Houzz project's
+# cover photo with the asset folders (the folders are named after clients, not projects):
+#   Cherry Creek Historical Remodel  -> mcdonald   (Houzz cover: the tub under the tree painting)
+#   Modern Farm House in Cherry Hills -> lowe      (pool, metal roofs)
+#   Denver Modern                     -> beckman   (limestone, steel fascia, exterior stair)
+#   Cherry Hills Transitional         -> walker    (great room with steel windows)
+#   Cherry Hills Traditional          -> fisher    (brick twin gables)
+#   Modern                            -> polzin    (dark modern front)
+# Output folders use the project slugs. Hero images are the sharpest full-resolution frames.
 PROJECTS = {
-    'timian': 'Cover+Option+Copy.jpeg',
-    'landeskog': 'ExteriorRear.jpg',
-    'walker': 'Walker+Exterior+Front.jpeg',
-    'fisher': 'Fischer+Front+417A7330_v2.jpg',
-    'beckman': 'Beckman+Exterior+Side+2.jpg',
-    '19-chp': 'kyliefitts_haleycustomhomes_19cherryhillsparkway_13.jpg',
-    'mcdonald': 'Nancy-Holst-McDonald-08-25-23-Front-Living-Horizantal-Web.jpg',
-    'boland': 'Boland+EMR_6929.jpg',
-    'polzin': 'Polzin+Front+Exterior+3.0.jpg',
-    'lowe': 'Lowe+Exterior.jpeg',
-    'millisor': '01+-+Millisor+Exterior.jpg',
-    'laney': '01+-+Laney+Pool+Side.jpg',
+    'cherry-creek-historical-remodel': ('mcdonald', 'Nancy-Holst-McDonald-08-25-23-Front-Living-Horizantal-Web.jpg'),
+    'modern-farm-house-in-cherry-hills': ('lowe', 'Lowe+Exterior+back.jpg'),
+    'denver-modern': ('beckman', 'Beckman+Exterior+Side+2.jpg'),
+    'cherry-hills-transitional': ('walker', 'Walker+Great+Room.jpeg'),
+    'cherry-hills-traditional': ('fisher', 'Fischer+Front+417A7330_v2.jpg'),
+    'modern': ('polzin', 'Polzin+Front+Exterior+3.0.jpg'),
 }
-GALLERY_MAX = 18
+GALLERY_MAX = 24
 GALLERY_MIN_WIDTH = 1200  # skip older low-res duplicates when a project has better files
 
 SECTIONS = {
@@ -61,7 +61,9 @@ SECTIONS = {
     'phases/5-finish-work.jpg': 'projects/timian/5+CHP-Master+Bath+1+-+1F2A9894.jpg',
     'phases/6-move-in.jpg': 'projects/mcdonald/Nancy-Holst-McDonald-08-25-23-One-Point-Living-Web.jpg',
     # Founder
-    'people/dan-fuller.jpg': 'people/Dan+Fuller+from+Haley+Custom+Homes.jpg',
+    # Founder: studio portrait supplied by Damian (477x1024); a solid black band across the top
+    # (rows 0-123) is cropped off in main().
+    'people/dan-fuller.jpg': 'people/Danfullerimage.jpg',
 }
 
 manifest = {}
@@ -81,8 +83,10 @@ def blur_data_url(im):
     return 'data:image/jpeg;base64,' + base64.b64encode(buf.getvalue()).decode()
 
 
-def emit(src_rel, out_rel, max_w=2400, quality=80):
+def emit(src_rel, out_rel, max_w=2400, quality=90, crop=None):
     im = ImageOps.exif_transpose(Image.open(os.path.join(SRC, src_rel))).convert('RGB')
+    if crop:
+        im = im.crop(crop)
     if im.width > max_w:
         im = im.resize((max_w, round(im.height * max_w / im.width)), Image.LANCZOS)
     out = os.path.join(PUB, 'images', out_rel)
@@ -133,45 +137,73 @@ def write_mark(mask, out_rel, rgb, height=None):
     }
 
 
+def write_color_mark(im, out_rel, knockout, height):
+    """Keep a mark's own colors; turn a flat black/white backdrop transparent."""
+    if knockout:
+        r, g, b, a = im.split()
+        lum = ImageOps.grayscale(im.convert('RGB'))
+        # distance from the backdrop color becomes opacity, with a soft ramp for anti-aliasing
+        dist = lum if knockout == 'black' else ImageOps.invert(lum)
+        alpha = dist.point(lambda v: 0 if v < 12 else min(255, int((v - 12) * 255 / 60)))
+        alpha = Image.composite(alpha, Image.new('L', im.size, 0), a)
+        im.putalpha(alpha)
+    bbox = im.getchannel('A').getbbox()
+    if bbox:
+        im = im.crop(bbox)
+    w = round(im.width * height / im.height)
+    im = im.resize((w, height), Image.LANCZOS)
+    out = os.path.join(PUB, 'images', out_rel)
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    im.save(out, 'PNG', optimize=True)
+    manifest['/images/' + out_rel] = {
+        'width': im.width, 'height': im.height, 'color': 'transparent', 'blurDataURL': ''}
+
+
 def main():
     if os.path.isdir(os.path.join(PUB, 'images')):
         shutil.rmtree(os.path.join(PUB, 'images'))
 
-    for slug, cover in PROJECTS.items():
-        folder = os.path.join(SRC, 'projects', slug)
-        emit(f'projects/{slug}/{cover}', f'projects/{slug}/cover.jpg', max_w=2400)
+    for slug, (folder_name, cover) in PROJECTS.items():
+        folder = os.path.join(SRC, 'projects', folder_name)
+        emit(f'projects/{folder_name}/{cover}', f'projects/{slug}/cover.jpg', max_w=2400)
         files = sorted(f for f in os.listdir(folder) if f.lower().endswith(('.jpg', '.jpeg', '.png')))
         sized = [(f, Image.open(os.path.join(folder, f)).size) for f in files]
         good = [f for f, (w, h) in sized if max(w, h) >= GALLERY_MIN_WIDTH]
         chosen = (good if len(good) >= 4 else [f for f, _ in sized])
         chosen = [f for f in chosen if f != cover][:GALLERY_MAX]
         for i, f in enumerate(chosen, 1):
-            emit(f'projects/{slug}/{f}', f'projects/{slug}/{i:02d}.jpg', max_w=2400)
+            emit(f'projects/{folder_name}/{f}', f'projects/{slug}/{i:02d}.jpg', max_w=2400)
 
     for out_rel, src_rel in SECTIONS.items():
-        emit(src_rel, out_rel, max_w=2400)
+        if out_rel == 'people/dan-fuller.jpg':
+            w, h = Image.open(os.path.join(SRC, src_rel)).size
+            emit(src_rel, out_rel, max_w=2400, quality=92, crop=(0, 128, w, h))
+        else:
+            emit(src_rel, out_rel, max_w=2400)
 
     # Logo: the gold transparent mark, recolored to the two palette tones.
     logo = single_tone_mark('branding/Haley Custom Homes logo trans new.png', 'logo', 'alpha')
     write_mark(logo, 'brand/logo-bone.png', BONE)
     write_mark(logo, 'brand/logo-ink.png', INK)
 
-    # Award marks, flattened to ink so no mark's color competes with the accent.
+    # Award marks in their original colors (Fixes spec item 5). Solid black or white
+    # backgrounds baked into the source files are knocked out to transparency so each mark
+    # sits on the bone strip; the mark itself keeps its real color. Rendered 192px tall
+    # (2x the 96px maximum display height) so they stay sharp on high-density screens.
     marks = {
-        'awards/houzz.png': ('other/misc-pages/houzz+logo.jpg', 'white'),
+        'awards/houzz.png': ('awards/sourced/houzz-2024.png', None),
         'awards/luxury-lifestyle-awards.png': ('awards/Luxury Lifestyle Awards 2025 half.png', 'black'),
         'awards/luxe-gold-list.png': ('other/testimonials/image-asset.jpeg', 'white'),
     }
     for out_rel, (src_rel, knock) in marks.items():
         im = Image.open(os.path.join(SRC, src_rel))
-        if im.mode == 'CMYK':
-            im = im.convert('RGB')
-        tmp = os.path.join(PUB, '_tmp.png')
-        im.convert('RGBA').save(tmp)
-        rel_tmp = os.path.relpath(tmp, SRC)
-        mask = single_tone_mark(rel_tmp, None, knock)
-        os.remove(tmp)
-        write_mark(mask, out_rel, INK, height=96)
+        im = (im.convert('RGB') if im.mode == 'CMYK' else im).convert('RGBA')
+        write_color_mark(im, out_rel, knock, height=192)
+    # Energy Star: the EPA's official vector mark (public domain), served as SVG.
+    shutil.copyfile(os.path.join(SRC, 'awards', 'sourced', 'energy-star.svg'),
+                    os.path.join(PUB, 'images', 'awards', 'energy-star.svg'))
+    manifest['/images/awards/energy-star.svg'] = {
+        'width': 423, 'height': 433, 'color': 'transparent', 'blurDataURL': ''}
 
     # Hero video. The source is a 1920x1080 screen recording of a social post, so the real
     # footage (about 2.29:1) sits inside black borders that change partway through:
@@ -203,9 +235,88 @@ def main():
     subprocess.run([ff, '-y', '-loglevel', 'error', '-ss', '0.1', '-i', out_video, '-frames:v', '1',
                     '-q:v', '3', os.path.join(PUB, 'video', 'hero-poster.jpg')], check=True)
 
+    # Closing CTA background: the Timian twilight flyover. The source's second half is an
+    # AI-interpolated crossfade with visible double exposure (about 3.5-4.8s), so only the
+    # clean opening drone push-in (0-3.3s) is used, played forward then reversed for a
+    # seamless 6.6s loop. No audio.
+    cta_src = os.path.join(SRC, 'videos', 'timian-twilight-flyover.mp4')
+    cta_out = os.path.join(PUB, 'video', 'cta.mp4')
+    cta_filter = ('[0:v]trim=0:3.3,setpts=PTS-STARTPTS,split[f][r];[r]reverse[rv];'
+                  '[f][rv]concat=n=2:v=1:a=0,format=yuv420p[out]')
+    subprocess.run([ff, '-y', '-loglevel', 'error', '-i', cta_src, '-filter_complex', cta_filter,
+                    '-map', '[out]', '-an', '-c:v', 'libx264', '-preset', 'slow', '-crf', '22',
+                    '-profile:v', 'high', '-movflags', '+faststart', cta_out], check=True)
+
+    make_og_images()
+
     with open(MANIFEST, 'w', encoding='utf-8') as fh:
         json.dump(dict(sorted(manifest.items())), fh, indent=1)
     print(f'{len(manifest)} images written')
+
+
+OG_PAGES = {
+    # file: (eyebrow, headline, background image)
+    'home': ('DENVER METRO. BOULDER. ASPEN. VAIL.', 'Three to five homes a year.', 'sections/cta-twilight.jpg'),
+    'portfolio': ('PORTFOLIO', "A Sample of What We've Built", 'projects/cherry-hills-transitional/cover.jpg'),
+    'process': ('OUR PROCESS', 'A Build That Moves in Order', 'phases/4-trade-sequencing.jpg'),
+    'about': ('ABOUT', 'Dan Haley Fuller', 'sections/philosophy-detail.jpg'),
+    'contact': ('CONTACT', 'Start Your Build', 'sections/concierge.jpg'),
+}
+OG_PROJECT_TITLES = {
+    'cherry-creek-historical-remodel': ('DENVER, CO', 'Cherry Creek Historical Remodel'),
+    'modern-farm-house-in-cherry-hills': ('ENGLEWOOD, CO', 'Modern Farm House in Cherry Hills'),
+    'denver-modern': ('ENGLEWOOD, CO', 'Denver Modern'),
+    'cherry-hills-transitional': ('CHERRY HILLS VILLAGE, CO', 'Cherry Hills Transitional'),
+    'cherry-hills-traditional': ('DENVER, CO', 'Cherry Hills Traditional'),
+    'modern': ('DENVER, CO', 'Modern'),
+}
+
+
+def make_og_images():
+    """1200x630 share cards: photo on the left, bone panel with the logo, eyebrow and headline."""
+    from PIL import ImageDraw, ImageFont
+    fonts = os.path.join(ROOT, 'scripts', 'fonts')
+    serif = ImageFont.truetype(os.path.join(fonts, 'BodoniModa.ttf'), 58)
+    try:
+        serif.set_variation_by_axes([48, 400])
+    except Exception:
+        pass
+    sans = ImageFont.truetype(os.path.join(fonts, 'Switzer-Semibold.ttf'), 17)
+    logo = Image.open(os.path.join(PUB, 'images', 'brand', 'logo-ink.png'))
+    logo.thumbnail((150, 120))
+    out_dir = os.path.join(PUB, 'og')
+    os.makedirs(out_dir, exist_ok=True)
+
+    def card(name, eyebrow, headline, bg_rel):
+        W, H, split = 1200, 630, 660
+        canvas = Image.new('RGB', (W, H), BONE)
+        photo = Image.open(os.path.join(PUB, 'images', bg_rel)).convert('RGB')
+        photo = ImageOps.fit(photo, (split, H), Image.LANCZOS)
+        canvas.paste(photo, (0, 0))
+        d = ImageDraw.Draw(canvas)
+        x = split + 56
+        canvas.paste(logo, (x, 56), logo)
+        # wrap headline to the panel width
+        words, lines, cur = headline.split(), [], ''
+        for w in words:
+            test = (cur + ' ' + w).strip()
+            if d.textlength(test, font=serif) > W - x - 48 and cur:
+                lines.append(cur)
+                cur = w
+            else:
+                cur = test
+        lines.append(cur)
+        y = H - 64 - len(lines) * 66
+        d.text((x, y - 44), eyebrow, font=sans, fill=INK, spacing=4)
+        for i, line in enumerate(lines):
+            d.text((x, y + i * 66), line, font=serif, fill=INK)
+        d.line([(x, H - 40), (W - 48, H - 40)], fill=(0x7A, 0x62, 0x50), width=2)
+        canvas.save(os.path.join(out_dir, f'{name}.jpg'), 'JPEG', quality=90)
+
+    for name, (eyebrow, headline, bg) in OG_PAGES.items():
+        card(name, eyebrow, headline, bg)
+    for slug, (eyebrow, headline) in OG_PROJECT_TITLES.items():
+        card(f'project-{slug}', eyebrow, headline, f'projects/{slug}/cover.jpg')
 
 
 if __name__ == '__main__':

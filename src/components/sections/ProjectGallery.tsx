@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import copy from '@content/copy.config';
 import { EASE } from '@/lib/animation';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
@@ -23,6 +24,8 @@ function CloseMark() {
  */
 export function ProjectGallery({ images, name }: { images: string[]; name: string }) {
   const [index, setIndex] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const reduced = useReducedMotion();
   const openerRef = useRef<HTMLButtonElement | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -84,74 +87,84 @@ export function ProjectGallery({ images, name }: { images: string[]; name: strin
               }}
               data-cursor="expand"
             >
-              <SmartImage src={src} alt={`${name}, photograph ${i + 1}`} sizes="100vw" className="h-auto w-full" />
+              <SmartImage
+                src={src}
+                alt={`${name}, photograph ${i + 1}`}
+                sizes="100vw"
+                className="h-auto w-full"
+              />
             </button>
           </Reveal>
         ))}
       </ul>
 
-      <AnimatePresence>
-        {index !== null && (
-          <motion.div
-            ref={dialogRef}
-            role="dialog"
-            aria-modal="true"
-            aria-label={`${name}, image ${index + 1} of ${images.length}`}
-            className="fixed inset-0 z-[80] flex items-center justify-center bg-ink"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: EASE }}
-          >
-            {/* Edge taps: left third goes back, right third goes forward. */}
-            <button
-              type="button"
-              aria-label={copy.portfolio.lightbox.previous}
-              onClick={() => step(-1)}
-              className="absolute inset-y-0 left-0 z-10 w-1/3"
-            />
-            <button
-              type="button"
-              aria-label={copy.portfolio.lightbox.next}
-              onClick={() => step(1)}
-              className="absolute inset-y-0 right-0 z-10 w-1/3"
-            />
-
-            <AnimatePresence mode="wait" initial={false}>
+      {/* Portaled to <body> so no section's stacking context can trap it under the nav. */}
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {index !== null && (
               <motion.div
-                key={images[index]}
-                className="relative h-[86vh] w-[92vw]"
-                initial={{ opacity: 0, scale: reduced ? 1 : 0.99 }}
-                animate={{ opacity: 1, scale: 1 }}
+                ref={dialogRef}
+                role="dialog"
+                aria-modal="true"
+                aria-label={`${name}, image ${index + 1} of ${images.length}`}
+                className="fixed inset-0 z-[80] flex items-center justify-center bg-ink"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3, ease: EASE }}
               >
-                <SmartImage
-                  src={images[index]}
-                  alt={`${name}, photograph ${index + 1}`}
-                  fill
-                  sizes="92vw"
-                  className="object-contain"
-                  style={{ backgroundColor: 'transparent' }}
+                {/* Edge taps: left third goes back, right third goes forward. */}
+                <button
+                  type="button"
+                  aria-label={copy.portfolio.lightbox.previous}
+                  onClick={() => step(-1)}
+                  className="absolute inset-y-0 left-0 z-10 w-1/3"
                 />
-              </motion.div>
-            </AnimatePresence>
+                <button
+                  type="button"
+                  aria-label={copy.portfolio.lightbox.next}
+                  onClick={() => step(1)}
+                  className="absolute inset-y-0 right-0 z-10 w-1/3"
+                />
 
-            <p className="label absolute bottom-6 left-1/2 -translate-x-1/2 text-bone">
-              {index + 1} / {images.length}
-            </p>
-            <button
-              ref={closeRef}
-              type="button"
-              aria-label={copy.portfolio.lightbox.close}
-              onClick={close}
-              className="absolute right-4 top-4 z-20 flex h-12 w-12 items-center justify-center md:right-8 md:top-8"
-            >
-              <CloseMark />
-            </button>
-          </motion.div>
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={images[index]}
+                    className="relative h-[86vh] w-[92vw]"
+                    initial={{ opacity: 0, scale: reduced ? 1 : 0.99 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3, ease: EASE }}
+                  >
+                    <SmartImage
+                      src={images[index]}
+                      alt={`${name}, photograph ${index + 1}`}
+                      fill
+                      sizes="92vw"
+                      className="object-contain"
+                      style={{ backgroundColor: 'transparent' }}
+                    />
+                  </motion.div>
+                </AnimatePresence>
+
+                <p className="label absolute bottom-6 left-1/2 -translate-x-1/2 text-bone">
+                  {index + 1} / {images.length}
+                </p>
+                <button
+                  ref={closeRef}
+                  type="button"
+                  aria-label={copy.portfolio.lightbox.close}
+                  onClick={close}
+                  className="absolute right-4 top-4 z-20 flex h-12 w-12 items-center justify-center md:right-8 md:top-8"
+                >
+                  <CloseMark />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body,
         )}
-      </AnimatePresence>
     </>
   );
 }

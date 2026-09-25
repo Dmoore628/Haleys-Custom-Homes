@@ -2,10 +2,11 @@
 
 import { useState, type FormEvent } from 'react';
 import copy from '@content/copy.config';
-import { BUDGETS, PROJECT_TYPES } from '@/lib/schema';
+import { BUDGETS, LOT_STATUSES, PROJECT_TYPES } from '@/lib/schema';
 import { Button } from '@/components/ui/Button';
 
-type FieldName = 'name' | 'email' | 'phone' | 'projectType' | 'budget' | 'location' | 'message';
+type FieldName =
+  'name' | 'email' | 'phone' | 'projectType' | 'budget' | 'location' | 'lot' | 'message';
 type Errors = Partial<Record<FieldName, string>>;
 
 const REQUIRED: FieldName[] = ['name', 'email', 'phone', 'projectType', 'budget'];
@@ -59,7 +60,11 @@ export function ContactForm() {
 
   if (status === 'sent') {
     return (
-      <p role="status" className="font-serif text-section font-normal" data-testid="form-confirmation">
+      <p
+        role="status"
+        className="font-serif text-section font-normal"
+        data-testid="form-confirmation"
+      >
         {contact.confirmation}
       </p>
     );
@@ -68,7 +73,9 @@ export function ContactForm() {
   const label = (name: FieldName, optional = false) => (
     <label htmlFor={`f-${name}`} className="label block">
       {contact.fields[name]}
-      {optional && <span className="ml-2 normal-case tracking-normal text-ink/70">{contact.optional}</span>}
+      {optional && (
+        <span className="ml-2 normal-case tracking-normal text-ink/70">{contact.optional}</span>
+      )}
     </label>
   );
 
@@ -85,28 +92,64 @@ export function ContactForm() {
   });
 
   return (
-    <form noValidate onSubmit={onSubmit} className="relative flex flex-col gap-8" aria-busy={status === 'sending'}>
+    <form
+      noValidate
+      onSubmit={onSubmit}
+      className="relative flex flex-col gap-8"
+      aria-busy={status === 'sending'}
+    >
       <div>
         {label('name')}
-        <input id={`f-name`} name="name" type="text" autoComplete="name" required className={fieldBase} {...aria('name')} />
+        <input
+          id={`f-name`}
+          name="name"
+          type="text"
+          autoComplete="name"
+          required
+          className={fieldBase}
+          {...aria('name')}
+        />
         {errorFor('name')}
       </div>
       <div className="grid gap-8 md:grid-cols-2 md:gap-grid">
         <div>
           {label('email')}
-          <input id="f-email" name="email" type="email" autoComplete="email" required className={fieldBase} {...aria('email')} />
+          <input
+            id="f-email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            className={fieldBase}
+            {...aria('email')}
+          />
           {errorFor('email')}
         </div>
         <div>
           {label('phone')}
-          <input id="f-phone" name="phone" type="tel" autoComplete="tel" required className={fieldBase} {...aria('phone')} />
+          <input
+            id="f-phone"
+            name="phone"
+            type="tel"
+            autoComplete="tel"
+            required
+            className={fieldBase}
+            {...aria('phone')}
+          />
           {errorFor('phone')}
         </div>
       </div>
       <div className="grid gap-8 md:grid-cols-2 md:gap-grid">
         <div>
           {label('projectType')}
-          <select id="f-projectType" name="projectType" required defaultValue="" className={fieldBase} {...aria('projectType')}>
+          <select
+            id="f-projectType"
+            name="projectType"
+            required
+            defaultValue=""
+            className={fieldBase}
+            {...aria('projectType')}
+          >
             <option value="" disabled>
               {contact.selectPrompt}
             </option>
@@ -120,7 +163,14 @@ export function ContactForm() {
         </div>
         <div>
           {label('budget')}
-          <select id="f-budget" name="budget" required defaultValue="" className={fieldBase} {...aria('budget')}>
+          <select
+            id="f-budget"
+            name="budget"
+            required
+            defaultValue=""
+            className={fieldBase}
+            {...aria('budget')}
+          >
             <option value="" disabled>
               {contact.selectPrompt}
             </option>
@@ -135,7 +185,24 @@ export function ContactForm() {
       </div>
       <div>
         {label('location', true)}
-        <input id="f-location" name="location" type="text" autoComplete="address-level2" className={fieldBase} />
+        <input
+          id="f-location"
+          name="location"
+          type="text"
+          autoComplete="address-level2"
+          className={fieldBase}
+        />
+      </div>
+      <div>
+        {label('lot', true)}
+        <select id="f-lot" name="lot" defaultValue="" className={fieldBase}>
+          <option value="">{contact.selectPrompt}</option>
+          {LOT_STATUSES.map((l) => (
+            <option key={l} value={l}>
+              {l}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         {label('message', true)}
@@ -153,7 +220,13 @@ export function ContactForm() {
         </p>
       )}
       <div>
-        <Button type="submit" variant="primary" fullWidthMobile disabled={status === 'sending'}>
+        <Button
+          type="submit"
+          variant="primary"
+          fullWidthMobile
+          magnetic
+          disabled={status === 'sending'}
+        >
           {status === 'sending' ? contact.sending : contact.submit}
         </Button>
       </div>

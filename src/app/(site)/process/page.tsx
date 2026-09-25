@@ -3,6 +3,7 @@ import copy from '@content/copy.config';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
+import { FramingSquare } from '@/components/ui/SignatureAccents';
 import { SequencingLedger } from '@/components/sections/SequencingLedger';
 import { PhaseSequence } from '@/components/sections/PhaseSequence';
 import { ClosingCta } from '@/components/sections/ClosingCta';
@@ -10,6 +11,7 @@ import { ClosingCta } from '@/components/sections/ClosingCta';
 export const metadata: Metadata = {
   title: copy.process.meta.title,
   description: copy.process.meta.description,
+  openGraph: { images: [{ url: '/og/process.jpg', width: 1200, height: 630 }] },
 };
 
 export default function ProcessPage() {
@@ -18,12 +20,16 @@ export default function ProcessPage() {
     <>
       {/* Intro: same restrained treatment as Home's positioning statement. */}
       <section className="section-x bg-bone pb-section pt-[calc(6.5rem+clamp(4rem,9vw,9rem))]">
-        <div className="grid-12">
-          <Reveal className="col-span-12 max-w-statement md:col-span-10 md:col-start-2">
+        <div className="grid-12 items-center">
+          <Reveal className="col-span-12 max-w-statement md:col-span-8 md:col-start-2">
             <Eyebrow>{intro.eyebrow}</Eyebrow>
             <h1 className="mt-4 font-serif text-section font-normal">{intro.headline}</h1>
             <p className="text-block mt-8 text-body">{intro.supporting}</p>
           </Reveal>
+          {/* Signature Motion Accent: the framing square, opposite the intro text on desktop. */}
+          <div className="hidden justify-center md:col-span-3 md:col-start-10 md:flex">
+            <FramingSquare />
+          </div>
         </div>
       </section>
 

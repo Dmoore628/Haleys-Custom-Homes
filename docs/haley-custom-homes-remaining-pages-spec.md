@@ -41,7 +41,7 @@ Same method as the Home page spec. Every section names the fact it needs to comm
 
 ### The Sequencing Ledger
 
-- Replaced: the Comparison Slider hook is gone. Directly beneath the intro, under the heading "See the Difference" (no supporting line), sits the full-size Sequencing Ledger, as specified in haley-custom-homes-sequencing-ledger-spec.md, before the six-phase breakdown.
+- Directly beneath the intro, under the heading "See the Difference" (no supporting line), sits the full-size Sequencing Ledger, as specified in haley-custom-homes-sequencing-ledger-spec.md, before the six-phase breakdown.
 - The ledger does not replace the six-phase breakdown below it. The ledger answers "what specific failure does Haley's sequencing avoid, phase by phase." The six-phase sequence answers "what actually happens, in order, with photos." Keep both.
 
 ### Signature Process Feature: the Six-Phase Sequence
@@ -100,9 +100,9 @@ Same method as the Home page spec. Every section names the fact it needs to comm
 
 ### Service Area and Contact Info
 
-- Fact: visitors need to know where Haley builds and how to reach them directly, plainly, without a generic embedded map breaking the site's visual consistency.
+- Fact: visitors need to know where Haley builds and how to reach them directly, plainly, in a map styled entirely in the site's own palette.
 - Device: a clean typographic list, right column opposite the form, label type scale, one line per area (Denver, Boulder, Cherry Hills Village, Greenwood Village, Centennial, Aspen, Vail). Below the list, phone and email as understated links in body type scale, accent color, no icons.
-- Above the list, the custom line-art service-area map per the Design System's Service Area Map section, small and quiet, a static single-stroke outline with dots marking each real area, giving the coverage a geographic presence the list alone doesn't.
+- Above the list, the interactive service-area map specified in haley-custom-homes-fixes-spec.md (item 16). Hovering or focusing a city in the list flies the map to it and highlights that row in accent.
 - Motion: each city name enters with a staggered scroll reveal (40ms delay per line, same translateY and opacity values as the standard section reveal), rather than the continuous marquee used on Home. A marquee implies an ongoing, unbounded stream, appropriate for a rotating set of testimonials or press marks, but this is a short, finite, fixed list a visitor needs to actually read and reference, so a one-time staggered entrance is the honest device here, not motion for its own sake.
 
 ### Common Questions (Accordion)

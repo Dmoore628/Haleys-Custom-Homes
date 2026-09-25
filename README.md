@@ -37,19 +37,20 @@ replacing these files and the media, with no component changes:
 All of it is validated with Zod (`src/lib/schema.ts`) at build time. A bad edit fails the build with the
 exact file and field.
 
-### Placeholders still to confirm before launch
+### Sources and open items
 
-Search the repo for `PLACEHOLDER`. Open items:
-
-1. Haley's own average build duration (FAQ answer only).
-2. Current build-slot availability (closing CTA badge).
-3. Contact email address (only `d***@haleycustomhomes.com` is verified).
-4. Per-project location, square footage, build duration, completion year and description.
-5. Per-project category. Every project is filed as a New Build (`"categoryConfirmed": false`) until confirmed,
-   so the Remodels tab shows the empty state.
-6. Service-area list: Houzz also lists Englewood and Bow Mar and omits Aspen and Vail.
+- Projects are the six on Haley's Houzz profile, matched to the asset folders by comparing each Houzz
+  cover photo (see `scripts/process-media.py`). Location and completion year come from Houzz. Square
+  footage and build duration are not published, so they are omitted (the schema allows them once known).
+- Haley's own average build duration is not published; the FAQ answer is framed around the national
+  12-month average without inventing a Haley figure.
+- The contact map needs a Mapbox public token (`NEXT_PUBLIC_MAPBOX_TOKEN`). Without it the map panel shows
+  the office address.
 
 ## Media
+
+Type: Bodoni Moda (SIL Open Font License, via `next/font/google`) and Switzer (Indian Type Foundry,
+ITF Free Font License, self-hosted from `src/fonts`).
 
 The raw asset library (`assets/`, ~570 MB) is not committed. `npm run media` (Python, needs Pillow and
 `imageio-ffmpeg`) builds the optimized images, blur placeholders (`src/lib/media.generated.json`),
@@ -58,12 +59,12 @@ recolored logo and award marks, and the hero video into `public/`. Choose which 
 
 ## Quality gates
 
-| Command             | What it runs                                                                     |
-| ------------------- | -------------------------------------------------------------------------------- |
-| `npm run typecheck` | TypeScript, strict                                                               |
-| `npm run lint`      | ESLint (Next + jsx-a11y)                                                         |
-| `npm test`          | Vitest: content schemas, progress-rail math, rate limit                          |
-| `npm run test:e2e`  | Playwright: nav, filters, lightbox, ledger, form, axe WCAG 2.1 AA on every route |
+| Command             | What it runs                                                                          |
+| ------------------- | ------------------------------------------------------------------------------------- |
+| `npm run typecheck` | TypeScript, strict                                                                    |
+| `npm run lint`      | ESLint (Next + jsx-a11y)                                                              |
+| `npm test`          | Vitest: content schemas, grid module, rail math, rate limit                           |
+| `npm run test:e2e`  | Playwright: every Fixes-spec acceptance check, axe WCAG 2.1 AA, overflow at 10 widths |
 
 Husky runs lint-staged and a type-check before each commit. GitHub Actions (`.github/workflows/ci.yml`)
 runs all of the above, plus Lighthouse CI (Performance 90, Accessibility 100, Best Practices 95,

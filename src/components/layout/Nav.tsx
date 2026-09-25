@@ -55,7 +55,7 @@ export function Nav() {
                 );
               })}
             </ul>
-            <ButtonLink href={copy.nav.cta.href} variant="primary" className="px-6 py-3">
+            <ButtonLink href={copy.nav.cta.href} variant="primary" magnetic className="px-6 py-3">
               {copy.nav.cta.label}
             </ButtonLink>
           </div>

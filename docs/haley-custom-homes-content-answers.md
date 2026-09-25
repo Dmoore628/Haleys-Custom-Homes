@@ -47,7 +47,7 @@ The Country Club remodel named in the Gendron testimonial doesn't appear under t
 
 **How long does a typical build take?**
 Two different numbers belong in two different places here, don't conflate them:
-- For the comparison slider's "Typical Build" side, use 12 months, the U.S. Census Bureau's Survey of Construction reports 12 months as the average completion time for contractor-built single-family homes (2024 data), the closest real published benchmark to a client hiring a builder like Haley, as opposed to a production builder-for-sale home (7.6 months) or an owner-built home (15.1 months). Label it as a national industry average, not a claim about any specific competitor.
+- For the national comparison in the FAQ answer, use 12 months, the U.S. Census Bureau's Survey of Construction reports 12 months as the average completion time for contractor-built single-family homes (2024 data), the closest real published benchmark to a client hiring a builder like Haley, as opposed to a production builder-for-sale home (7.6 months) or an owner-built home (15.1 months). Label it as a national industry average, not a claim about any specific competitor.
 - For "Haley's Process," her own actual average duration is still not publicly stated anywhere I could find. That number, and the FAQ answer built on it, still needs to come from Damian or Haley directly. I looked, it isn't published.
 
 **Do you take on remodels as well as new builds?**

@@ -74,8 +74,8 @@ Every file in `content/` is validated against a Zod schema in `src/lib/schema.ts
 
 ## Testing
 
-- **Unit tests (Vitest):** the content schema validators, and any non-trivial utility function (the comparison slider's drag-to-percentage math, the scroll-progress calculation for the process page rail). Vitest over Jest here specifically because it runs faster against a Vite-adjacent toolchain and needs less configuration for a project this size.
-- **End-to-end tests (Playwright):** the handful of flows that actually matter on a five-page site: the nav opening and closing, the Portfolio filter tabs switching and re-filtering, the contact form completing a full submission and showing the confirmation state, and the comparison slider responding to both drag and the mobile tap-to-toggle fallback. Playwright over Cypress here because its accessibility tree inspection integrates directly with the next item.
+- **Unit tests (Vitest):** the content schema validators, and any non-trivial utility function (the portfolio grid's module layout, the scroll-progress calculation for the process page rail, the contact route's rate limiter). Vitest over Jest here specifically because it runs faster against a Vite-adjacent toolchain and needs less configuration for a project this size.
+- **End-to-end tests (Playwright):** the handful of flows that actually matter on a five-page site: the nav opening and closing, the Portfolio filter tabs switching and re-filtering, the contact form completing a full submission and showing the confirmation state, and the Sequencing Ledger checking rows in order, once, as they scroll into view. Playwright over Cypress here because its accessibility tree inspection integrates directly with the next item.
 - **Automated accessibility checks:** `axe-core` run against every route inside the Playwright suite, checking for the WCAG 2.1 AA baseline (contrast, labeling, keyboard operability) on every build, not just at a one-time manual audit before launch.
 
 ## Performance and quality budget

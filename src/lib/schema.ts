@@ -6,12 +6,20 @@ export const projectSchema = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/, 'slug must be lowercase letters, numbers and dashes'),
   name: z.string().min(1),
   category: categorySchema,
-  categoryConfirmed: z.boolean(),
   location: z.string().min(1),
-  squareFootage: z.string().min(1),
-  buildDuration: z.string().min(1),
-  completionYear: z.string().min(1),
-  description: z.string().min(1),
+  // Stats appear only when a real, sourced value exists. Never a placeholder.
+  squareFootage: z.string().min(1).optional(),
+  buildDuration: z.string().min(1).optional(),
+  completionYear: z
+    .string()
+    .regex(/^\d{4}$/)
+    .optional(),
+  /** Where the project facts come from, for whoever maintains this file. */
+  source: z.string().min(1),
+  description: z
+    .string()
+    .min(1)
+    .refine((d) => !d.includes('['), 'no bracketed placeholders'),
   heroImage: z.string().startsWith('/images/'),
   heroVideo: z.string().startsWith('/video/').nullable(),
   coverImage: z.string().startsWith('/images/'),
@@ -43,7 +51,9 @@ export const awardSchema = z.object({
 });
 export const awardsSchema = z.array(awardSchema).min(1);
 
-export const faqSchema = z.array(z.object({ question: z.string().min(1), answer: z.string().min(1) }));
+export const faqSchema = z.array(
+  z.object({ question: z.string().min(1), answer: z.string().min(1) }),
+);
 
 export const mediaEntrySchema = z.object({
   width: z.number().int().positive(),
@@ -56,6 +66,7 @@ export const mediaManifestSchema = z.record(z.string(), mediaEntrySchema);
 // Contact form: shared by the client form and the /api/contact route.
 export const PROJECT_TYPES = ['New Custom Home', 'Remodel'] as const;
 export const BUDGETS = ['Under $600k', '$600k to $1M', '$1M to $4M', '$4M+'] as const;
+export const LOT_STATUSES = ['Yes', 'Not yet', 'Still deciding'] as const;
 
 export const inquirySchema = z.object({
   name: z.string().trim().min(1).max(200),
@@ -64,6 +75,10 @@ export const inquirySchema = z.object({
   projectType: z.enum(PROJECT_TYPES),
   budget: z.enum(BUDGETS),
   location: z.string().trim().max(200).optional().default(''),
+  lot: z
+    .union([z.enum(LOT_STATUSES), z.literal('')])
+    .optional()
+    .default(''),
   message: z.string().trim().max(5000).optional().default(''),
   // Honeypot: real visitors never see or fill this.
   company: z.string().max(0).optional().default(''),

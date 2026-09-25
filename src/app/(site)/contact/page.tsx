@@ -11,17 +11,18 @@ import { ServiceAreaMap } from '@/components/sections/ServiceAreaMap';
 export const metadata: Metadata = {
   title: copy.contact.meta.title,
   description: copy.contact.meta.description,
+  openGraph: { images: [{ url: '/og/contact.jpg', width: 1200, height: 630 }] },
 };
 
 export default function ContactPage() {
   const { contact } = copy;
-  const { phone, phoneHref, email, emailPlaceholder } = siteConfig.contact;
+  const { phone, phoneHref, email } = siteConfig.contact;
   return (
     <>
-      <section className="section-x bg-bone pb-section pt-[calc(6.5rem+clamp(4rem,9vw,9rem))]">
-        <div className="flex flex-col gap-16 md:grid md:grid-cols-12 md:gap-x-grid md:gap-y-0">
+      <section className="section-x bg-bone pb-section pt-[calc(6.5rem+clamp(3rem,7vw,7rem))]">
+        <div className="flex flex-col gap-16 lg:grid lg:grid-cols-12 lg:gap-x-grid lg:gap-y-0">
           {/* Left: the qualification form. */}
-          <div className="md:col-span-7">
+          <div className="lg:col-span-7">
             <Reveal>
               <h1 className="font-serif text-section font-normal">{contact.headline}</h1>
               <p className="mt-6 max-w-text text-body">{contact.intro}</p>
@@ -31,32 +32,24 @@ export default function ContactPage() {
             </Reveal>
           </div>
 
-          {/* Right: map, service-area list, direct contact. */}
-          <aside className="md:col-span-4 md:col-start-9" aria-labelledby="service-area-heading">
+          {/* Right: the service-area map and list, then direct contact. */}
+          <aside className="lg:col-span-4 lg:col-start-9" aria-labelledby="service-area-heading">
             <Reveal>
               <ServiceAreaMap />
-              <h2 id="service-area-heading" className="label mt-10">
-                {contact.serviceAreaHeading}
-              </h2>
             </Reveal>
-            <ul className="mt-6 flex flex-col gap-3">
-              {siteConfig.serviceAreas.map((area, i) => (
-                <Reveal as="li" key={area} delay={0.04 * i} className="label">
-                  {area}
-                </Reveal>
-              ))}
-            </ul>
             <Reveal className="mt-10 flex flex-col gap-2" delay={0.1}>
-              <a href={phoneHref} className="text-body text-accent underline-offset-4 hover:underline">
+              <a
+                href={phoneHref}
+                className="text-body text-accent underline-offset-4 hover:underline"
+              >
                 {phone}
               </a>
-              {email ? (
-                <a href={`mailto:${email}`} className="text-body text-accent underline-offset-4 hover:underline">
-                  {email}
-                </a>
-              ) : (
-                <p className="text-body text-accent">{emailPlaceholder}</p>
-              )}
+              <a
+                href={`mailto:${email}`}
+                className="text-body text-accent underline-offset-4 hover:underline"
+              >
+                {email}
+              </a>
             </Reveal>
           </aside>
         </div>

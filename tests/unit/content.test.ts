@@ -8,7 +8,28 @@ describe('content files', () => {
     expect(projects.length).toBeGreaterThan(0);
     expect(testimonials).toHaveLength(3);
     expect(awards.length).toBeGreaterThan(0);
-    expect(faq).toHaveLength(5);
+    expect(faq).toHaveLength(10);
+  });
+
+  it('shows only the six real Houzz projects, with no placeholders anywhere', () => {
+    expect(projects.map((p) => p.name).sort()).toEqual(
+      [
+        'Cherry Creek Historical Remodel',
+        'Cherry Hills Traditional',
+        'Cherry Hills Transitional',
+        'Denver Modern',
+        'Modern',
+        'Modern Farm House in Cherry Hills',
+      ].sort(),
+    );
+    expect(projects.filter((p) => p.category === 'remodel').map((p) => p.name)).toEqual([
+      'Cherry Creek Historical Remodel',
+    ]);
+    const values = [
+      ...projects.flatMap((p) => [p.name, p.location, p.description, p.completionYear ?? '']),
+      ...faq.flatMap((f) => [f.question, f.answer]),
+    ];
+    for (const v of values) expect(v).not.toMatch(/PLACEHOLDER|\[|\]|TBD/);
   });
 
   it('every referenced image exists in the generated media manifest', () => {
@@ -50,6 +71,12 @@ describe('inquiry schema', () => {
 
   it('rejects a budget outside the four real options', () => {
     expect(inquirySchema.safeParse({ ...valid, budget: '$250k' }).success).toBe(false);
+  });
+
+  it('accepts the optional lot field only with one of its three options', () => {
+    expect(inquirySchema.parse({ ...valid, lot: 'Still deciding' }).lot).toBe('Still deciding');
+    expect(inquirySchema.parse(valid).lot).toBe('');
+    expect(inquirySchema.safeParse({ ...valid, lot: 'Maybe' }).success).toBe(false);
   });
 
   it('rejects a bad email and a filled honeypot', () => {

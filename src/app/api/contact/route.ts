@@ -23,6 +23,7 @@ function formatBody(i: Inquiry): string {
     `Project Type: ${i.projectType}`,
     `Budget Range: ${i.budget}`,
     `Location or Neighborhood: ${i.location || '(not given)'}`,
+    `Lot or site selected: ${i.lot || '(not given)'}`,
     '',
     'Message:',
     i.message || '(none)',

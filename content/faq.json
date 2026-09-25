@@ -5,18 +5,38 @@
   },
   {
     "question": "How long does a typical build take?",
-    "answer": "The national average for a contractor-built single-family home is 12 months, per the U.S. Census Bureau's Survey of Construction. [PLACEHOLDER, confirm before launch: Haley's own average build duration.]"
+    "answer": "Nationally, a contractor-built single-family home takes about 12 months from start to finish, according to the U.S. Census Bureau's Survey of Construction. We don't publish a single average of our own, because every Haley home is scheduled individually. Once we understand your plans and site, we'll give you a realistic timeline for your home."
   },
   {
     "question": "Do you take on remodels as well as new builds?",
-    "answer": "Yes. We build new custom homes and take on remodels, each with its own starting point: new builds from $4 million, remodels from around $600,000."
+    "answer": "Yes. We take on both new construction and remodels, each with its own starting price point."
   },
   {
     "question": "What areas do you build in?",
-    "answer": "Denver, Boulder, Cherry Hills Village, Greenwood Village, Centennial, Aspen, and Vail. [PLACEHOLDER, confirm before launch: Haley's Houzz profile also lists Englewood and Bow Mar and omits Aspen and Vail; reconcile the two lists.]"
+    "answer": "Denver, Boulder, Cherry Hills Village, Greenwood Village, Centennial, Aspen, and Vail."
   },
   {
     "question": "How does the Accelerated Precision Building System actually save time?",
-    "answer": "It sequences trades and materials in a fixed order, based on LEAN construction principles, so no crew is left waiting on a delivery or a decision that should have already happened. One documented result: a client moved into their home a full month ahead of schedule."
+    "answer": "It sequences trades and materials in a fixed order, based on LEAN construction principles, so no crew is left waiting on a delivery or a decision that should have already happened."
+  },
+  {
+    "question": "Do you provide design and architectural services, or do I need my own architect?",
+    "answer": "We're happy to refer an architect or designer to you based on your desired home style and neighborhood, and we regularly collaborate with clients who arrive with their own architect and finished drawings already in hand."
+  },
+  {
+    "question": "Do I need to already own the lot, or can Haley help me find one?",
+    "answer": "Most clients come to us with a lot already in mind. If you haven't settled on one yet, we're glad to weigh in on how a specific site suits the home you're picturing."
+  },
+  {
+    "question": "What does the payment schedule look like?",
+    "answer": "Payments follow a structured draw schedule tied to real construction milestones, not a flat retainer. The exact schedule is laid out and agreed on before the first shovel moves."
+  },
+  {
+    "question": "Is there a warranty after move-in?",
+    "answer": "Warranty coverage is detailed in your contract, so you know exactly what's covered, and for how long, before you sign."
+  },
+  {
+    "question": "How far ahead of a desired groundbreaking date should I reach out?",
+    "answer": "The earlier you bring us in, the more we can help value-engineer the plans before construction starts, often saving real money in the budget. There's no such thing as reaching out too early."
   }
 ]

@@ -6,6 +6,7 @@ import { PortfolioBrowser } from '@/components/sections/PortfolioBrowser';
 export const metadata: Metadata = {
   title: copy.portfolio.meta.title,
   description: copy.portfolio.meta.description,
+  openGraph: { images: [{ url: '/og/portfolio.jpg', width: 1200, height: 630 }] },
 };
 
 export default function PortfolioPage() {

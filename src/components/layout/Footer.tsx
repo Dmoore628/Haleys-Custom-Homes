@@ -2,13 +2,14 @@ import Link from 'next/link';
 import copy from '@content/copy.config';
 import siteConfig from '@content/site.config';
 import { Logo } from './Logo';
+import { SocialGlyph } from './SocialGlyph';
 
-/** One footer, identical on every page. */
+/** One footer, identical on every page. `relative z-10` so it can slide over a pinned section. */
 export function Footer() {
   const year = new Date().getFullYear();
-  const { contact } = siteConfig;
+  const { contact, social, credit } = siteConfig;
   return (
-    <footer className="section-x bg-ink pb-12 pt-24 text-bone">
+    <footer className="section-x relative z-10 bg-ink pb-12 pt-24 text-bone">
       <div className="grid gap-12 md:grid-cols-3 md:gap-grid">
         <div>
           <Logo tone="bone" className="h-16 w-auto" />
@@ -31,25 +32,49 @@ export function Footer() {
           <a href={contact.phoneHref} className="label hover:text-bone/70">
             {contact.phone}
           </a>
-          {contact.email ? (
-            <a href={`mailto:${contact.email}`} className="label hover:text-bone/70">
-              {contact.email}
-            </a>
-          ) : (
-            <p className="label">{contact.emailPlaceholder}</p>
-          )}
+          <a
+            href={`mailto:${contact.email}`}
+            className="label normal-case tracking-[0.06em] hover:text-bone/70"
+          >
+            {contact.email}
+          </a>
+          <ul className="mt-2 flex flex-wrap gap-5" aria-label="Haley Custom Homes on social media">
+            {social.map((s) => (
+              <li key={s.id}>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${s.label} (opens in a new tab)`}
+                  className="block text-bone transition-colors duration-200 ease-out hover:text-accent focus-visible:text-accent"
+                >
+                  <SocialGlyph id={s.id} />
+                </a>
+              </li>
+            ))}
+          </ul>
           <ul className="mt-4 flex flex-col gap-2" aria-label="Service area">
             {siteConfig.serviceAreas.map((area) => (
-              <li key={area} className="label">
-                {area}
+              <li key={area.name} className="label">
+                {area.name}
               </li>
             ))}
           </ul>
         </div>
       </div>
 
-      <div className="mt-20 border-t border-bone/10 pt-6">
+      <div className="mt-20 flex flex-col gap-3 border-t border-bone/10 pt-6 md:flex-row md:items-baseline md:justify-between">
         <p className="label">{copy.footer.copyright.replace('{year}', String(year))}</p>
+        {/* Styled like the copyright line. Accent text fails WCAG AA contrast on ink at this
+            size (3.1:1), so the accent appears as the hover underline instead. */}
+        <a
+          href={credit.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="label decoration-accent underline-offset-4 hover:underline focus-visible:underline"
+        >
+          {credit.label}
+        </a>
       </div>
     </footer>
   );

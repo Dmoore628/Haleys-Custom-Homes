@@ -23,6 +23,16 @@
     min-height: 100vh;
   }
 
+  /* Bodoni Moda's display cut opens its spacing at large sizes; tighten slightly and keep
+     kerning and ligatures on for every serif setting. */
+  .font-serif {
+    letter-spacing: -0.012em;
+    font-kerning: normal;
+    font-feature-settings:
+      'kern' 1,
+      'liga' 1;
+  }
+
   ::selection {
     background: #7a6250;
     color: #efe9de;
@@ -59,9 +69,11 @@
     width: min(600px, 100%);
   }
 
+  /* Side padding: the fluid gutter, growing on ultra-wide screens so content never runs
+     wider than 1600px while section backgrounds stay full-bleed. */
   .section-x {
-    padding-left: var(--gutter);
-    padding-right: var(--gutter);
+    padding-left: max(var(--gutter), calc((100% - 1600px) / 2));
+    padding-right: max(var(--gutter), calc((100% - 1600px) / 2));
   }
   .section-y {
     padding-top: clamp(4rem, 9vw, 9rem);
