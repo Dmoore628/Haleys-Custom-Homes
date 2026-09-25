@@ -1,0 +1,8 @@
+# Local development: installs dependencies and runs `next dev`.
+# The project directory is bind-mounted by docker-compose so edits hot-reload.
+FROM node:20-alpine
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --ignore-scripts
+EXPOSE 3000
+CMD ["npm", "run", "dev", "--", "-H", "0.0.0.0"]

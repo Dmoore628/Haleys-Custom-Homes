@@ -1,7 +1,14 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type PointerEvent,
+} from 'react';
 import copy from '@content/copy.config';
 import { EASE, pointerToPercent } from '@/lib/animation';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
@@ -17,17 +24,21 @@ const TYPICAL_GAPS = [4, 5, 6, 3];
 
 type Side = 'typical' | 'haley';
 
-function Timeline({ side, phases }: { side: Side; phases: readonly string[] }) {
+function layout(side: Side, phases: readonly string[]) {
   const typical = side === 'typical';
   let cursor = 0;
-  const segments = phases.map((label, i) => {
+  return phases.map((label, i) => {
     const left = cursor;
     cursor += PHASE_WIDTHS[i] + (typical ? (TYPICAL_GAPS[i] ?? 0) : 0);
     return { label, left, width: PHASE_WIDTHS[i] };
   });
+}
+
+function Timeline({ side, phases }: { side: Side; phases: readonly string[] }) {
+  const typical = side === 'typical';
   return (
     <div className="relative h-14 w-full md:h-16">
-      {segments.map((s) => (
+      {layout(side, phases).map((s) => (
         <div
           key={s.label}
           className={`label absolute inset-y-0 flex items-center justify-center overflow-hidden whitespace-nowrap px-1 ${
@@ -42,17 +53,49 @@ function Timeline({ side, phases }: { side: Side; phases: readonly string[] }) {
   );
 }
 
-function Layer({ side, className = '' }: { side: Side; className?: string }) {
-  const { slider } = copy;
+/** Phone layout: one row per phase, the bar offset by its start, so labels never truncate. */
+function StackedTimeline({ side, phases }: { side: Side; phases: readonly string[] }) {
   const typical = side === 'typical';
+  return (
+    <ul className="flex flex-col gap-2">
+      {layout(side, phases).map((s) => (
+        <li key={s.label} className="flex items-center gap-3">
+          <span className="label w-20 shrink-0">{s.label}</span>
+          <span className="relative h-4 flex-1">
+            <span
+              className={`absolute inset-y-0 ${typical ? 'border border-ink/30' : 'bg-ink'}`}
+              style={{ left: `${s.left}%`, width: `${s.width}%` }}
+            />
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Layer({
+  side,
+  className = '',
+  stacked = false,
+}: {
+  side: Side;
+  className?: string;
+  stacked?: boolean;
+}) {
+  const { slider } = copy;
+  const typical = side === 'typical' && !stacked;
   return (
     <div className={`flex h-full flex-col justify-center gap-5 px-5 py-8 md:px-8 ${className}`}>
       <p className={`label ${typical ? 'text-right' : ''}`}>
-        {typical ? slider.typicalLabel : slider.haleyLabel}
+        {side === 'typical' ? slider.typicalLabel : slider.haleyLabel}
       </p>
-      <Timeline side={side} phases={slider.phases} />
-      <p className={`label max-w-[60%] ${typical ? 'ml-auto text-right' : ''}`}>
-        {typical ? slider.typicalDuration : slider.haleyDuration}
+      {stacked ? (
+        <StackedTimeline side={side} phases={slider.phases} />
+      ) : (
+        <Timeline side={side} phases={slider.phases} />
+      )}
+      <p className={`label ${stacked ? '' : 'max-w-[60%]'} ${typical ? 'ml-auto text-right' : ''}`}>
+        {side === 'typical' ? slider.typicalDuration : slider.haleyDuration}
       </p>
     </div>
   );
@@ -62,7 +105,13 @@ function HandleMark() {
   // Functional drag mark: a simple two-directional arrow, single-weight line, bone on ink.
   return (
     <svg width="20" height="12" viewBox="0 0 20 12" fill="none" aria-hidden="true">
-      <path d="M1 6h18M5 2 1 6l4 4M15 2l4 4-4 4" stroke="#EFE9DE" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M1 6h18M5 2 1 6l4 4M15 2l4 4-4 4"
+        stroke="#EFE9DE"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -128,7 +177,11 @@ function DragSlider({ tall }: { tall: boolean }) {
         <Layer side="haley" />
       </div>
 
-      <div className="absolute inset-y-0 w-0.5 -translate-x-1/2 bg-accent" style={{ left: `${pos}%` }} aria-hidden="true" />
+      <div
+        className="absolute inset-y-0 w-0.5 -translate-x-1/2 bg-accent"
+        style={{ left: `${pos}%` }}
+        aria-hidden="true"
+      />
       <div
         role="slider"
         tabIndex={0}
@@ -171,7 +224,7 @@ function ToggleSlider() {
       <button
         type="button"
         onClick={() => setSide((s) => (s === 'typical' ? 'haley' : 'typical'))}
-        className="relative block h-56 w-full overflow-hidden bg-ink/[0.03] text-left"
+        className="relative block h-80 w-full overflow-hidden bg-ink/[0.03] text-left"
         aria-label={`Showing ${side === 'typical' ? slider.typicalLabel : slider.haleyLabel}. Tap to switch.`}
       >
         <AnimatePresence initial={false}>
@@ -183,7 +236,7 @@ function ToggleSlider() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: EASE }}
           >
-            <Layer side={side} />
+            <Layer side={side} stacked />
           </motion.div>
         </AnimatePresence>
       </button>

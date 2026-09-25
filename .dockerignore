@@ -1,0 +1,9 @@
+node_modules
+.next
+.git
+assets
+.design
+docs
+test-results
+playwright-report
+.env*.local

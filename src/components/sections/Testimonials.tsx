@@ -15,6 +15,8 @@ export function Testimonials() {
         {testimonials.map((t) => (
           <figure
             key={t.name}
+            // Focusable so keyboard users can pause the strip on a card to read it.
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
             tabIndex={0}
             className="mr-grid flex w-[clamp(320px,30vw,440px)] shrink-0 flex-col justify-between bg-ink/[0.04] p-[clamp(1.5rem,3vw,3rem)]"
           >

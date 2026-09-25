@@ -1,0 +1,42 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      # Local form testing goes to Mailhog, never a real inbox. View mail at http://localhost:8025
+      SMTP_HOST: mailhog
+      SMTP_PORT: '1025'
+      CONTACT_TO_ADDRESS: inquiries@example.test
+      CONTACT_FROM_ADDRESS: website@example.test
+      WATCHPACK_POLLING: 'true'
+    depends_on:
+      - mailhog
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+
+  # Only when testing the production container locally: docker compose --profile preview up preview
+  preview:
+    profiles: ['preview']
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.prod
+    ports:
+      - '3001:3000'
+    environment:
+      SMTP_HOST: mailhog
+      SMTP_PORT: '1025'
+      CONTACT_TO_ADDRESS: inquiries@example.test
+      CONTACT_FROM_ADDRESS: website@example.test
+    depends_on:
+      - mailhog

@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      # SMTP sandbox so the contact form's end-to-end test never touches a real inbox.
+      mailhog:
+        image: mailhog/mailhog
+        ports:
+          - 1025:1025
+          - 8025:8025
+    env:
+      SMTP_HOST: localhost
+      SMTP_PORT: '1025'
+      CONTACT_TO_ADDRESS: inquiries@example.test
+      CONTACT_FROM_ADDRESS: website@example.test
+      E2E_REAL_SMTP: '1'
+      # Lighthouse SEO must see an indexable production build.
+      SITE_ENV: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Type-check
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
+      - name: Unit tests
+        run: npm test
+      - name: Build
+        run: npm run build
+      - name: Lighthouse CI
+        run: npx --yes @lhci/cli@0.15 autorun
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+      - name: End-to-end and accessibility tests
+        run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-traces
+          path: test-results
