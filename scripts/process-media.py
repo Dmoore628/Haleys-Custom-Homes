@@ -173,16 +173,34 @@ def main():
         os.remove(tmp)
         write_mark(mask, out_rel, INK, height=96)
 
-    # Hero video: strip the (never played) audio track, move the index up front for fast start,
-    # and grab a poster frame. Uses the ffmpeg binary from the imageio-ffmpeg package.
+    # Hero video. The source is a 1920x1080 screen recording of a social post, so the real
+    # footage (about 2.29:1) sits inside black borders that change partway through:
+    #   0.00-4.05s  a small window at 1452x652+182+228
+    #   4.05s-end   full width at 1900x852+8+118
+    # A white progress-bar dot from the post's player also sits on the bottom edge. Each
+    # section is cropped a few pixels inside its picture area (22px off the bottom to drop the
+    # dot), scaled to one 1920x838 frame and joined. The post also dimmed the footage (whites
+    # peak near 185/255). That dimming is deliberately kept: the footage is mostly white
+    # interiors, and stretching it back to full brightness drops the bone headline's contrast
+    # under the spec's 20% overlay to about 2:1 (it measures about 3.7:1 as is). No audio.
+    # Uses the ffmpeg binary from the imageio-ffmpeg package.
     import subprocess
     import imageio_ffmpeg
     ff = imageio_ffmpeg.get_ffmpeg_exe()
-    src_video = os.path.join(SRC, 'videos', 'NEWWEBSITEHEROVIDEO.mp4')
+    src_video = os.path.join(SRC, 'videos', 'HaleysCustomHomesHeroVideo.mp4')
+    out_video = os.path.join(PUB, 'video', 'hero.mp4')
     os.makedirs(os.path.join(PUB, 'video'), exist_ok=True)
-    subprocess.run([ff, '-y', '-loglevel', 'error', '-i', src_video, '-c:v', 'copy', '-an',
-                    '-movflags', '+faststart', os.path.join(PUB, 'video', 'hero.mp4')], check=True)
-    subprocess.run([ff, '-y', '-loglevel', 'error', '-ss', '0.3', '-i', src_video, '-frames:v', '1',
+    hero_filter = (
+        '[0:v]trim=0:4.05,setpts=PTS-STARTPTS,crop=1444:630:186:232,'
+        'scale=1920:838:flags=lanczos,setsar=1[a];'
+        '[0:v]trim=start=4.05,setpts=PTS-STARTPTS,crop=1892:826:12:122,'
+        'scale=1920:838:flags=lanczos,setsar=1[b];'
+        '[a][b]concat=n=2:v=1:a=0,format=yuv420p[out]'
+    )
+    subprocess.run([ff, '-y', '-loglevel', 'error', '-i', src_video, '-filter_complex', hero_filter,
+                    '-map', '[out]', '-an', '-c:v', 'libx264', '-preset', 'slow', '-crf', '23',
+                    '-profile:v', 'high', '-movflags', '+faststart', out_video], check=True)
+    subprocess.run([ff, '-y', '-loglevel', 'error', '-ss', '0.1', '-i', out_video, '-frames:v', '1',
                     '-q:v', '3', os.path.join(PUB, 'video', 'hero-poster.jpg')], check=True)
 
     with open(MANIFEST, 'w', encoding='utf-8') as fh:
