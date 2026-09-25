@@ -30,13 +30,6 @@ export function revealVariants(reduced: boolean): Variants {
 /** Viewport options: trigger once at roughly 20% visibility. */
 export const REVEAL_VIEWPORT = { once: true, amount: 0.2 } as const;
 
-/** Maps a pointer position to a 0-100 handle percentage within a track. */
-export function pointerToPercent(clientX: number, left: number, width: number): number {
-  if (width <= 0) return 50;
-  const pct = ((clientX - left) / width) * 100;
-  return Math.min(100, Math.max(0, pct));
-}
-
 /** Progress (0-1) of scrolling through a section, measured against a viewport anchor line. */
 export function sectionProgress(
   top: number,

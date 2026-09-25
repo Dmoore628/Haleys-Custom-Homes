@@ -31,13 +31,8 @@ Every Haley home follows a proprietary sequencing method built on LEAN construct
 **Process highlight (button):**
 Learn the Process
 
-**Process slider labels:**
-Typical Build / Haley's Process
-
-**Process slider supporting line:**
-One family moved into their new Haley home a full month ahead of schedule. Their words: "Yes, that is correct."
-
-[PLACEHOLDER, confirm before launch: the exact typical-build-versus-Haley duration figures for the slider visualization. Do not invent numbers. Pull from Haley directly, or from a documented internal average if one exists.]
+**Process highlight device (left column):**
+The Sequencing Ledger. Its row copy and the Move-In supporting line are in haley-custom-homes-sequencing-ledger-spec.md (Copy Slots). No separate proof line below it.
 
 **Featured portfolio (eyebrow and headline):**
 SELECTED WORK
@@ -102,11 +97,10 @@ A Build That Moves in Order
 **Intro supporting line:**
 Most custom home timelines stretch not because the work is hard, but because the schedule is loose. Ours isn't.
 
-**Comparison slider hook (headline above the slider):**
+**Sequencing Ledger heading (no supporting line):**
 See the Difference
 
-**Comparison slider hook (one-line supporting text):**
-Drag to compare a typical custom build against a Haley build, phase by phase.
+(Ledger row copy: see haley-custom-homes-sequencing-ledger-spec.md, Copy Slots.)
 
 **Six-phase sequence labels:**
 1. Design and Spec Lock
@@ -232,6 +226,6 @@ Got It
 
 ## Notes on what still needs a real decision, not invented copy
 
-1. The two bracketed placeholders above (typical-versus-Haley build duration figures, and current build-slot availability) need real numbers from Haley or from your own knowledge of the business. The surrounding copy is written so either can drop in cleanly once confirmed.
+1. The bracketed placeholder above (current build-slot availability) needs a real number from Haley or from your own knowledge of the business. The build-duration figure no longer appears in any visual now that the Sequencing Ledger replaced the slider; it is still pending for the FAQ's "How long does a typical build take?" answer.
 2. Individual project descriptions and stats for the Portfolio page depend on which finished projects have usable photography in the asset library. No project names, locations, or square footages have been invented, that has to come from the real project records.
 3. Everything else here is either a verified fact from Haley's own site and public listings, or a direct quote from their existing testimonials, unchanged in substance, tightened for the site's more editorial tone.

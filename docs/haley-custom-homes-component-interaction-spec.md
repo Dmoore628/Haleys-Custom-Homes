@@ -10,7 +10,7 @@ A site reads as premium when very few elements appear per screen, each one is gi
 
 ## The signature bespoke feature
 
-The site needs exactly one genuinely custom interactive centerpiece, tied to a specific true fact about Haley, not a borrowed effect. The candidate that survives the bespoke test (would this survive unchanged if you swapped in a different builder's name and facts) is a device that visualizes Haley's real, named, sequenced construction process, the Accelerated Precision Building System, in a way a paragraph of text cannot. A generic template has no equivalent fact to visualize, so this device could not simply be dropped into another site unchanged, which is exactly why it belongs here. The literal mechanism for this feature (a draggable before/after comparison slider showing Haley's actual tight trade sequencing against a generic gapped timeline) is fully specified in the Design System document's Comparison Slider section, and its placement on both the Home page and the Process page is specified in those page documents.
+The site needs exactly one genuinely custom interactive centerpiece, tied to a specific true fact about Haley, not a borrowed effect. The candidate that survives the bespoke test (would this survive unchanged if you swapped in a different builder's name and facts) is a device that visualizes Haley's real, named, sequenced construction process, the Accelerated Precision Building System, in a way a paragraph of text cannot. A generic template has no equivalent fact to visualize, so this device could not simply be dropped into another site unchanged, which is exactly why it belongs here. The literal mechanism for this feature is the Sequencing Ledger (a scroll-driven punch list of the six real phases, each naming the wait a typical build risks and striking it through), fully specified, including its placement on the Home and Process pages, in haley-custom-homes-sequencing-ledger-spec.md. It replaces the earlier comparison slider entirely.
 
 A single smaller bespoke touch also belongs near the Home hero and the closing CTA: a small tracked-uppercase tag reflecting the real, current build-slot scarcity, something like "Currently accepting a limited number of [year] build slots." The real current number must be confirmed with Haley before launch, never invented. This is restraint-appropriate urgency, the opposite of a homes-built counter that brags about volume, it communicates less capacity, not more, which is the honest and differentiating claim here.
 
@@ -53,7 +53,7 @@ No third signature feature is added anywhere on the site. One genuinely bespoke 
 ## Process page
 
 - Hero: short statement plus a small tracked eyebrow, the same restraint as Home's hero, different copy specific to the building philosophy.
-- The comparison slider device from the signature feature above is the page's centerpiece and gets the most vertical scroll real estate. Full placement and sequencing detail is in the Remaining Pages document.
+- The Sequencing Ledger (haley-custom-homes-sequencing-ledger-spec.md) is the page's centerpiece, in its larger, roomier version, directly beneath the intro.
 - Concierge program: a simple two-column layout, real description text on one side, a real photo on the other. No icon set, no illustrated diagram. Generic process icons (checkmarks, gears, shields) are a template tell and are avoided across the entire site, not only here.
 - Closing CTA: identical visual treatment to Home's closing CTA, for consistency across the site.
 
@@ -74,7 +74,7 @@ Every item below is something a crowded, volume-oriented competitor site does th
 
 - **No stat-counter widgets.** A row of animated homes-built or years-in-business counters is marketing-volume bragging, the opposite of a scarcity-driven premium position. If a number belongs on the site (a founding year, for instance), it lives inside a sentence, never a counter.
 - **No stacking of credibility signals.** Press logos, podcast embeds, partner-org logo walls, and video testimonials piling up on top of each other multiply credibility signals past the point of being read individually. Keep credibility to the one understated award treatment specified in the Home and About page documents.
-- **No more than one carousel or slider mechanism reused across the whole site.** The marquee (Design System document) and the comparison slider are the two motion mechanisms this site uses, each tied to a distinct real content type. No third mechanism is introduced, and neither of these two is reused for content it wasn't designed for.
+- **No more than one carousel or slider mechanism reused across the whole site.** The marquee (Design System document) is that one mechanism. The Sequencing Ledger (haley-custom-homes-sequencing-ledger-spec.md) is a scroll-triggered list, not a carousel or slider. No other mechanism is introduced, and neither is reused for content it wasn't designed for.
 - **No decorative icon illustration anywhere.** No checkmarks, shields, or generic process icons. Real photography and typography carry the premium feeling; a generic icon set is the fastest way to make a custom build read as a theme.
 - **No embedded third-party widgets** (map iframes, video players with visible platform branding, or anything that introduces someone else's interface language into the site).
 

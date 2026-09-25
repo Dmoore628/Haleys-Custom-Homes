@@ -1,17 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { pointerToPercent, sectionProgress } from '@/lib/animation';
+import { sectionProgress } from '@/lib/animation';
 import { createRateLimiter } from '@/lib/rateLimit';
-
-describe('comparison slider drag math', () => {
-  it('maps the pointer to a clamped percentage of the track', () => {
-    expect(pointerToPercent(150, 100, 200)).toBe(25);
-    expect(pointerToPercent(50, 100, 200)).toBe(0);
-    expect(pointerToPercent(400, 100, 200)).toBe(100);
-  });
-  it('falls back to centered for a zero-width track', () => {
-    expect(pointerToPercent(10, 0, 0)).toBe(50);
-  });
-});
 
 describe('progress rail scroll math', () => {
   it('is 0 before the section reaches the anchor line and 1 after it passes', () => {

@@ -3,7 +3,7 @@ import copy from '@content/copy.config';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
-import { ComparisonSlider } from '@/components/sections/ComparisonSlider';
+import { SequencingLedger } from '@/components/sections/SequencingLedger';
 import { PhaseSequence } from '@/components/sections/PhaseSequence';
 import { ClosingCta } from '@/components/sections/ClosingCta';
 
@@ -22,20 +22,19 @@ export default function ProcessPage() {
           <Reveal className="col-span-12 max-w-statement md:col-span-10 md:col-start-2">
             <Eyebrow>{intro.eyebrow}</Eyebrow>
             <h1 className="mt-4 font-serif text-section font-normal">{intro.headline}</h1>
-            <p className="mt-8 text-block text-body">{intro.supporting}</p>
+            <p className="text-block mt-8 text-body">{intro.supporting}</p>
           </Reveal>
         </div>
       </section>
 
-      {/* Comparative hook: the slider at larger scale, with more room around it. */}
+      {/* The Sequencing Ledger: the primary, roomier presentation of the Home device. */}
       <section className="section-x bg-bone pb-section">
         <Reveal>
           <h2 className="font-serif text-section font-normal">{hook.headline}</h2>
-          <p className="mt-4 max-w-text text-body">{hook.supporting}</p>
         </Reveal>
-        <Reveal className="mt-12 md:mt-16" delay={0.1}>
-          <ComparisonSlider tall />
-        </Reveal>
+        <div className="mt-10 md:mt-14">
+          <SequencingLedger spacious />
+        </div>
       </section>
 
       {/* Six-phase sequence with the progress rail. */}

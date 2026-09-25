@@ -38,8 +38,6 @@ const copy = {
       eyebrow: 'THE ACCELERATED PRECISION BUILDING SYSTEM',
       body: 'Every Haley home follows a proprietary sequencing method built on LEAN construction principles, the same discipline that eliminates waste and delay in advanced manufacturing, applied to a custom home. The result is a build that moves in order, without the idle weeks that stretch a typical project.',
       button: { label: 'Learn the Process', href: '/process' },
-      proof:
-        'One family moved into their new Haley home a full month ahead of schedule. Their words: "Yes, that is correct."',
     },
     featured: {
       eyebrow: 'SELECTED WORK',
@@ -50,16 +48,41 @@ const copy = {
     awards: { caption: 'Recognized by Houzz, Energy Star, and the Luxury Lifestyle Awards.' },
   },
 
-  slider: {
-    typicalLabel: 'Typical Build',
-    haleyLabel: "Haley's Process",
-    // Source: U.S. Census Bureau Survey of Construction, 2024 average completion time for
-    // contractor-built single-family homes. Labeled as a national average, not a competitor claim.
-    typicalDuration: '12 months, national average',
-    haleyDuration: '[PLACEHOLDER, confirm before launch: Haley average build duration]',
-    phases: ['Design', 'Framing', 'Trades', 'Finish', 'Move-In'],
-    dragLabel: 'Drag to compare the typical and Haley build timelines',
-    toggleLabel: 'Show',
+  // The Sequencing Ledger (docs/haley-custom-homes-sequencing-ledger-spec.md), used on Home and Process.
+  ledger: {
+    rows: [
+      {
+        name: 'Design and Spec Lock',
+        annotation:
+          "The wait a typical build risks here: mid-build changes to layout or finishes that weren't locked in advance.",
+      },
+      {
+        name: 'Pre-Construction Sequencing',
+        annotation:
+          "The wait a typical build risks here: a crew standing idle on a delivery or a permit that wasn't sequenced ahead of time.",
+      },
+      {
+        name: 'Framing',
+        annotation:
+          'The wait a typical build risks here: framing crews sitting on a decision that should have already been made.',
+      },
+      {
+        name: 'Trade Sequencing',
+        annotation:
+          'The wait a typical build risks here: one trade waiting on the last trade to finish before starting their own work.',
+      },
+      {
+        name: 'Finish Work',
+        annotation:
+          'The wait a typical build risks here: a finish selection made too late to install on schedule.',
+      },
+      {
+        name: 'Move-In',
+        annotation:
+          'The wait a typical build risks here: a final walk-through finding problems that push move-in back.',
+      },
+    ],
+    supporting: 'One family moved into their new Haley home a full month ahead of schedule.',
   },
 
   closingCta: {
@@ -119,7 +142,6 @@ const copy = {
     },
     hook: {
       headline: 'See the Difference',
-      supporting: 'Drag to compare a typical custom build against a Haley build, phase by phase.',
     },
     phases: [
       {
@@ -175,7 +197,8 @@ const copy = {
     philosophy: {
       statement:
         "Three to five homes a year isn't a limit we've hit. It's a line we've chosen not to cross.",
-      supporting: "More homes means less time on each one. We'd rather build fewer, and build them right.",
+      supporting:
+        "More homes means less time on each one. We'd rather build fewer, and build them right.",
       image: '/images/sections/philosophy-detail.jpg',
     },
     awardsHeading: 'Awards and recognition',

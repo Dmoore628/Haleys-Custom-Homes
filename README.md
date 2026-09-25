@@ -41,7 +41,7 @@ exact file and field.
 
 Search the repo for `PLACEHOLDER`. Open items:
 
-1. Haley's own average build duration (comparison slider and FAQ).
+1. Haley's own average build duration (FAQ answer only).
 2. Current build-slot availability (closing CTA badge).
 3. Contact email address (only `d***@haleycustomhomes.com` is verified).
 4. Per-project location, square footage, build duration, completion year and description.
@@ -62,8 +62,8 @@ recolored logo and award marks, and the hero video into `public/`. Choose which 
 | ------------------- | -------------------------------------------------------------------------------- |
 | `npm run typecheck` | TypeScript, strict                                                               |
 | `npm run lint`      | ESLint (Next + jsx-a11y)                                                         |
-| `npm test`          | Vitest: content schemas, slider and rail math, rate limit                        |
-| `npm run test:e2e`  | Playwright: nav, filters, lightbox, slider, form, axe WCAG 2.1 AA on every route |
+| `npm test`          | Vitest: content schemas, progress-rail math, rate limit                          |
+| `npm run test:e2e`  | Playwright: nav, filters, lightbox, ledger, form, axe WCAG 2.1 AA on every route |
 
 Husky runs lint-staged and a type-check before each commit. GitHub Actions (`.github/workflows/ci.yml`)
 runs all of the above, plus Lighthouse CI (Performance 90, Accessibility 100, Best Practices 95,

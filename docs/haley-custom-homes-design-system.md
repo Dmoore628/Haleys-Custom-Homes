@@ -37,7 +37,7 @@ Foundational layer. Every page and component spec pulls from this file. Nothing 
 - One easing curve used everywhere on the site, no exceptions: `cubic-bezier(0.16, 1, 0.3, 1)`, a fast-start, slow-settle curve. Reusing a single curve across every animation is what makes several different bespoke effects still feel like one coherent product instead of a pile of separate ideas borrowed from different places.
 - Micro-interactions (button hover, small element hover): 150 to 300ms.
 - Section-level reveals (content entering as it scrolls into view): 500 to 650ms, translateY 24px to 0, opacity 0 to 1, triggered once per element, never replays on scroll back up.
-- Scroll-linked effects (anything tied directly to scroll position rather than a one-time trigger, like the comparison slider's default state or the process page progress rail): driven by actual scroll progress, not a timer, so it always feels responsive to the visitor's own input rather than autoplaying near them.
+- Scroll-linked effects (anything tied directly to scroll position rather than a one-time trigger, like the process page progress rail): driven by actual scroll progress, not a timer, so it always feels responsive to the visitor's own input rather than autoplaying near them.
 - Respect `prefers-reduced-motion`: every animation above has a reduced version (opacity-only, no movement, no scroll-linked transforms) for visitors with that setting enabled. This is an accessibility requirement, not optional polish.
 
 ## Buttons (exactly two variants site-wide, no others)
@@ -63,19 +63,15 @@ Foundational layer. Every page and component spec pulls from this file. Nothing 
 - Pauses completely on hover or keyboard focus (`animation-play-state: paused`), so a visitor can stop and actually read or click something inside it.
 - Direction: left-to-right for the awards strip, right-to-left for testimonials. This small variation keeps the two from feeling like the same component reused twice, without adding a third motion pattern to the system.
 - Under `prefers-reduced-motion`, the marquee stops entirely and displays as a static wrapped row instead.
-- This is the one exception to the "no more than one carousel or slider mechanism" rule below. A continuous marquee and a manually-driven comparison slider are different mechanisms serving different content types, not two instances of the same pattern.
+- The marquee is the site's only carousel-type mechanism; the "no more than one carousel or slider mechanism" rule below still applies.
 
-## Comparison Slider (the site's signature interactive feature)
+## Signature Feature: the Sequencing Ledger
 
-- Used in two places: the Home page's Process Highlight section, and as the centerpiece device on the Process page itself (see both page specs for exact placement). This is the standard draggable before/after pattern: a vertical handle sits on a dividing line between two states, dragging it left or right reveals more of one side and less of the other.
-- For Haley: the two states are a real Haley project's actual timeline sequence (tight, back-to-back trade scheduling, no gaps) against a generic industry-typical timeline (segments spaced apart, visible gaps representing scheduling delays). Dragging the handle visually compresses or expands the gaps between trade phases. The fact being expressed is real, Haley's documented process advantage, the mechanism (a drag slider) is a standard interaction pattern, which is exactly what the bespoke test asks for: bespoke because of what it shows, not because the interaction itself is unusual.
-- Handle: a small circle, 40px diameter, ink fill, containing a simple two-directional arrow, positioned on a 2px vertical accent-color line. Mouse and touch draggable, not click-to-jump.
-- Default handle position on load: centered, so the visitor sees both states are present before interacting with it.
-- On mobile, since dragging a precise vertical line with a thumb is unreliable on small screens, the same component becomes tap-to-toggle between the two states instead of drag, with a 400ms crossfade, shared easing curve.
+- The Comparison Slider has been removed from this site. The single signature bespoke feature is now the Sequencing Ledger, fully specified in haley-custom-homes-sequencing-ledger-spec.md (visual form, checkmark and strikethrough motion, copy, placement on Home and Process, reduced-motion behavior).
 
-## Process Page Progress Rail (a second, distinct device, not a duplicate of the slider)
+## Process Page Progress Rail (a second, distinct device, not a duplicate of the Sequencing Ledger)
 
-- Used only on the Process page, below the comparison slider, alongside the six-phase sequential breakdown of the Accelerated Precision Building System (Design and Spec Lock, Pre-Construction Sequencing, Framing, Trade Sequencing, Finish Work, Move-In). These are two different devices answering two different questions and both belong on the page: the comparison slider answers "how much faster, concretely," a single comparative fact, stated once near the top of the page as the hook. The progress rail answers "what actually happens, in order," a sequential explanation, and belongs further down the page where the visitor is reading through the six real phases in detail. Neither replaces the other; using both is not redundant because they visualize two different kinds of fact.
+- Used only on the Process page, below the Sequencing Ledger, alongside the six-phase sequential breakdown of the Accelerated Precision Building System (Design and Spec Lock, Pre-Construction Sequencing, Framing, Trade Sequencing, Finish Work, Move-In). These are two different devices answering two different questions and both belong on the page: the Sequencing Ledger answers "what specific failure does Haley's sequencing avoid, phase by phase," stated near the top of the page. The progress rail answers "what actually happens, in order," a sequential explanation, and belongs further down the page where the visitor is reading through the six real phases in detail. Neither replaces the other; using both is not redundant because they visualize two different kinds of fact.
 - A thin vertical rail runs down the left margin of the six-phase section (4px wide, ink-at-10%-opacity track, accent-color fill). The fill height ties directly to actual scroll position through the section, so it visibly grows as the visitor reads through the phases, an honest reflection of real reading progress, not a decorative animation running on its own.
 - Small circular markers sit on the rail at each phase's position, filling to accent color once the visitor scrolls past that phase.
 - Each phase block uses the asymmetric 7/5 column split, alternating sides down the page (block one: image left, text right; block two: text left, image right, and so on), which creates visual rhythm without needing a second interactive mechanism.
@@ -102,7 +98,7 @@ Foundational layer. Every page and component spec pulls from this file. Nothing 
 ## Icons: the distinction that matters
 
 - Decorative icons are banned: a checkmark, shield, gear, or any small pictogram standing in for a concept (quality, trust, speed) instead of using real photography or typography to say it. This is absolute.
-- Functional interface marks are not the same thing and are allowed wherever the interface genuinely needs one: a close mark on the mobile nav overlay, the comparison slider's drag handle arrow, the accordion's expand and collapse mark. These exist to operate the interface, not to illustrate a concept. Keep every functional mark a simple single-weight line, ink or base-background color only, never colored or filled, and never introduced where plain text already does the job.
+- Functional interface marks are not the same thing and are allowed wherever the interface genuinely needs one: a close mark on the mobile nav overlay, the accordion's expand and collapse mark, the Sequencing Ledger's state checkmark. These exist to operate the interface or show a real state, not to illustrate a concept. Keep every functional mark a simple single-weight line, ink or base-background color only, never colored or filled, and never introduced where plain text already does the job. The one exception is the Sequencing Ledger's checkmark, which uses the accent color as specified in haley-custom-homes-sequencing-ledger-spec.md.
 
 ## FAQ Accordion (Contact page)
 
@@ -123,7 +119,7 @@ Foundational layer. Every page and component spec pulls from this file. Nothing 
 
 Every category below was weighed against the bespoke test and either adopted with a specific Haley-grounded design or deliberately rejected with a stated reason.
 
-**Charts**: rejected. There's no real comparative dataset in Haley's business that needs a chart; the one genuine comparative fact they have (their process versus a typical build) is already expressed by the Comparison Slider above, a stronger, more concrete device than an abstract bar or line chart for the same fact.
+**Charts**: rejected. There's no real comparative dataset in Haley's business that needs a chart; the one genuine comparative fact they have (their process versus a typical build) is already expressed by the Sequencing Ledger (haley-custom-homes-sequencing-ledger-spec.md), a stronger, more concrete device than an abstract bar or line chart for the same fact.
 
 **Galleries and lightbox behavior (Portfolio detail page)**: the stacked full-width scroll is the primary experience. Clicking any image in that stack opens it full-screen in a simple lightbox (dark ink background, the image centered and larger, a small close mark top-right), with left and right arrow keys or edge-tap navigating to the next image in that project's set without leaving the lightbox.
 
@@ -139,7 +135,7 @@ Every category below was weighed against the bespoke test and either adopted wit
 
 **Badges, tags, and labels**: exactly one badge exists on the entire site, the bordered accent-color label used for the closing CTA's scarcity indicator (1px accent border, transparent fill, accent text, small label type scale), reserved for that one real, changing fact: current build-slot availability. It is never reused as a "new" tag on portfolio tiles, a category tag on cards, or a decorative pill anywhere else.
 
-**Tooltips**: rejected outright. Every interactive element on the site (the comparison slider, the accordion, the filter tabs, the form fields) is either self-explanatory or already labeled. A tooltip would mean either the design failed and needs fixing directly, or it's explaining something that didn't need explaining, decoration dressed as helpfulness. A hover-only mechanism also fails on touch devices regardless.
+**Tooltips**: rejected outright. Every interactive element on the site (the accordion, the filter tabs, the form fields) is either self-explanatory or already labeled. A tooltip would mean either the design failed and needs fixing directly, or it's explaining something that didn't need explaining, decoration dressed as helpfulness. A hover-only mechanism also fails on touch devices regardless.
 
 **Cookie consent and privacy notice**: adopted, a real compliance requirement, not a design choice. A minimal, single-tier bottom bar, not a full-screen blocking overlay and not a multi-category preference center: fixed to the viewport bottom, ink background, bone text, one sentence stating the site uses cookies for basic analytics, a single ghost-style button reading "Got It," dismisses permanently via a stored preference. If Haley's actual analytics or ad-tracking setup needs more than a basic notice, that's a legal question to confirm before launch, not a design one.
 
@@ -155,7 +151,7 @@ Every category below was weighed against the bespoke test and either adopted wit
 - No stat-counter widgets (large animated numbers counting up).
 - No drop shadows on cards, buttons, or images.
 - No gradients anywhere.
-- No more than one carousel or slider mechanism reused across the entire site (the marquee and the comparison slider are two distinct mechanisms for two distinct content types, not an exception to this rule, an exception to it).
+- No more than one carousel or slider mechanism reused across the entire site (the marquee is that one mechanism; the Sequencing Ledger is a scroll-triggered list, not a carousel or slider).
 - No third accent color introduced for a single section. If a section needs emphasis, use the existing accent, or increase whitespace or type size, don't add a new color.
 - No illustration or hand-drawn or doodle elements anywhere. Real photography carries every visual moment on this site; an illustrated substitute always reads as a lower-effort stand-in for a photo Haley could have used instead.
 - No promotional popups, newsletter signup modals, or exit-intent overlays of any kind. See the Modals and overlays section above for the two functional exceptions.

@@ -31,11 +31,7 @@ As specified in the Build Spec and Component/Interaction Spec documents. No chan
 - Two-column layout, asymmetric: left column spans 7 of 12 grid columns (the interactive element), right column spans 4 of 12 columns offset by 1 (supporting text), desktop only, stacks to a single column on mobile with the interactive element first.
 - Small eyebrow label above the section: "THE ACCELERATED PRECISION BUILDING SYSTEM," label type scale.
 - Right column text: 2 to 3 short sentences explaining the process is a real, named methodology (LEAN-based sequencing), not a marketing phrase. A single ghost button below reading "Learn the Process," linking to /process.
-- Left column, the interactive device: the Comparison Slider specified in the Design System document, used here for the first of its two appearances on the site.
-  - The slider background shows a horizontal bar visualization made of five to six labeled build phases (Design, Framing, Trades, Finish, Move-In). Dragging the handle left reveals "Typical Build" (segments wider, visible gaps between some of them, longer total bar length, a duration label using a real or reasonably estimated typical timeline, confirm with Haley before launch). Dragging right reveals "Haley's Process" (segments tighter, no gaps, a shorter real duration label).
-  - Default handle position on page load: centered, so the visitor sees both states are present before interacting.
-  - Below the bar, a small line of real supporting proof: reference to the client who moved in a month ahead of schedule.
-  - On mobile, per the Design System's Comparison Slider spec, this becomes tap-to-toggle rather than drag.
+- Left column, the device: the Sequencing Ledger, all six rows, as specified in haley-custom-homes-sequencing-ledger-spec.md (the compact Home version). No separate proof line below it: the ledger's Move-In row carries the month-ahead-of-schedule fact.
 
 ## Featured Portfolio
 

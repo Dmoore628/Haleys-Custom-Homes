@@ -1,30 +1,44 @@
 import { test, expect } from './fixtures';
 
-test('comparison slider: drag on desktop, tap-to-toggle on mobile', async ({ page, isMobile }) => {
+test('sequencing ledger checks rows one at a time as they scroll up, and never resets', async ({
+  page,
+}) => {
   await page.goto('/process');
-  if (isMobile) {
-    const toggle = page.getByTestId('comparison-toggle');
-    await toggle.scrollIntoViewIfNeeded();
-    const haley = toggle.getByRole('button', { name: "Haley's Process", exact: true });
-    await expect(haley).toHaveAttribute('aria-pressed', 'false');
-    await haley.click();
-    await expect(haley).toHaveAttribute('aria-pressed', 'true');
-    return;
-  }
-  const handle = page.getByTestId('slider-handle');
-  await handle.scrollIntoViewIfNeeded();
-  await expect(handle).toHaveAttribute('aria-valuenow', '50');
-  const track = await page.getByTestId('comparison-slider').boundingBox();
-  const h = await handle.boundingBox();
-  if (!track || !h) throw new Error('slider not laid out');
-  await page.mouse.move(h.x + h.width / 2, h.y + h.height / 2);
-  await page.mouse.down();
-  await page.mouse.move(track.x + track.width * 0.8, h.y + h.height / 2, { steps: 8 });
-  await page.mouse.up();
-  expect(Number(await handle.getAttribute('aria-valuenow'))).toBeGreaterThan(70);
-  await handle.focus();
-  await page.keyboard.press('Home');
-  await expect(handle).toHaveAttribute('aria-valuenow', '0');
+  const rows = page.getByTestId('sequencing-ledger').getByTestId('ledger-row');
+  await expect(rows).toHaveCount(6);
+  await expect(rows.first()).toHaveAttribute('data-checked', 'false');
+  await expect(rows.last()).toHaveAttribute('data-checked', 'false');
+
+  // Bring row 1 above the 60%-up line; later rows stay unchecked.
+  await rows.first().evaluate((el) => {
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo(0, top - window.innerHeight * 0.3);
+  });
+  await expect(rows.first()).toHaveAttribute('data-checked', 'true');
+  await expect(rows.last()).toHaveAttribute('data-checked', 'false');
+
+  await rows.last().evaluate((el) => {
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo(0, top - window.innerHeight * 0.3);
+  });
+  await expect(rows.last()).toHaveAttribute('data-checked', 'true');
+  await expect(
+    page
+      .getByText('One family moved into their new Haley home a full month ahead of schedule.')
+      .first(),
+  ).toBeVisible();
+
+  // Scrolling back to the top does not un-check anything.
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect(rows.first()).toHaveAttribute('data-checked', 'true');
+});
+
+test('reduced motion: every ledger row renders already checked', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  const rows = page.getByTestId('ledger-row');
+  await expect(rows).toHaveCount(6);
+  for (let i = 0; i < 6; i++) await expect(rows.nth(i)).toHaveAttribute('data-checked', 'true');
 });
 
 test('progress rail markers fill as the phases scroll past', async ({ page }) => {

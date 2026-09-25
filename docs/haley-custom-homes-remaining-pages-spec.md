@@ -39,16 +39,15 @@ Same method as the Home page spec. Every section names the fact it needs to comm
 - Fact: this page exists to prove the Accelerated Precision Building System is real, not marketing language.
 - Device: none beyond restrained type. Eyebrow label, section headline, one supporting sentence, same treatment as Home's positioning statement, solid base background, no image.
 
-### Comparative Hook: the Comparison Slider
+### The Sequencing Ledger
 
-- Fact: the single most concrete claim Haley can make is a comparative one, its actual build sequencing against a typical industry timeline, and a visitor should be able to see that difference in seconds, before reading the detailed six-phase breakdown below.
-- Device: the Comparison Slider specified in the Design System document, placed directly beneath the intro, before the six-phase breakdown. This is the page's hook, not its full explanation, it exists to make the visitor want the detail that follows, the same device and mechanism used on Home, reused here at larger scale and given more surrounding space since this page's whole job is to prove this one claim.
-- This device does not replace the six-phase breakdown below it. The slider answers "how much faster, concretely." The six-phase sequence answers "what actually happens, in order." Both are real, different facts and both stay on the page; using both here is not redundant, it would only be redundant if they showed the same information twice.
+- Replaced: the Comparison Slider hook is gone. Directly beneath the intro, under the heading "See the Difference" (no supporting line), sits the full-size Sequencing Ledger, as specified in haley-custom-homes-sequencing-ledger-spec.md, before the six-phase breakdown.
+- The ledger does not replace the six-phase breakdown below it. The ledger answers "what specific failure does Haley's sequencing avoid, phase by phase." The six-phase sequence answers "what actually happens, in order, with photos." Keep both.
 
 ### Signature Process Feature: the Six-Phase Sequence
 
 - Fact: the process has distinct, real phases, and a visitor who wants proof should be able to move through them in sequence, not read a paragraph asserting they exist.
-- Device: a vertical stacked sequence of six phase blocks (Design and Spec Lock, Pre-Construction Sequencing, Framing, Trade Sequencing, Finish Work, Move-In), placed below the Comparison Slider hook above. Each block uses the asymmetric 7/5 column split, alternating sides down the page (block one: image left, text right; block two: text left, image right, and so on), creating visual rhythm without a second interactive mechanism.
+- Device: a vertical stacked sequence of six phase blocks (Design and Spec Lock, Pre-Construction Sequencing, Framing, Trade Sequencing, Finish Work, Move-In), placed below the Sequencing Ledger above. Each block uses the asymmetric 7/5 column split, alternating sides down the page (block one: image left, text right; block two: text left, image right, and so on), creating visual rhythm without a second interactive mechanism.
 - A thin vertical progress rail runs down the left margin of this section, per the Design System's Process Page Progress Rail spec, its fill height tied to actual scroll position through the section. Small circular markers sit on the rail at each phase's position, filling in accent color once the visitor scrolls past that phase.
 - Between each phase block, the single blueprint-line motif specified in the Design System's Shapes decision appears as a quiet divider, the one place on the site this device is used.
 - The final block (Move-In) includes the real supporting detail: the client who moved in a month ahead of schedule.

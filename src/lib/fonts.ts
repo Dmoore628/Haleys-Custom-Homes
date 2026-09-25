@@ -11,6 +11,8 @@ export const fraunces = Fraunces({
 
 export const inter = Inter({
   subsets: ['latin'],
+  // Italic is used by the Sequencing Ledger's annotation lines.
+  style: ['normal', 'italic'],
   display: 'swap',
   variable: '--font-inter',
 });
