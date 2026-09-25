@@ -178,7 +178,7 @@ const copy = {
       supporting: "More homes means less time on each one. We'd rather build fewer, and build them right.",
       image: '/images/sections/philosophy-detail.jpg',
     },
-    awardsEyebrow: 'RECOGNITION',
+    awardsHeading: 'Awards and recognition',
   },
 
   contact: {

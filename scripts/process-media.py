@@ -50,7 +50,7 @@ SECTIONS = {
     # Closing CTA: twilight exterior, per the Home Page Spec
     'sections/cta-twilight.jpg': 'projects/timian/5+CHP-+Exteroior+Night+1+-+DJI_20230921172739_0753_D.jpg',
     # About philosophy statement: quiet craftsmanship detail
-    'sections/philosophy-detail.jpg': 'projects/mcdonald/Nancy-Holst-McDonald-09-13-23-Stair-Landing-Detail-Web.jpg',
+    'sections/philosophy-detail.jpg': 'projects/timian/5+CHP-+Bar+-+1F2A0080.jpg',
     # Process concierge
     'sections/concierge.jpg': 'projects/landeskog/Entry7848.jpg',
     # Six phases
