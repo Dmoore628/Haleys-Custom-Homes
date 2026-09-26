@@ -47,6 +47,7 @@ test('positioning section: statement and reviews beside the map', async ({ page 
   await expect(section.getByRole('heading', { level: 2 })).toHaveAccessibleName(
     /We build three to five homes a year/,
   );
+  await expect(section.getByTestId('founding-line')).toBeVisible();
   await expect(section.getByTestId('houzz-reviews')).toBeVisible();
   await expect(section.getByTestId('service-map')).toBeVisible();
 });
