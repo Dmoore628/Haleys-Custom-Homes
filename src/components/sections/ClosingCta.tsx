@@ -1,7 +1,6 @@
 import copy from '@content/copy.config';
 import { Badge } from '@/components/ui/Badge';
 import { ButtonLink } from '@/components/ui/Button';
-import { Pinned } from '@/components/ui/Pinned';
 import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { AmbientVideo } from '@/components/ui/AmbientVideo';
@@ -9,9 +8,8 @@ import { AmbientVideo } from '@/components/ui/AmbientVideo';
 /**
  * Identical on Home, Process and About. A twilight flyover of a completed Haley home
  * (poster: the same house's twilight still), 30% overlay, centered content.
- * `pinned` is set on Home only, where the footer slides up over it.
  */
-export function ClosingCta({ pinned = false }: { pinned?: boolean }) {
+export function ClosingCta() {
   const { closingCta } = copy;
   const section = (
     <section className="relative flex min-h-[70vh] w-full items-center justify-center overflow-hidden bg-ink text-bone">
@@ -37,5 +35,5 @@ export function ClosingCta({ pinned = false }: { pinned?: boolean }) {
       </Reveal>
     </section>
   );
-  return pinned ? <Pinned>{section}</Pinned> : section;
+  return section;
 }

@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import copy from '@content/copy.config';
 import { ButtonLink } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
-import { Footer } from '@/components/layout/Footer';
+import { PageFrame } from '@/components/layout/PageFrame';
+import { CoverStack } from '@/components/ui/CoverStack';
 
 export const metadata: Metadata = {
   title: 'Page Not Found',
@@ -13,9 +14,9 @@ export const metadata: Metadata = {
 export default function NotFound() {
   const { notFound } = copy;
   return (
-    <>
-      <main id="main" tabIndex={-1} className="outline-none">
-        <section className="section-x flex min-h-[80vh] flex-col items-center justify-center pb-section pt-[calc(6.5rem+4rem)] text-center">
+    <PageFrame>
+      <CoverStack>
+        <section className="section-x flex min-h-[80vh] flex-col items-center justify-center bg-bone pb-section pt-[calc(6.5rem+4rem)] text-center">
           <Eyebrow>{notFound.eyebrow}</Eyebrow>
           <h1 className="mt-6 max-w-[16em] font-serif text-section font-normal">
             {notFound.headline}
@@ -29,8 +30,7 @@ export default function NotFound() {
             </ButtonLink>
           </div>
         </section>
-      </main>
-      <Footer />
-    </>
+      </CoverStack>
+    </PageFrame>
   );
 }

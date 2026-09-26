@@ -7,6 +7,7 @@ import { FramingSquare } from '@/components/ui/SignatureAccents';
 import { SequencingLedger } from '@/components/sections/SequencingLedger';
 import { PhaseSequence } from '@/components/sections/PhaseSequence';
 import { ClosingCta } from '@/components/sections/ClosingCta';
+import { CoverStack } from '@/components/ui/CoverStack';
 
 export const metadata: Metadata = {
   title: copy.process.meta.title,
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 export default function ProcessPage() {
   const { intro, hook, concierge } = copy.process;
   return (
-    <>
+    <CoverStack>
       {/* Intro: same restrained treatment as Home's positioning statement. */}
       <section className="section-x bg-bone pb-section pt-[calc(6.5rem+clamp(4rem,9vw,9rem))]">
         <div className="grid-12 items-center">
@@ -34,7 +35,7 @@ export default function ProcessPage() {
       </section>
 
       {/* The Sequencing Ledger: the primary, roomier presentation of the Home device. */}
-      <section className="section-x bg-bone pb-section">
+      <section className="section-x bg-bone py-section">
         <Reveal>
           <h2 className="font-serif text-section font-normal">{hook.headline}</h2>
         </Reveal>
@@ -70,6 +71,6 @@ export default function ProcessPage() {
       </section>
 
       <ClosingCta />
-    </>
+    </CoverStack>
   );
 }

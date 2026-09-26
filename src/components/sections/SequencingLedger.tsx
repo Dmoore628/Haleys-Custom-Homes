@@ -94,8 +94,27 @@ function LedgerRow({ index, name, annotation, reduced, spacious }: RowProps) {
       { rootMargin: '0px 0px -60% 0px' },
     );
     io.observe(el);
-    return () => io.disconnect();
-  }, [reduced, checked]);
+
+    // The section pins (and is then covered) once its bottom reaches the viewport bottom, so
+    // rows near its end may never reach the 60% line. When the section has scrolled to its
+    // end, any row still unchecked but on screen checks in turn, in list order.
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const onScroll = () => {
+      const pin = el.closest('[data-pinned="true"]');
+      if (!pin || timer) return;
+      const end = pin.getBoundingClientRect().bottom <= window.innerHeight + 2;
+      if (end && el.getBoundingClientRect().bottom <= window.innerHeight) {
+        timer = setTimeout(() => setChecked(true), index * 140);
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => {
+      io.disconnect();
+      window.removeEventListener('scroll', onScroll);
+      if (timer) clearTimeout(timer);
+    };
+  }, [reduced, checked, index]);
 
   const rowBody = (
     <div

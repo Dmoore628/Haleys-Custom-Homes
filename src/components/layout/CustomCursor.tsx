@@ -17,7 +17,9 @@ export function CustomCursor() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const mql = window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
+    const mql = window.matchMedia(
+      '(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)',
+    );
     const update = () => setEnabled(mql.matches);
     update();
     mql.addEventListener('change', update);
@@ -29,7 +31,8 @@ export function CustomCursor() {
     document.documentElement.classList.add('has-cursor');
     const move = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return;
-      if (ref.current) ref.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      if (ref.current)
+        ref.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
       setVisible(true);
       const target = e.target as Element | null;
       setExpanded(Boolean(target?.closest?.(INTERACTIVE)));
@@ -55,7 +58,9 @@ export function CustomCursor() {
     >
       <div
         className={`-translate-x-1/2 -translate-y-1/2 rounded-full transition-[width,height,background-color,border-color] duration-200 ease-brand ${
-          expanded ? 'h-10 w-10 border border-bone bg-transparent' : 'h-2 w-2 border border-transparent bg-bone'
+          expanded
+            ? 'h-10 w-10 border border-bone bg-transparent'
+            : 'h-2 w-2 border border-transparent bg-bone'
         }`}
       />
     </div>

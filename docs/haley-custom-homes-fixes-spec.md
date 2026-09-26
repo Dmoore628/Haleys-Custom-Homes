@@ -14,6 +14,8 @@ This is the second of two documents, alongside the Sequencing Ledger document. T
 
 **Acceptance:** Yes if, at each of these four listed section boundaries, scrolling down visibly covers the upper section with the lower one sliding up over it, and this behavior disables under `prefers-reduced-motion: reduce`. No if any listed boundary uses ordinary scrolling instead, or if any boundary not listed here also uses this transition.
 
+> **Superseded (2026-09-26, client direction):** the cover transition now applies at every section boundary on every page, including the last section to the footer. Each covering section casts a soft shadow onto the one beneath it, and the covered section dims toward ink as it is covered, so the layering reads between two bone sections. Reduced-motion fallback unchanged.
+
 **3. Positioning Statement empty space.** The empty area beside the "We build three to five homes a year" text block on Home is filled by an oversized typographic opening quotation mark, Bodoni Moda italic, `clamp(12rem, 20vw, 24rem)`, ink at 6 to 8 percent opacity, static, no motion.
 
 **Acceptance:** Yes if this quotation mark renders in that space at that size and opacity range. No if the space is empty, or if an image or icon fills it instead.
@@ -69,6 +71,8 @@ This is the second of two documents, alongside the Sequencing Ledger document. T
 **15. About page, sticky-pinned cover transition.** Applies once, at the Founder Intro to Philosophy Statement boundary only. Philosophy Statement to Awards, and Awards to CTA, use the site's ordinary scroll-reveal instead, not this transition.
 
 **Acceptance:** Yes if the Founder Intro to Philosophy Statement boundary uses the sticky-cover slide-up behavior, and the two boundaries after it use ordinary scroll-reveal with no sticky positioning. No if the sticky-cover transition is applied at more than one boundary on this page, or at zero boundaries.
+
+> **Superseded (2026-09-26, client direction):** see item 2; every About boundary now uses the cover transition.
 
 **16. Contact page, custom map.** Replace the existing static line-art map with a Mapbox GL JS map, custom-styled using the site's exact color tokens (bone base, ink for land and water contrast, accent-colored markers), centered on the real office address, 5211 S Quebec Street, Greenwood Village, CO 80111. Each service-area city (Denver, Boulder, Cherry Hills Village, Greenwood Village, Centennial, Aspen, Vail) is a custom accent-colored marker, not a default pin. On page load, the map's outline style draws in once using the same stroke-dasharray reveal technique used elsewhere on the site. Hovering or focusing a city name in the adjacent typographic list triggers a smooth camera fly-to on the map toward that city's marker, and that list row highlights in accent color at the same time. No default Mapbox or Google UI chrome (zoom controls, default pins, default popup style) is visible; the one exception is the small map-provider attribution mark in a corner, which is a legal requirement of the tile provider and stays.
 

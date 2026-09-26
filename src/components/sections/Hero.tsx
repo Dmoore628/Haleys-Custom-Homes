@@ -6,7 +6,6 @@ import copy from '@content/copy.config';
 import { DURATION, EASE } from '@/lib/animation';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { ButtonLink } from '@/components/ui/Button';
-import { Pinned } from '@/components/ui/Pinned';
 
 /**
  * Full-viewport video hero. No scroll reveal: the content fades in together (400ms)
@@ -34,7 +33,7 @@ export function Hero() {
   }, [reduced]);
 
   return (
-    <Pinned>
+    <>
       {/* Below md the hero caps at 720px tall and biases the crop to the upper frame. */}
       <section className="relative h-[min(100vh,720px)] min-h-[560px] w-full overflow-hidden bg-ink text-bone md:h-[100vh]">
         <video
@@ -76,6 +75,6 @@ export function Hero() {
           style={{ opacity: indicatorVisible ? 1 : 0 }}
         />
       </section>
-    </Pinned>
+    </>
   );
 }

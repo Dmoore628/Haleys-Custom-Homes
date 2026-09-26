@@ -20,18 +20,35 @@ test('1: Newsreader and Switzer only; no Fraunces or Inter loads anywhere', asyn
   expect(fontRequests.join(' ')).not.toMatch(/fraunces|inter/i);
 });
 
-test('2 and 15: sticky cover transitions only at the four specified boundaries', async ({
-  page,
-}) => {
-  const pinned = async (route: string) => {
-    await page.goto(route);
-    return page.locator('[data-pinned="true"]').count();
+test('2 and 15: every section on every page covers the one before it', async ({ page }) => {
+  const sections: Record<string, number> = {
+    '/': 6,
+    '/portfolio': 1,
+    '/portfolio/denver-modern': 2,
+    '/process': 5,
+    '/about': 4,
+    '/contact': 2,
   };
-  expect(await pinned('/')).toBe(2); // hero, closing CTA
-  expect(await pinned('/portfolio/denver-modern')).toBe(1); // project hero
-  expect(await pinned('/about')).toBe(1); // founder intro only
-  expect(await pinned('/process')).toBe(0);
-  expect(await pinned('/contact')).toBe(0);
+  for (const [route, count] of Object.entries(sections)) {
+    await page.goto(route);
+    const pinned = page.locator('main > [data-pinned="true"]');
+    await expect(pinned, route).toHaveCount(count);
+    // Every direct child of <main> is a pinned section: no boundary without a transition.
+    const unpinned = await page.locator('main > :not([data-pinned])').count();
+    expect(unpinned, route).toBe(0);
+  }
+
+  // Scrolling the next section over the hero dims it.
+  await page.goto('/');
+  const vh = page.viewportSize()!.height;
+  await page.evaluate((y) => window.scrollTo(0, y), vh);
+  await page.waitForTimeout(300);
+  const dim = await page
+    .locator('main > [data-pinned="true"]')
+    .first()
+    .getByTestId('cover-dim')
+    .evaluate((el) => Number(getComputedStyle(el).opacity));
+  expect(dim).toBeGreaterThan(0.2);
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');

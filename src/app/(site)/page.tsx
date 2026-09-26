@@ -6,6 +6,7 @@ import { ProcessHighlight } from '@/components/sections/ProcessHighlight';
 import { FeaturedPortfolio } from '@/components/sections/FeaturedPortfolio';
 import { AwardsStrip } from '@/components/sections/AwardsStrip';
 import { ClosingCta } from '@/components/sections/ClosingCta';
+import { CoverStack } from '@/components/ui/CoverStack';
 
 export const metadata: Metadata = {
   title: { absolute: copy.home.meta.title },
@@ -15,16 +16,13 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <>
-      {/* Pinned pair: the statement slides up over the hero. The wrapper ends the pin. */}
-      <div>
-        <Hero />
-        <PositioningStatement />
-      </div>
+    <CoverStack>
+      <Hero />
+      <PositioningStatement />
       <ProcessHighlight />
       <FeaturedPortfolio />
       <AwardsStrip />
-      <ClosingCta pinned />
-    </>
+      <ClosingCta />
+    </CoverStack>
   );
 }

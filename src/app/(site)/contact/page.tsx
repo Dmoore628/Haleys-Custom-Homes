@@ -7,6 +7,7 @@ import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
 import { ContactForm } from '@/components/sections/ContactForm';
 import { ServiceMap } from '@/components/sections/ServiceMap';
+import { CoverStack } from '@/components/ui/CoverStack';
 
 export const metadata: Metadata = {
   title: copy.contact.meta.title,
@@ -18,7 +19,7 @@ export default function ContactPage() {
   const { contact } = copy;
   const { phone, phoneHref, email } = siteConfig.contact;
   return (
-    <>
+    <CoverStack>
       <section className="section-x bg-bone pb-section pt-[calc(6.5rem+clamp(3rem,7vw,7rem))]">
         <div className="flex flex-col gap-16 lg:grid lg:grid-cols-12 lg:gap-x-grid lg:gap-y-0">
           {/* Left: the qualification form. */}
@@ -55,7 +56,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="section-x bg-bone pb-section" aria-labelledby="faq-heading">
+      <section className="section-x bg-bone py-section" aria-labelledby="faq-heading">
         <div className="mx-auto w-[min(600px,100%)]">
           <Reveal>
             <Eyebrow>
@@ -67,6 +68,6 @@ export default function ContactPage() {
           </Reveal>
         </div>
       </section>
-    </>
+    </CoverStack>
   );
 }
