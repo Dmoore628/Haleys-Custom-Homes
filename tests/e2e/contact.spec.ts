@@ -1,4 +1,16 @@
+import type { Page } from '@playwright/test';
 import { test, expect } from './fixtures';
+
+/**
+ * Scroll as a visitor does: to the end of the form section, the moment it pins, before the
+ * FAQ section slides over it. (Playwright's own scroll-into-view overshoots a pinned section.)
+ */
+async function scrollToFormEnd(page: Page) {
+  await page.evaluate(() => {
+    const first = document.querySelector('main > [data-pinned]') as HTMLElement | null;
+    if (first) window.scrollTo(0, Math.max(0, first.offsetHeight - window.innerHeight));
+  });
+}
 
 test('required fields show ink-colored messages and nothing is sent', async ({ page }) => {
   let posted = false;
@@ -7,6 +19,7 @@ test('required fields show ink-colored messages and nothing is sent', async ({ p
     return route.fulfill({ json: { ok: true } });
   });
   await page.goto('/contact');
+  await scrollToFormEnd(page);
   await page.getByRole('button', { name: 'Send Inquiry' }).click();
   await expect(page.getByText('This field is required.').first()).toBeVisible();
   await expect(page.getByLabel('Name')).toBeFocused();
@@ -31,6 +44,7 @@ test('a complete submission shows Sending, then the confirmation', async ({ page
   await page.getByLabel('Project Type').selectOption('New Custom Home');
   await page.getByLabel('Budget Range').selectOption('$4M+');
   await page.getByLabel('Do you have a lot or site selected?').selectOption('Not yet');
+  await scrollToFormEnd(page);
   await page.getByRole('button', { name: 'Send Inquiry' }).click();
   if (!process.env.E2E_REAL_SMTP) {
     await expect(page.getByRole('button', { name: 'Sending' })).toBeDisabled();

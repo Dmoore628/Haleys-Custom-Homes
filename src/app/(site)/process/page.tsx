@@ -4,7 +4,8 @@ import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { FramingSquare } from '@/components/ui/SignatureAccents';
-import { SequencingLedger } from '@/components/sections/SequencingLedger';
+import { MoveInTimeline } from '@/components/sections/MoveInTimeline';
+import { PunchList } from '@/components/sections/PunchList';
 import { PhaseSequence } from '@/components/sections/PhaseSequence';
 import { ClosingCta } from '@/components/sections/ClosingCta';
 import { CoverStack } from '@/components/ui/CoverStack';
@@ -34,13 +35,16 @@ export default function ProcessPage() {
         </div>
       </section>
 
-      {/* The Sequencing Ledger: the primary, roomier presentation of the Home device. */}
+      {/* The punch list, then the move-in timeline it leads to. */}
       <section className="section-x bg-bone py-section">
         <Reveal>
           <h2 className="font-serif text-section font-normal">{hook.headline}</h2>
         </Reveal>
-        <div className="mt-10 md:mt-14">
-          <SequencingLedger spacious />
+        <Reveal className="mt-10 max-w-[56rem] md:mt-14">
+          <PunchList />
+        </Reveal>
+        <div className="mt-[clamp(4rem,8vw,7rem)]">
+          <MoveInTimeline />
         </div>
       </section>
 

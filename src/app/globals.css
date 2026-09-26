@@ -94,6 +94,11 @@
     animation: map-glint 4.4s linear infinite both;
     opacity: 0.85;
   }
+  /* The open punch-list box and the arrived timeline dot: a slow, seamless breath. */
+  .punch-breathe {
+    animation: punch-breathe 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite both;
+  }
+
   .map-pulse {
     transform-box: fill-box;
     transform-origin: center;
@@ -250,6 +255,21 @@
   }
 }
 
+@keyframes punch-breathe {
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  75%,
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+
 @keyframes map-glint {
   0% {
     stroke-dashoffset: 0.07;
@@ -277,7 +297,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .map-glint,
-  .map-pulse {
+  .map-pulse,
+  .punch-breathe {
     animation: none;
     opacity: 0;
   }

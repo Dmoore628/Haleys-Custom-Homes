@@ -62,7 +62,7 @@ const copy = {
     },
   },
 
-  // The Sequencing Ledger (docs/haley-custom-homes-sequencing-ledger-spec.md), used on Home and Process.
+  // The six stages and the wait a typical build risks at each, used by the punch list.
   ledger: {
     rows: [
       {
@@ -98,14 +98,26 @@ const copy = {
     ],
   },
 
-  // The Early Move-In Marker beneath the ledger's Move-In row.
+  // The architect's punch list (Home and Process): stages 1 to 5 close; Move-In stays open.
+  punchList: {
+    title: 'Punch List',
+    closed: 'Closed',
+    open: 'Open',
+    cta: { label: 'Start the Conversation', href: '/contact' },
+  },
+
+  // The move-in timeline beneath the punch list. The quote is two consecutive sentences from the
+  // McDonalds' testimonial (content/testimonials.json).
   moveIn: {
-    expected: 'Expected',
-    actual: 'Move-In',
-    quote: 'Yes, that is correct.',
+    moved: 'Moved in',
+    scheduled: 'Scheduled move-in',
+    early: 'One month early',
+    quote:
+      'We were in the house a month earlier than scheduled. This is my third time building a custom home, and I have never been more satisfied.',
     attribution: 'Michael and Jane McDonald',
-    calendarLabel:
-      'Calendar strip: the Move-In marker slides from the expected date to a date about a month earlier.',
+    projectType: 'New Custom Home',
+    label:
+      'Timeline: a build moves through the six stages and reaches move-in one month before the scheduled move-in date.',
   },
 
   closingCta: {

@@ -1,44 +1,46 @@
 import { test, expect } from './fixtures';
 
-test('sequencing ledger checks rows one at a time as they scroll up, and never resets', async ({
-  page,
-}) => {
-  await page.goto('/process');
-  const rows = page.getByTestId('sequencing-ledger').getByTestId('ledger-row');
-  await expect(rows).toHaveCount(6);
-  await expect(rows.first()).toHaveAttribute('data-checked', 'false');
-  await expect(rows.last()).toHaveAttribute('data-checked', 'false');
-
-  // Bring row 1 above the 60%-up line; later rows stay unchecked.
-  await rows.first().evaluate((el) => {
-    const top = el.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo(0, top - window.innerHeight * 0.3);
+for (const route of ['/', '/process']) {
+  test(`punch list on ${route}: closes stages 1-5 in turn and leaves Move-In open`, async ({
+    page,
+  }) => {
+    await page.goto(route);
+    const list = page.getByTestId('punch-list');
+    const rows = list.getByTestId('punch-row');
+    await expect(rows).toHaveCount(6);
+    await expect(rows.first()).toHaveAttribute('data-status', 'open');
+    await list.scrollIntoViewIfNeeded();
+    for (let i = 0; i < 5; i++) {
+      await expect(rows.nth(i)).toHaveAttribute('data-status', 'closed');
+    }
+    await expect(rows.last()).toHaveAttribute('data-status', 'open');
+    await expect(rows.last().getByText('Open', { exact: true })).toBeVisible();
+    await expect(list.getByRole('link', { name: /Start the Conversation/ })).toBeVisible();
+    await expect(list.locator('[aria-live]')).toContainText('05');
   });
-  await expect(rows.first()).toHaveAttribute('data-checked', 'true');
-  await expect(rows.last()).toHaveAttribute('data-checked', 'false');
 
-  await rows.last().evaluate((el) => {
-    const top = el.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo(0, top - window.innerHeight * 0.3);
+  test(`move-in timeline on ${route}: arrives a month early, with the family's words`, async ({
+    page,
+  }) => {
+    await page.goto(route);
+    const timeline = page.getByTestId('move-in-timeline');
+    await timeline.scrollIntoViewIfNeeded();
+    await expect(timeline).toHaveAttribute('data-arrived', 'true', { timeout: 10000 });
+    await expect(timeline.getByText('Moved in', { exact: true })).toBeVisible();
+    await expect(timeline.getByText('One month early')).toBeVisible();
+    await expect(timeline.getByText('Scheduled move-in', { exact: true })).toBeVisible();
+    await expect(timeline.getByText(/a month earlier than scheduled/)).toBeVisible();
+    await expect(page.getByText('Yes, that is correct.')).toHaveCount(0);
   });
-  await expect(rows.last()).toHaveAttribute('data-checked', 'true');
-  // The Early Move-In Marker plays once it scrolls into view; the old caption line is gone.
-  const marker = page.getByTestId('early-move-in');
-  await marker.scrollIntoViewIfNeeded();
-  await expect(marker).toHaveAttribute('data-played', 'true');
-  await expect(page.getByText('Yes, that is correct.')).toBeVisible();
+}
 
-  // Scrolling back to the top does not un-check anything.
-  await page.evaluate(() => window.scrollTo(0, 0));
-  await expect(rows.first()).toHaveAttribute('data-checked', 'true');
-});
-
-test('reduced motion: every ledger row renders already checked', async ({ page }) => {
+test('reduced motion: the punch list and timeline render finished', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/');
-  const rows = page.getByTestId('ledger-row');
-  await expect(rows).toHaveCount(6);
-  for (let i = 0; i < 6; i++) await expect(rows.nth(i)).toHaveAttribute('data-checked', 'true');
+  await page.goto('/process');
+  const rows = page.getByTestId('punch-row');
+  await expect(rows.nth(4)).toHaveAttribute('data-status', 'closed');
+  await expect(rows.last()).toHaveAttribute('data-status', 'open');
+  await expect(page.getByTestId('move-in-timeline')).toHaveAttribute('data-arrived', 'true');
 });
 
 test('framing square accent animates once, on first view', async ({ page, isMobile }) => {
