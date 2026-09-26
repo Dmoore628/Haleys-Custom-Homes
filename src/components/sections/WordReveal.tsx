@@ -7,8 +7,20 @@ import { EASE, REVEAL_VIEWPORT } from '@/lib/animation';
  * The Signature Text Treatment. Used exactly once on the site: the Home positioning
  * statement. Each word's opacity animates 0 to 1 in sequence, ~40ms apart, as it scrolls in.
  */
-export function WordReveal({ text, className = '' }: { text: string; className?: string }) {
+export function WordReveal({
+  text,
+  highlight,
+  className = '',
+}: {
+  text: string;
+  /** A phrase within `text` set in the accent color (its first occurrence). */
+  highlight?: string;
+  className?: string;
+}) {
   const words = text.split(' ');
+  const hl = highlight ? highlight.split(' ') : [];
+  const start = hl.length ? words.findIndex((_, i) => hl.every((h, j) => words[i + j] === h)) : -1;
+  const isAccent = (i: number) => start >= 0 && i >= start && i < start + hl.length;
   return (
     <motion.h2
       className={className}
@@ -22,7 +34,7 @@ export function WordReveal({ text, className = '' }: { text: string; className?:
         <motion.span
           key={`${word}-${i}`}
           aria-hidden="true"
-          className="inline"
+          className={isAccent(i) ? 'inline text-accent' : 'inline'}
           variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
           transition={{ duration: 0.6, ease: EASE }}
         >

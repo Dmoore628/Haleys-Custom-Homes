@@ -33,6 +33,12 @@
       'liga' 1;
   }
 
+  /* Weight rule: one- and two-line headlines stay Regular; three lines or more switch to
+     Medium so the hairlines stay visible (measured at runtime by HeadlineWeights). */
+  .font-serif[data-long='true'] {
+    font-weight: 500;
+  }
+
   ::selection {
     background: #7a6250;
     color: #efe9de;

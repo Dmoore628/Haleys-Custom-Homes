@@ -38,18 +38,47 @@ test('2 and 15: sticky cover transitions only at the four specified boundaries',
   await expect(page.locator('[data-pinned="true"]')).toHaveCount(0);
 });
 
-test('3: oversized Bodoni quotation mark beside the positioning statement', async ({
+test('3: accent phrase and quotation mark overlapping the positioning statement', async ({
   page,
-  isMobile,
 }) => {
-  test.skip(isMobile, 'shown beside the text on desktop');
   await page.goto('/');
+  const heading = page.getByRole('heading', { name: /We build three to five homes a year/ });
+  await heading.scrollIntoViewIfNeeded();
+  const accentWords = await heading
+    .locator('span.text-accent')
+    .allTextContents()
+    .then((t) => t.join('').trim());
+  expect(accentWords).toBe('three to five homes');
   const mark = page.getByTestId('accent-quote');
-  await expect(mark).toBeVisible();
   const color = await mark.evaluate((el) => getComputedStyle(el).color);
-  const alpha = Number(color.match(/[\d.]+\)$/)?.[0].replace(')', ''));
-  expect(alpha).toBeGreaterThanOrEqual(0.06);
-  expect(alpha).toBeLessThanOrEqual(0.08);
+  const alpha = Number(color.match(/([\d.]+)\)$/)?.[1]);
+  expect(alpha).toBeGreaterThanOrEqual(0.14);
+  expect(alpha).toBeLessThanOrEqual(0.16);
+  const m = (await mark.boundingBox())!;
+  const h = (await heading.boundingBox())!;
+  const overlaps =
+    m.x < h.x + h.width && m.x + m.width > h.x && m.y < h.y + h.height && m.y + m.height > h.y;
+  expect(overlaps).toBe(true);
+});
+
+test('Bodoni weight rule: 3+ line headlines are Medium, 1-2 line headlines Regular', async ({
+  page,
+}) => {
+  for (const route of ['/', '/process', '/about', '/contact', '/portfolio/denver-modern']) {
+    await page.goto(route);
+    await page.waitForTimeout(400);
+    const results = await page.$$eval('.font-serif.text-hero, .font-serif.text-section', (els) =>
+      els.map((el) => {
+        const cs = getComputedStyle(el);
+        const lines = Math.round(el.getBoundingClientRect().height / parseFloat(cs.lineHeight));
+        return { lines, weight: Number(cs.fontWeight), text: el.textContent?.slice(0, 30) };
+      }),
+    );
+    for (const r of results) {
+      if (r.lines >= 3) expect(r.weight, `${route} ${r.text}`).toBeGreaterThanOrEqual(500);
+      else expect(r.weight, `${route} ${r.text}`).toBe(400);
+    }
+  }
 });
 
 test('4: testimonial cards keep their natural, different heights', async ({ page }) => {

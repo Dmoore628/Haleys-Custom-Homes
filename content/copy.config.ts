@@ -30,6 +30,8 @@ const copy = {
       ghost: { label: 'See Our Work', href: '/portfolio' },
     },
     positioning: {
+      // Set in the accent color within the main line: the fact the whole site is built around.
+      highlight: 'three to five homes',
       main: "We build three to five homes a year. Not because we can't build more. Because a home that takes shortcuts isn't a Haley home.",
       supporting:
         'Founded in 1998 by Dan Haley Fuller, Haley Custom Homes has spent over 25 years building for families across the Denver Metro area, one home, one owner, at a time.',

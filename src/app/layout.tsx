@@ -5,6 +5,7 @@ import { bodoni, switzer } from '@/lib/fonts';
 import { SkipLink } from '@/components/layout/SkipLink';
 import { Nav } from '@/components/layout/Nav';
 import { ScrollProgress } from '@/components/layout/ScrollProgress';
+import { HeadlineWeights } from '@/components/layout/HeadlineWeights';
 import { CookieNotice } from '@/components/layout/CookieNotice';
 import { CustomCursor } from '@/components/layout/CustomCursor';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <CookieNotice />
         <CustomCursor />
         <SmoothScroll />
+        <HeadlineWeights />
         <div className="grain" aria-hidden="true" />
       </body>
     </html>
