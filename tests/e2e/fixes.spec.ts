@@ -4,7 +4,7 @@ import { test, expect } from './fixtures';
 
 const ROUTES = ['/', '/portfolio', '/portfolio/denver-modern', '/process', '/about', '/contact'];
 
-test('1: Bodoni Moda and Switzer only; no Fraunces or Inter loads anywhere', async ({ page }) => {
+test('1: Newsreader and Switzer only; no Fraunces or Inter loads anywhere', async ({ page }) => {
   const fontRequests: string[] = [];
   page.on('request', (r) => {
     if (r.resourceType() === 'font') fontRequests.push(r.url());
@@ -15,7 +15,7 @@ test('1: Bodoni Moda and Switzer only; no Fraunces or Inter loads anywhere', asy
     .locator('main p')
     .first()
     .evaluate((el) => getComputedStyle(el).fontFamily);
-  expect(heading).toMatch(/Bodoni/i);
+  expect(heading).toMatch(/Newsreader/i);
   expect(body).toMatch(/Switzer/i);
   expect(fontRequests.join(' ')).not.toMatch(/fraunces|inter/i);
 });
@@ -59,26 +59,6 @@ test('3: accent phrase and quotation mark overlapping the positioning statement'
   const overlaps =
     m.x < h.x + h.width && m.x + m.width > h.x && m.y < h.y + h.height && m.y + m.height > h.y;
   expect(overlaps).toBe(true);
-});
-
-test('Bodoni weight rule: 3+ line headlines are Medium, 1-2 line headlines Regular', async ({
-  page,
-}) => {
-  for (const route of ['/', '/process', '/about', '/contact', '/portfolio/denver-modern']) {
-    await page.goto(route);
-    await page.waitForTimeout(400);
-    const results = await page.$$eval('.font-serif.text-hero, .font-serif.text-section', (els) =>
-      els.map((el) => {
-        const cs = getComputedStyle(el);
-        const lines = Math.round(el.getBoundingClientRect().height / parseFloat(cs.lineHeight));
-        return { lines, weight: Number(cs.fontWeight), text: el.textContent?.slice(0, 30) };
-      }),
-    );
-    for (const r of results) {
-      if (r.lines >= 3) expect(r.weight, `${route} ${r.text}`).toBeGreaterThanOrEqual(500);
-      else expect(r.weight, `${route} ${r.text}`).toBe(400);
-    }
-  }
 });
 
 test('4: testimonial cards keep their natural, different heights', async ({ page }) => {

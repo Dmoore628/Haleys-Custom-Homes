@@ -276,9 +276,9 @@ def make_og_images():
     """1200x630 share cards: photo on the left, bone panel with the logo, eyebrow and headline."""
     from PIL import ImageDraw, ImageFont
     fonts = os.path.join(ROOT, 'scripts', 'fonts')
-    serif = ImageFont.truetype(os.path.join(fonts, 'BodoniModa.ttf'), 58)
+    serif = ImageFont.truetype(os.path.join(fonts, 'Newsreader.ttf'), 58)
     try:
-        serif.set_variation_by_axes([48, 400])
+        serif.set_variation_by_axes([400, 48])  # wght, opsz
     except Exception:
         pass
     sans = ImageFont.truetype(os.path.join(fonts, 'Switzer-Semibold.ttf'), 17)

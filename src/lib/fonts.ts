@@ -1,16 +1,18 @@
-import { Bodoni_Moda } from 'next/font/google';
+import { Newsreader } from 'next/font/google';
 import localFont from 'next/font/local';
 
-// Display and headline type. next/font downloads it at build time and serves it from this
-// site's own origin: no Google Fonts request at runtime. The optical-size axis keeps the
-// hairlines sturdy at small sizes and delicate at hero scale. Italic is the signature
-// accent (testimonial quotes, pull-quotes, the Early Move-In quote, the positioning mark).
-export const bodoni = Bodoni_Moda({
+// Display and headline type: Newsreader (Production Type, SIL Open Font License). A
+// moderate-contrast editorial serif with sturdy strokes that stay legible at every size, from
+// the hero down to card text. next/font downloads it at build time and serves it from this
+// site's own origin: no Google Fonts request at runtime. The optical-size axis tunes the
+// letterforms per size. Italic is the signature accent (testimonial quotes, pull-quotes, the
+// Early Move-In quote, the positioning mark).
+export const newsreader = Newsreader({
   subsets: ['latin'],
   style: ['normal', 'italic'],
   axes: ['opsz'],
   display: 'swap',
-  variable: '--font-bodoni',
+  variable: '--font-newsreader',
 });
 
 // Body and UI type: Switzer by Indian Type Foundry (Fontshare, ITF Free Font License),

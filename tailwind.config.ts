@@ -18,7 +18,7 @@ const config: Config = {
       black: '#000000',
     },
     fontFamily: {
-      serif: ['var(--font-bodoni)', 'Georgia', 'serif'],
+      serif: ['var(--font-newsreader)', 'Georgia', 'serif'],
       sans: ['var(--font-switzer)', 'system-ui', 'sans-serif'],
     },
     screens: {

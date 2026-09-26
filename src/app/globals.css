@@ -23,20 +23,14 @@
     min-height: 100vh;
   }
 
-  /* Bodoni Moda's display cut opens its spacing at large sizes; tighten slightly and keep
-     kerning and ligatures on for every serif setting. */
+  /* Tighten the serif slightly at display sizes and keep kerning and ligatures on for every
+     serif setting. */
   .font-serif {
     letter-spacing: -0.012em;
     font-kerning: normal;
     font-feature-settings:
       'kern' 1,
       'liga' 1;
-  }
-
-  /* Weight rule: one- and two-line headlines stay Regular; three lines or more switch to
-     Medium so the hairlines stay visible (measured at runtime by HeadlineWeights). */
-  .font-serif[data-long='true'] {
-    font-weight: 500;
   }
 
   ::selection {

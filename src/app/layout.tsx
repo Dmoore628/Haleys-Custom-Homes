@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import siteConfig from '@content/site.config';
-import { bodoni, switzer } from '@/lib/fonts';
+import { newsreader, switzer } from '@/lib/fonts';
 import { SkipLink } from '@/components/layout/SkipLink';
 import { Nav } from '@/components/layout/Nav';
 import { ScrollProgress } from '@/components/layout/ScrollProgress';
-import { HeadlineWeights } from '@/components/layout/HeadlineWeights';
 import { CookieNotice } from '@/components/layout/CookieNotice';
 import { CustomCursor } from '@/components/layout/CustomCursor';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
@@ -32,7 +31,7 @@ export const viewport: Viewport = { themeColor: '#EFE9DE' };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${bodoni.variable} ${switzer.variable}`}>
+    <html lang="en" className={`${newsreader.variable} ${switzer.variable}`}>
       <body>
         <SkipLink />
         <ScrollProgress />
@@ -42,7 +41,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <CookieNotice />
         <CustomCursor />
         <SmoothScroll />
-        <HeadlineWeights />
         <div className="grain" aria-hidden="true" />
       </body>
     </html>

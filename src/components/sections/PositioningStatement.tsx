@@ -14,7 +14,7 @@ export function PositioningStatement() {
     <section className="section-x section-y relative z-10 flex min-h-[min(100vh,720px)] items-center overflow-hidden bg-bone md:min-h-screen">
       <div className="grid-12 relative w-full">
         <div className="relative col-span-12 max-w-statement md:col-span-7 md:col-start-2">
-          {/* Signature Motion Accent 1 of 3: an oversized Bodoni italic opening quotation mark,
+          {/* Signature Motion Accent 1 of 3: an oversized Newsreader italic opening quotation mark,
               ink at 15%, overlapping the text block's top-left corner so mark and statement read
               as one composed object. The small optical size gives it its full ball-and-teardrop
               form. Static. */}

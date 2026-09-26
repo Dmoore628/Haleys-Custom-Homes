@@ -49,7 +49,7 @@ exact file and field.
 
 ## Media
 
-Type: Bodoni Moda (SIL Open Font License, via `next/font/google`) and Switzer (Indian Type Foundry,
+Type: Newsreader (SIL Open Font License, via `next/font/google`) and Switzer (Indian Type Foundry,
 ITF Free Font License, self-hosted from `src/fonts`).
 
 The raw asset library (`assets/`, ~570 MB) is not committed. `npm run media` (Python, needs Pillow and

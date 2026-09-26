@@ -12,7 +12,7 @@ Foundational layer. Every page and component spec pulls from this file. Nothing 
 
 ## Type
 
-- Display and headline typeface: Bodoni Moda, self-hosted via `next/font/google` (per haley-custom-homes-fixes-spec.md, item 1), using its optical-size axis so hairlines hold at small sizes and stay refined at hero scale. Weight 400. Italic Bodoni Moda is the signature accent for testimonial quotes, pull-quotes, and the Early Move-In Marker's quote. Serif settings use a slight negative tracking (-0.012em) with kerning on.
+- Display and headline typeface: Newsreader (Production Type, SIL Open Font License), self-hosted via `next/font/google`, using its optical-size axis. It replaced Bodoni Moda, whose hairline strokes were too hard to read; Newsreader's moderate contrast keeps the editorial character while staying legible from hero scale down to card text. Weight 400 throughout. Italic Newsreader is the signature accent for testimonial quotes, pull-quotes, and the Early Move-In Marker's quote. Serif settings use a slight negative tracking (-0.012em) with kerning on.
 - Body and UI typeface: Switzer (Indian Type Foundry, via Fontshare), self-hosted via `next/font/local`. Used for paragraph text, form fields, navigation, labels, and captions.
 - Never more than two typefaces on the site. No third font is introduced for a single section, however small.
 - Scale (desktop; use CSS `clamp()` for fluid scaling down to mobile rather than fixed breakpoint swaps):
