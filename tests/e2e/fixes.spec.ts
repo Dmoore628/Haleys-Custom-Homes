@@ -61,12 +61,21 @@ test('3: accent phrase and quotation mark overlapping the positioning statement'
   expect(overlaps).toBe(true);
 });
 
-test('4: testimonial cards keep their natural, different heights', async ({ page }) => {
+test('4: client reviews follow the hero, one at a time, with pause and navigation', async ({
+  page,
+}) => {
   await page.goto('/');
-  const heights = await page
-    .locator('section[aria-label="Client testimonials"] figure')
-    .evaluateAll((els) => els.slice(0, 3).map((e) => Math.round(e.getBoundingClientRect().height)));
-  expect(new Set(heights).size).toBeGreaterThan(1);
+  const reviews = page.getByTestId('houzz-reviews');
+  await reviews.scrollIntoViewIfNeeded();
+  await expect(reviews.getByRole('img', { name: '5.0 out of 5 stars' })).toBeVisible();
+  await expect(reviews.getByRole('link', { name: /36 reviews on Houzz/ })).toBeVisible();
+  const visible = () => reviews.locator('figure[aria-hidden="false"] figcaption');
+  await expect(visible()).toContainText('Michael and Jane McDonald');
+  await reviews.getByRole('button', { name: 'Show review from Bill Fisher' }).click();
+  await expect(visible()).toContainText('Bill Fisher');
+  await expect(reviews.getByRole('button', { name: 'Pause reviews' })).toBeVisible();
+  // The quotes are not repeated in a second testimonials section.
+  await expect(page.getByText('IN THEIR WORDS')).toHaveCount(0);
 });
 
 test('5, 6, 21: awards strip, scarcity badge and As Seen In line', async ({ page }) => {

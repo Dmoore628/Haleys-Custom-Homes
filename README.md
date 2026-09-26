@@ -44,8 +44,8 @@ exact file and field.
   footage and build duration are not published, so they are omitted (the schema allows them once known).
 - Haley's own average build duration is not published; the FAQ answer is framed around the national
   12-month average without inventing a Haley figure.
-- The contact map needs a Mapbox public token (`NEXT_PUBLIC_MAPBOX_TOKEN`). Without it the map panel shows
-  the office address.
+- The service-area map (Home and Contact) is drawn in-house as SVG from `src/lib/coloradoGeo.ts` and the
+  coordinates in `content/site.config.ts`; it needs no map service or token.
 
 ## Media
 

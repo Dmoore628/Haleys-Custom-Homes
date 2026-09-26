@@ -4,7 +4,6 @@ import { Hero } from '@/components/sections/Hero';
 import { PositioningStatement } from '@/components/sections/PositioningStatement';
 import { ProcessHighlight } from '@/components/sections/ProcessHighlight';
 import { FeaturedPortfolio } from '@/components/sections/FeaturedPortfolio';
-import { Testimonials } from '@/components/sections/Testimonials';
 import { AwardsStrip } from '@/components/sections/AwardsStrip';
 import { ClosingCta } from '@/components/sections/ClosingCta';
 
@@ -24,7 +23,6 @@ export default function HomePage() {
       </div>
       <ProcessHighlight />
       <FeaturedPortfolio />
-      <Testimonials />
       <AwardsStrip />
       <ClosingCta pinned />
     </>

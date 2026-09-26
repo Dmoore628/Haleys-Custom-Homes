@@ -86,6 +86,21 @@
     column-gap: var(--grid-gap);
   }
 
+  /* Service map loops: a glint travelling each arc (the path is normalized to pathLength 1,
+     so one dash period is exactly one trip) and a pulse at the office. Both are seamless. */
+  .map-glint {
+    stroke-dasharray: 0.07 1;
+    stroke-dashoffset: 0.07;
+    animation: map-glint 4.4s linear infinite both;
+    opacity: 0.85;
+  }
+  .map-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: 0;
+    animation: map-pulse 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite both;
+  }
+
   /* Film grain: one fixed global overlay, 4% opacity, flat color only. */
   .grain {
     position: fixed;
@@ -223,5 +238,47 @@
   html.has-cursor,
   html.has-cursor * {
     cursor: auto !important;
+  }
+}
+
+@keyframes review-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes map-glint {
+  0% {
+    stroke-dashoffset: 0.07;
+  }
+  45%,
+  100% {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes map-pulse {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.7;
+  }
+  70%,
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-glint,
+  .map-pulse {
+    animation: none;
+    opacity: 0;
   }
 }

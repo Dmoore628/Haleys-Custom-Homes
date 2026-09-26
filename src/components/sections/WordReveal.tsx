@@ -10,9 +10,11 @@ import { EASE, REVEAL_VIEWPORT } from '@/lib/animation';
 export function WordReveal({
   text,
   highlight,
+  id,
   className = '',
 }: {
   text: string;
+  id?: string;
   /** A phrase within `text` set in the accent color (its first occurrence). */
   highlight?: string;
   className?: string;
@@ -23,6 +25,7 @@ export function WordReveal({
   const isAccent = (i: number) => start >= 0 && i >= start && i < start + hl.length;
   return (
     <motion.h2
+      id={id}
       className={className}
       initial="hidden"
       whileInView="visible"

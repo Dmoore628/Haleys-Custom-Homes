@@ -6,7 +6,7 @@ import { Accordion } from '@/components/ui/Accordion';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
 import { ContactForm } from '@/components/sections/ContactForm';
-import { ServiceAreaMap } from '@/components/sections/ServiceAreaMap';
+import { ServiceMap } from '@/components/sections/ServiceMap';
 
 export const metadata: Metadata = {
   title: copy.contact.meta.title,
@@ -35,7 +35,7 @@ export default function ContactPage() {
           {/* Right: the service-area map and list, then direct contact. */}
           <aside className="lg:col-span-4 lg:col-start-9" aria-labelledby="service-area-heading">
             <Reveal>
-              <ServiceAreaMap />
+              <ServiceMap headingLevel="h2" />
             </Reveal>
             <Reveal className="mt-10 flex flex-col gap-2" delay={0.1}>
               <a

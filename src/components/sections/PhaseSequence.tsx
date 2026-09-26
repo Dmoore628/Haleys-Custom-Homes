@@ -20,9 +20,24 @@ function BlueprintLine() {
       fill="none"
       aria-hidden="true"
     >
-      <path d="M0 12H1000" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-      <path d="M1 2v20M999 2v20" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-      <path d="M-5 18 7 6M993 18l12-12" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+      <path
+        d="M0 12H1000"
+        stroke="currentColor"
+        strokeWidth="1"
+        vectorEffect="non-scaling-stroke"
+      />
+      <path
+        d="M1 2v20M999 2v20"
+        stroke="currentColor"
+        strokeWidth="1"
+        vectorEffect="non-scaling-stroke"
+      />
+      <path
+        d="M-5 18 7 6M993 18l12-12"
+        stroke="currentColor"
+        strokeWidth="1"
+        vectorEffect="non-scaling-stroke"
+      />
     </svg>
   );
 }
@@ -39,7 +54,10 @@ export function PhaseSequence() {
   const [markers, setMarkers] = useState<number[]>([]);
   const [passed, setPassed] = useState(0);
 
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start center', 'end center'] });
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start center', 'end center'],
+  });
   const fill = useSpring(scrollYProgress, { stiffness: 200, damping: 40, restDelta: 0.001 });
 
   // Marker positions as fractions of the section height, at each block's top.
@@ -48,9 +66,7 @@ export function PhaseSequence() {
       const section = sectionRef.current;
       if (!section) return;
       const h = section.offsetHeight;
-      setMarkers(
-        blockRefs.current.map((b) => (b ? (b.offsetTop + 8) / h : 0)),
-      );
+      setMarkers(blockRefs.current.map((b) => (b ? (b.offsetTop + 8) / h : 0)));
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -69,7 +85,10 @@ export function PhaseSequence() {
       {/* Rail */}
       <div className="absolute bottom-0 left-0 top-0 w-1 bg-ink/10 md:left-4" aria-hidden="true">
         {!reduced && (
-          <motion.div className="absolute inset-x-0 top-0 h-full origin-top bg-accent" style={{ scaleY: fill }} />
+          <motion.div
+            className="absolute inset-x-0 top-0 h-full origin-top bg-accent"
+            style={{ scaleY: fill }}
+          />
         )}
         {markers.map((m, i) => (
           <span

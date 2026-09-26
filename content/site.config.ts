@@ -23,13 +23,14 @@ const siteConfig = {
   },
   // Contact page list, per the Final Copy document; coordinates are each city's center.
   serviceAreas: [
-    { name: 'Denver', lat: 39.7392, lng: -104.9903 },
-    { name: 'Boulder', lat: 40.015, lng: -105.2705 },
-    { name: 'Cherry Hills Village', lat: 39.6417, lng: -104.9594 },
-    { name: 'Greenwood Village', lat: 39.6172, lng: -104.9508 },
-    { name: 'Centennial', lat: 39.5807, lng: -104.8772 },
-    { name: 'Aspen', lat: 39.1911, lng: -106.8175 },
-    { name: 'Vail', lat: 39.6403, lng: -106.3742 },
+    // `region` groups the list the way the hero names it: Denver Metro, Boulder, Aspen, Vail.
+    { name: 'Denver', region: 'Denver Metro', lat: 39.7392, lng: -104.9903 },
+    { name: 'Boulder', region: 'Boulder', lat: 40.015, lng: -105.2705 },
+    { name: 'Cherry Hills Village', region: 'Denver Metro', lat: 39.6417, lng: -104.9594 },
+    { name: 'Greenwood Village', region: 'Denver Metro', lat: 39.6172, lng: -104.9508 },
+    { name: 'Centennial', region: 'Denver Metro', lat: 39.5807, lng: -104.8772 },
+    { name: 'Aspen', region: 'Aspen', lat: 39.1911, lng: -106.8175 },
+    { name: 'Vail', region: 'Vail', lat: 39.6403, lng: -106.3742 },
   ],
   heroServiceAreas: 'DENVER METRO. BOULDER. ASPEN. VAIL.',
   social: [

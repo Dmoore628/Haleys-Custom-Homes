@@ -36,6 +36,16 @@ const copy = {
       supporting:
         'Founded in 1998 by Dan Haley Fuller, Haley Custom Homes has spent over 25 years building for families across the Denver Metro area, one home, one owner, at a time.',
     },
+    // Houzz standing, read from Haley's live Houzz profile on 2026-09-26
+    // (houzz.com/professionals/home-builders/haley-custom-homes-pfvwus-pf~1703183129).
+    reviews: {
+      rating: '5.0',
+      count: 36,
+      countLabel: 'reviews on Houzz',
+      bestOf: 'Best of Houzz, every year 2016 to 2026',
+      href: 'https://www.houzz.com/professionals/home-builders/haley-custom-homes-pfvwus-pf~1703183129',
+      label: 'Client reviews',
+    },
     processHighlight: {
       eyebrow: 'THE ACCELERATED PRECISION BUILDING SYSTEM',
       body: 'Every Haley home follows a proprietary sequencing method built on LEAN construction principles, the same discipline that eliminates waste and delay in advanced manufacturing, applied to a custom home. The result is a build that moves in order, without the idle weeks that stretch a typical project.',
@@ -46,7 +56,6 @@ const copy = {
       headline: "A Sample of What We've Built",
       button: { label: 'View Full Portfolio', href: '/portfolio' },
     },
-    testimonials: { eyebrow: 'IN THEIR WORDS' },
     awards: {
       caption: 'Recognized by Houzz, Energy Star, and the Luxury Lifestyle Awards.',
       asSeenIn: 'As Seen In: Modern In Denver, Colorado Homes & Lifestyles.',
@@ -249,7 +258,8 @@ const copy = {
       'Your inquiry could not be sent right now. Please call us directly, or try again in a moment.',
     serviceAreaHeading: 'Where We Build',
     mapLabel:
-      'Map of the Haley Custom Homes service area, centered on the Greenwood Village office',
+      'Map of Colorado showing where Haley Custom Homes builds: the Denver Metro area, Boulder, Vail and Aspen, with the office in Greenwood Village',
+    officeLabel: 'Office',
     faqEyebrow: 'COMMON QUESTIONS',
   },
 

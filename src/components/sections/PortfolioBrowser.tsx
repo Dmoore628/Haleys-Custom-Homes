@@ -54,7 +54,12 @@ export function PortfolioBrowser({ projects }: { projects: Project[] }) {
 
       <p className="mt-10 max-w-text text-body">{copy.portfolio.intro}</p>
 
-      <div id="portfolio-grid" role="tabpanel" aria-labelledby={`tab-${active}`} className="mt-12 md:mt-16">
+      <div
+        id="portfolio-grid"
+        role="tabpanel"
+        aria-labelledby={`tab-${active}`}
+        className="mt-12 md:mt-16"
+      >
         {visible.length > 0 ? (
           // Keyed by category so a filter change remounts the tiles and replays their reveal.
           <ProjectGrid key={active} projects={visible} priorityFirst />
