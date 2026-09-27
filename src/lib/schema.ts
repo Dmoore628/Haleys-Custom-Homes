@@ -51,6 +51,28 @@ export const awardSchema = z.object({
 });
 export const awardsSchema = z.array(awardSchema).min(1);
 
+const markSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  mark: z.string().startsWith('/images/'),
+});
+export const pressSchema = z.array(markSchema).min(1);
+
+export const communitySchema = z.object({
+  causes: z.array(
+    markSchema.extend({
+      role: z.string().min(1),
+      detail: z.string().min(1),
+      source: z.string().min(1),
+    }),
+  ),
+  partners: z.object({
+    detail: z.string().min(1),
+    source: z.string().min(1),
+    marks: z.array(markSchema).min(1),
+  }),
+});
+
 export const faqSchema = z.array(
   z.object({ question: z.string().min(1), answer: z.string().min(1) }),
 );
@@ -88,6 +110,7 @@ export type Project = z.infer<typeof projectSchema>;
 export type Category = z.infer<typeof categorySchema>;
 export type Testimonial = z.infer<typeof testimonialSchema>;
 export type Award = z.infer<typeof awardSchema>;
+export type Mark = z.infer<typeof markSchema>;
 export type FaqItem = z.infer<typeof faqSchema>[number];
 export type MediaEntry = z.infer<typeof mediaEntrySchema>;
 export type Inquiry = z.infer<typeof inquirySchema>;

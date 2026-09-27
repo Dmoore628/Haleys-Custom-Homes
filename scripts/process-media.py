@@ -14,6 +14,7 @@ import base64
 import io
 import json
 import os
+import re
 import shutil
 
 from PIL import Image, ImageOps, ImageStat
@@ -159,6 +160,52 @@ def write_color_mark(im, out_rel, knockout, height):
         'width': im.width, 'height': im.height, 'color': 'transparent', 'blurDataURL': ''}
 
 
+def ink_whites(im):
+    """Recolor a mark's white strokes (drawn for dark backgrounds) to ink, keeping its accents."""
+    px = im.load()
+    for y in range(im.height):
+        for x in range(im.width):
+            r, g, b, a = px[x, y]
+            if a and min(r, g, b) > 200:
+                px[x, y] = (26, 24, 21, a)
+    return im
+
+
+def make_logo_marks():
+    """Press and community marks, each the organization's own (see assets/*/SOURCES.md)."""
+    raster = {
+        'press/cherry-creek-lifestyle.png': ('press/sourced/cherry-creek-lifestyle-masthead.png', None, False),
+        'press/cherry-creek-magazine.png': ('press/sourced/cherry-creek-magazine.png', None, False),
+        'press/modern-in-denver.png': ('press/sourced/modern-in-denver.jpg', 'white', False),
+        'press/colorado-homes-lifestyles.png': ('press/sourced/colorado-homes-lifestyles.png', None, False),
+        'community/childrens-diabetes-foundation.png': ('community/sourced/childrens-diabetes-foundation.png', None, False),
+        'community/st-thomas-more.png': ('community/sourced/st-thomas-more.png', None, False),
+        'community/ekman-design-studio.png': ('community/sourced/ekman-design-studio.png', None, True),
+    }
+    for out_rel, (src_rel, knock, recolor) in raster.items():
+        im = Image.open(os.path.join(SRC, src_rel)).convert('RGBA')
+        if out_rel == 'press/modern-in-denver.png':
+            # The wordmark only: its pale grey tagline all but vanishes once the white is removed.
+            im = im.crop((0, 0, im.width, round(im.height * 0.58)))
+        if recolor:
+            im = ink_whites(im)
+        write_color_mark(im, out_rel, knock, height=192)
+    # Vector marks: Exquisite Kitchen Design as published; Xssentials' white strokes to ink.
+    for name, swap in (('exquisite-kitchen-design', None), ('xssentials', ('#FFFFFF', '#1A1815'))):
+        with open(os.path.join(SRC, 'community', 'sourced', f'{name}.svg'), encoding='utf-8') as fh:
+            svg = fh.read()
+        if swap:
+            svg = svg.replace(*swap)
+        out = os.path.join(PUB, 'images', 'community', f'{name}.svg')
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with open(out, 'w', encoding='utf-8') as fh:
+            fh.write(svg)
+        m = re.search(r'viewBox="[\d.]+ [\d.]+ ([\d.]+) ([\d.]+)"', svg)
+        w, h = (float(m.group(1)), float(m.group(2))) if m else (400.0, 120.0)
+        manifest[f'/images/community/{name}.svg'] = {
+            'width': round(w), 'height': round(h), 'color': 'transparent', 'blurDataURL': ''}
+
+
 def main():
     if os.path.isdir(os.path.join(PUB, 'images')):
         shutil.rmtree(os.path.join(PUB, 'images'))
@@ -204,6 +251,7 @@ def main():
                     os.path.join(PUB, 'images', 'awards', 'energy-star.svg'))
     manifest['/images/awards/energy-star.svg'] = {
         'width': 423, 'height': 433, 'color': 'transparent', 'blurDataURL': ''}
+    make_logo_marks()
 
     # Hero video. The source is a 1920x1080 screen recording of a social post, so the real
     # footage (about 2.29:1) sits inside black borders that change partway through:

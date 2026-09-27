@@ -6,6 +6,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { PlumbBob } from '@/components/ui/SignatureAccents';
 import { ClosingCta } from '@/components/sections/ClosingCta';
+import { Community } from '@/components/sections/Community';
 import { CoverStack } from '@/components/ui/CoverStack';
 
 export const metadata: Metadata = {
@@ -19,10 +20,10 @@ export default function AboutPage() {
 
   return (
     <CoverStack>
-      {/* Founder intro. Desktop: 7/5 split, text left, portrait right and 48px lower. */}
+      {/* Founder intro. Desktop: 7/5 split, text left and vertically centered on the portrait. */}
       <section className="section-x bg-bone pb-section pt-[calc(6.5rem+clamp(3rem,7vw,7rem))]">
-        <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:items-start md:gap-x-grid md:gap-y-0">
-          <Reveal className="md:order-2 md:col-span-5 md:col-start-8 md:mt-12">
+        <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:items-center md:gap-x-grid md:gap-y-0">
+          <Reveal className="md:order-2 md:col-span-5 md:col-start-8">
             <div className="relative mx-auto aspect-[4/5] w-full max-w-[26rem] overflow-hidden rounded-tile md:mx-0 md:max-w-none">
               <SmartImage
                 src={founder.image}
@@ -103,6 +104,8 @@ export default function AboutPage() {
           })}
         </ul>
       </section>
+
+      <Community />
 
       <ClosingCta />
     </CoverStack>

@@ -57,8 +57,8 @@ const copy = {
       button: { label: 'View Full Portfolio', href: '/portfolio' },
     },
     awards: {
-      caption: 'Recognized by Houzz, Energy Star, and the Luxury Lifestyle Awards.',
-      asSeenIn: 'As Seen In: Modern In Denver, Colorado Homes & Lifestyles.',
+      recognition: 'Recognition',
+      asSeenIn: 'As Seen In',
     },
   },
 
@@ -236,6 +236,10 @@ const copy = {
       image: '/images/sections/philosophy-detail.jpg',
     },
     awardsHeading: 'Awards and recognition',
+    community: {
+      heading: 'In the Community',
+      partnersLabel: 'Industry partners',
+    },
   },
 
   contact: {

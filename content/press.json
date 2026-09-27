@@ -1,0 +1,22 @@
+[
+  {
+    "id": "cherry-creek-lifestyle",
+    "name": "Cherry Creek Lifestyle",
+    "mark": "/images/press/cherry-creek-lifestyle.png"
+  },
+  {
+    "id": "cherry-creek-magazine",
+    "name": "Cherry Creek Magazine",
+    "mark": "/images/press/cherry-creek-magazine.png"
+  },
+  {
+    "id": "modern-in-denver",
+    "name": "Modern In Denver",
+    "mark": "/images/press/modern-in-denver.png"
+  },
+  {
+    "id": "colorado-homes-lifestyles",
+    "name": "Colorado Homes & Lifestyles",
+    "mark": "/images/press/colorado-homes-lifestyles.png"
+  }
+]

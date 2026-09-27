@@ -35,6 +35,36 @@
   "color": "transparent",
   "blurDataURL": ""
  },
+ "/images/community/childrens-diabetes-foundation.png": {
+  "width": 231,
+  "height": 192,
+  "color": "transparent",
+  "blurDataURL": ""
+ },
+ "/images/community/ekman-design-studio.png": {
+  "width": 1492,
+  "height": 192,
+  "color": "transparent",
+  "blurDataURL": ""
+ },
+ "/images/community/exquisite-kitchen-design.svg": {
+  "width": 495,
+  "height": 131,
+  "color": "transparent",
+  "blurDataURL": ""
+ },
+ "/images/community/st-thomas-more.png": {
+  "width": 598,
+  "height": 192,
+  "color": "transparent",
+  "blurDataURL": ""
+ },
+ "/images/community/xssentials.svg": {
+  "width": 309,
+  "height": 170,
+  "color": "transparent",
+  "blurDataURL": ""
+ },
  "/images/people/dan-fuller.jpg": {
   "width": 477,
   "height": 896,
@@ -76,6 +106,30 @@
   "height": 1750,
   "color": "#a9a69a",
   "blurDataURL": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAANABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwCxaRllVnba7ZGxW9Kj1NCyujuxKHAbscrnFVIr4JbFTArMTuDZ6c1Bc3hlVp0jCEqy4zmoHY//2Q=="
+ },
+ "/images/press/cherry-creek-lifestyle.png": {
+  "width": 815,
+  "height": 192,
+  "color": "transparent",
+  "blurDataURL": ""
+ },
+ "/images/press/cherry-creek-magazine.png": {
+  "width": 1120,
+  "height": 192,
+  "color": "transparent",
+  "blurDataURL": ""
+ },
+ "/images/press/colorado-homes-lifestyles.png": {
+  "width": 420,
+  "height": 192,
+  "color": "transparent",
+  "blurDataURL": ""
+ },
+ "/images/press/modern-in-denver.png": {
+  "width": 2405,
+  "height": 192,
+  "color": "transparent",
+  "blurDataURL": ""
  },
  "/images/projects/cherry-creek-historical-remodel/01.jpg": {
   "width": 1280,

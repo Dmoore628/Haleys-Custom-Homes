@@ -1,45 +1,64 @@
-import Image from 'next/image';
+'use client';
+
+import { motion } from 'framer-motion';
 import copy from '@content/copy.config';
-import { awards, getMedia } from '@/lib/content';
-import { Marquee } from '@/components/ui/Marquee';
+import { awards, press } from '@/lib/content';
+import { EASE, REVEAL_VIEWPORT } from '@/lib/animation';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { MarkImage } from '@/components/ui/MarkImage';
 
 /**
- * The quietest section on the page: a slow left-to-right marquee of the real award and
- * credential marks in their original colors, jumbo height clamp(48px, 6vw, 96px), centered
- * vertically in the section. The mark list repeats enough times to fill a 2560px viewport
- * on first paint. Marks are not links; hover only pauses the strip.
+ * Recognition, in two evenly spaced tiers: the award and credential marks, then the
+ * publications Haley has appeared in. Every mark appears once, in its own colors, balanced for
+ * optical size. Each tier rises in as it enters view, marks staggered left to right.
  */
 export function AwardsStrip() {
-  const { awards: copyAwards } = copy.home;
+  const labels = copy.home.awards;
+  const reduced = useReducedMotion();
+  const tiers = [
+    {
+      label: labels.recognition,
+      marks: awards.filter((a) => a.mark).map((a) => ({ id: a.id, src: a.mark!, alt: a.markAlt })),
+    },
+    { label: labels.asSeenIn, marks: press.map((p) => ({ id: p.id, src: p.mark, alt: p.name })) },
+  ];
   return (
-    <section className="flex min-h-[clamp(20rem,34vw,32rem)] flex-col justify-center overflow-hidden bg-bone py-section-quiet">
-      <Marquee direction="ltr" duration={48} repeat={3} label="Awards and recognition">
-        {awards.map((a) => {
-          if (!a.mark) return null;
-          const media = getMedia(a.mark);
-          return (
-            <div
-              key={a.id}
-              className="mx-[clamp(2.5rem,5vw,5rem)] flex shrink-0 items-center"
-              style={{ height: 'clamp(48px, 6vw, 96px)' }}
-            >
-              <Image
-                src={a.mark}
-                alt={a.markAlt}
-                width={media.width}
-                height={media.height}
-                unoptimized={a.mark.endsWith('.svg')}
-                quality={90}
-                sizes="400px"
-                className="h-full w-auto"
-              />
+    <section
+      className="section-x section-y bg-bone"
+      aria-label="Awards, recognition and press"
+      data-testid="recognition"
+    >
+      <div className="mx-auto flex max-w-[76rem] flex-col gap-[clamp(3.5rem,7vw,6rem)]">
+        {tiers.map((tier) => (
+          <motion.div
+            key={tier.label}
+            initial="hidden"
+            whileInView="visible"
+            viewport={REVEAL_VIEWPORT}
+            transition={{ staggerChildren: 0.08 }}
+          >
+            <div className="flex items-center gap-6">
+              <span className="h-px flex-1 bg-ink/15" aria-hidden="true" />
+              <h2 className="label text-ink/70">{tier.label}</h2>
+              <span className="h-px flex-1 bg-ink/15" aria-hidden="true" />
             </div>
-          );
-        })}
-      </Marquee>
-      <div className="section-x mt-10 flex flex-col items-center gap-3 text-center">
-        <p className="label">{copyAwards.caption}</p>
-        <p className="label text-ink/70">{copyAwards.asSeenIn}</p>
+            <ul className="mt-[clamp(2rem,4vw,3rem)] grid grid-cols-2 items-center gap-x-grid gap-y-10 md:grid-cols-4">
+              {tier.marks.map((m) => (
+                <motion.li
+                  key={m.id}
+                  className="flex items-center justify-center px-2"
+                  variants={{
+                    hidden: { opacity: 0, y: reduced ? 0 : 16 },
+                    visible: { opacity: 1, y: 0 },
+                  }}
+                  transition={{ duration: 0.7, ease: EASE }}
+                >
+                  <MarkImage src={m.src} alt={m.alt} />
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+        ))}
       </div>
     </section>
   );

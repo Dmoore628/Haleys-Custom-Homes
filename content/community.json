@@ -1,0 +1,37 @@
+{
+  "causes": [
+    {
+      "id": "childrens-diabetes-foundation",
+      "name": "Children's Diabetes Foundation",
+      "mark": "/images/community/childrens-diabetes-foundation.png",
+      "role": "Event chairman",
+      "detail": "Dan Fuller served as one of the chairmen of the 2023 Tied to a Cure Denver golf tournament, which raises funds for the Barbara Davis Center for Diabetes.",
+      "source": "childrensdiabetesfoundation.org/tied-to-a-cure-denver-golf-tournament-2023"
+    },
+    {
+      "id": "st-thomas-more",
+      "name": "St. Thomas More Catholic School",
+      "mark": "/images/community/st-thomas-more.png",
+      "role": "Annual sponsor",
+      "detail": "An annual business sponsor of St. Thomas More Catholic School, supporting the school and its yearly Mane Event fundraiser.",
+      "source": "stmcatholic.org/stm-sponsorship-landing-page"
+    }
+  ],
+  "partners": {
+    "detail": "Fellow sponsors, alongside Haley, of the Children's Diabetes Foundation's Tied to a Cure tournament.",
+    "source": "haleycustomhomes.com/blog, November 30, 2015",
+    "marks": [
+      {
+        "id": "ekman-design-studio",
+        "name": "Ekman Design Studio",
+        "mark": "/images/community/ekman-design-studio.png"
+      },
+      {
+        "id": "exquisite-kitchen-design",
+        "name": "Exquisite Kitchen Design",
+        "mark": "/images/community/exquisite-kitchen-design.svg"
+      },
+      { "id": "xssentials", "name": "Xssentials", "mark": "/images/community/xssentials.svg" }
+    ]
+  }
+}

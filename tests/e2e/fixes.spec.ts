@@ -26,7 +26,7 @@ test('2 and 15: every section on every page covers the one before it', async ({ 
     '/portfolio': 1,
     '/portfolio/denver-modern': 2,
     '/process': 5,
-    '/about': 4,
+    '/about': 5,
     '/contact': 2,
   };
   for (const [route, count] of Object.entries(sections)) {
@@ -92,26 +92,43 @@ test('4: reviews follow the statement and map; cards keep natural heights', asyn
   await expect(page.getByText('IN THEIR WORDS')).toHaveCount(0);
 });
 
-test('5, 6, 21: awards strip, scarcity badge and As Seen In line', async ({ page }) => {
+test('5, 6, 21: recognition tiers, press marks and scarcity badge', async ({ page }) => {
   await page.goto('/');
-  const strip = page.locator('section[aria-label="Awards and recognition"]');
-  await strip.scrollIntoViewIfNeeded();
-  const box = await strip.boundingBox();
-  const vw = page.viewportSize()!.width;
-  expect(box!.width).toBeGreaterThanOrEqual(vw - 1);
-  // Full strip on first paint: the track is at least twice the viewport width.
-  const track = await strip.locator('.marquee-track').evaluate((el) => el.scrollWidth);
-  expect(track).toBeGreaterThanOrEqual(vw * 2);
-  const markHeight = await strip
+  const section = page.getByTestId('recognition');
+  await section.scrollIntoViewIfNeeded();
+  await expect(section.getByRole('heading', { name: 'Recognition' })).toBeVisible();
+  await expect(section.getByRole('heading', { name: 'As Seen In' })).toBeVisible();
+  // Every mark appears exactly once: no repeated logos.
+  const alts = await section
     .locator('img')
-    .first()
-    .evaluate((el) => el.getBoundingClientRect().height);
-  expect(markHeight).toBeGreaterThanOrEqual(47);
-  expect(markHeight).toBeLessThanOrEqual(97);
+    .evaluateAll((els) => els.map((e) => e.getAttribute('alt')));
+  expect(alts.length).toBe(8);
+  expect(new Set(alts).size).toBe(alts.length);
+  for (const name of [
+    'Cherry Creek Lifestyle',
+    'Cherry Creek Magazine',
+    'Modern In Denver',
+    'Colorado Homes & Lifestyles',
+  ]) {
+    await expect(section.getByRole('img', { name, exact: true })).toBeVisible();
+  }
   await expect(page.getByText('Now accepting a limited number of new projects.')).toBeVisible();
-  const asSeen = page.getByText('As Seen In: Modern In Denver, Colorado Homes & Lifestyles.');
-  await expect(asSeen).toBeVisible();
-  await expect(asSeen).toHaveCSS('animation-name', 'none');
+});
+
+test('About: verified community causes and industry partners', async ({ page }) => {
+  await page.goto('/about');
+  const section = page.locator('section[aria-labelledby="community-heading"]');
+  await section.scrollIntoViewIfNeeded();
+  for (const name of [
+    "Children's Diabetes Foundation",
+    'St. Thomas More Catholic School',
+    'Ekman Design Studio',
+    'Exquisite Kitchen Design',
+    'Xssentials',
+  ]) {
+    await expect(section.getByRole('img', { name, exact: true })).toBeVisible();
+  }
+  await expect(section.getByText(/Tied to a Cure Denver/)).toBeVisible();
 });
 
 test('7, 19, 20: footer contact links, social glyphs and ICAA credit', async ({ page }) => {
