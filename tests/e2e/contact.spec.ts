@@ -6,6 +6,9 @@ import { test, expect } from './fixtures';
  * FAQ section slides over it. (Playwright's own scroll-into-view overshoots a pinned section.)
  */
 async function scrollToFormEnd(page: Page) {
+  // Let the layout settle (fonts, images, the map's aspect box) before measuring.
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(300);
   await page.evaluate(() => {
     const first = document.querySelector('main > [data-pinned]') as HTMLElement | null;
     if (first) window.scrollTo(0, Math.max(0, first.offsetHeight - window.innerHeight));

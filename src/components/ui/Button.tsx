@@ -26,7 +26,12 @@ function classes({
     'group relative inline-flex items-center justify-center overflow-hidden rounded-btn px-7 py-4 font-sans text-label uppercase select-none disabled:pointer-events-none';
   const width = fullWidthMobile ? 'w-full md:w-auto' : '';
   if (variant === 'primary') {
-    const tone = 'bg-ink text-bone';
+    // On a dark surface an ink button would vanish, so it inverts to bone with ink text,
+    // turning bone-on-accent as the hover layer sweeps in.
+    const tone =
+      surface === 'dark'
+        ? 'bg-bone text-ink transition-colors duration-300 hover:text-bone focus-visible:text-bone'
+        : 'bg-ink text-bone';
     return [base, tone, width, className].filter(Boolean).join(' ');
   }
   const tone = surface === 'dark' ? 'border border-bone text-bone' : 'border border-ink text-ink';

@@ -162,16 +162,21 @@ test('7, 19, 20: footer contact links, social glyphs and ICAA credit', async ({ 
   await expect(credit.locator('img, svg')).toHaveCount(0);
 });
 
-test('8: phone hero caps at 720px and fills without letterboxing', async ({ page, isMobile }) => {
+test('8: phone hero: a sharp full-width video band, headline beneath it', async ({
+  page,
+  isMobile,
+}) => {
   test.skip(!isMobile, 'phone only');
   await page.goto('/');
-  const hero = page
-    .locator('section')
-    .filter({ has: page.locator('video') })
-    .first();
-  const h = await hero.evaluate((el) => el.getBoundingClientRect().height);
-  expect(h).toBeLessThanOrEqual(720);
-  await expect(hero.locator('video')).toHaveCSS('object-fit', 'cover');
+  const video = page.locator('section video').first();
+  await expect(video).toHaveCSS('object-fit', 'cover');
+  const vb = (await video.boundingBox())!;
+  const vw = page.viewportSize()!;
+  // Full width, and short enough that the 2.3:1 footage isn't magnified into a blur.
+  expect(vb.width).toBeGreaterThanOrEqual(vw.width - 1);
+  expect(vb.height).toBeLessThanOrEqual(vw.height * 0.6);
+  const hb = (await page.getByRole('heading', { level: 1 }).boundingBox())!;
+  expect(hb.y).toBeGreaterThanOrEqual(vb.y + vb.height * 0.6);
 });
 
 test('12 and 14: the plumb bob plays once; Process uses its drawn hero instead of the square', async ({

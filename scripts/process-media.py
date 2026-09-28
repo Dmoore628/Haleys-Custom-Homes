@@ -268,18 +268,21 @@ def main():
     import imageio_ffmpeg
     ff = imageio_ffmpeg.get_ffmpeg_exe()
     src_video = os.path.join(SRC, 'videos', 'HaleysCustomHomesHeroVideo.mp4')
-    out_video = os.path.join(PUB, 'video', 'hero.mp4')
+    # Constant 30 fps, level 4.0, 2s keyframes: the screen-recorded source is variable frame
+    # rate, which iPhone Safari handles poorly (stalls, black frames).
+    out_video = os.path.join(PUB, 'video', 'hero-30.mp4')
     os.makedirs(os.path.join(PUB, 'video'), exist_ok=True)
     hero_filter = (
         '[0:v]trim=0:4.05,setpts=PTS-STARTPTS,crop=1444:630:186:232,'
         'scale=1920:838:flags=lanczos,setsar=1[a];'
         '[0:v]trim=start=4.05,setpts=PTS-STARTPTS,crop=1892:826:12:122,'
         'scale=1920:838:flags=lanczos,setsar=1[b];'
-        '[a][b]concat=n=2:v=1:a=0,format=yuv420p[out]'
+        '[a][b]concat=n=2:v=1:a=0,fps=30,format=yuv420p[out]'
     )
     subprocess.run([ff, '-y', '-loglevel', 'error', '-i', src_video, '-filter_complex', hero_filter,
                     '-map', '[out]', '-an', '-c:v', 'libx264', '-preset', 'slow', '-crf', '23',
-                    '-profile:v', 'high', '-movflags', '+faststart', out_video], check=True)
+                    '-profile:v', 'high', '-level:v', '4.0', '-r', '30', '-g', '60',
+                    '-movflags', '+faststart', out_video], check=True)
     subprocess.run([ff, '-y', '-loglevel', 'error', '-ss', '0.1', '-i', out_video, '-frames:v', '1',
                     '-q:v', '3', os.path.join(PUB, 'video', 'hero-poster.jpg')], check=True)
 
