@@ -63,15 +63,17 @@ export function ProcessHero() {
   const draw = (at: number, dur = 1, opacity = 1) => ({
     initial: reduced ? false : { pathLength: 0, opacity: 0 },
     animate: play ? { pathLength: 1, opacity } : undefined,
-    transition: {
-      pathLength: { delay: at, duration: dur, ease: EASE },
-      opacity: { delay: at, duration: 0.25 },
-    },
+    transition: reduced
+      ? { duration: 0 }
+      : {
+          pathLength: { delay: at, duration: dur, ease: EASE },
+          opacity: { delay: at, duration: 0.25 },
+        },
   });
   const fade = (at: number, opacity = 1, dur = 0.9) => ({
     initial: reduced ? false : { opacity: 0 },
     animate: play ? { opacity } : undefined,
-    transition: { delay: at, duration: dur, ease: EASE },
+    transition: reduced ? { duration: 0 } : { delay: at, duration: dur, ease: EASE },
   });
 
   const studs = Array.from({ length: Math.floor((1070 - 150) / 20) + 1 }, (_, i) => 150 + i * 20);
@@ -99,7 +101,9 @@ export function ProcessHero() {
         </motion.div>
 
         <div ref={ref} className="col-span-12 lg:col-span-7" data-done={done}>
+          {/* Re-mounted once the reduced-motion preference is known, so it then renders finished. */}
           <svg
+            key={reduced ? 'still' : 'motion'}
             viewBox="0 0 1200 720"
             className="h-auto w-full"
             role="img"

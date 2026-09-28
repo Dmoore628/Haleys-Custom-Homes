@@ -21,16 +21,18 @@ export default function ProcessPage() {
     <CoverStack>
       <ProcessHero />
 
-      {/* The punch list, then the move-in timeline it leads to. */}
+      {/* The punch list, then the build it leads to, centered as one column. */}
       <section className="section-x bg-bone py-section">
-        <Reveal>
-          <h2 className="font-serif text-section font-normal">{hook.headline}</h2>
-        </Reveal>
-        <Reveal className="mt-10 max-w-[56rem] md:mt-14">
-          <PunchList />
-        </Reveal>
-        <div className="mt-[clamp(4rem,8vw,7rem)]">
-          <MoveInTimeline />
+        <div className="mx-auto max-w-[78rem]">
+          <Reveal>
+            <h2 className="text-center font-serif text-section font-normal">{hook.headline}</h2>
+          </Reveal>
+          <Reveal className="mx-auto mt-10 max-w-[56rem] md:mt-14">
+            <PunchList />
+          </Reveal>
+          <div className="mt-[clamp(4rem,8vw,7rem)]">
+            <MoveInTimeline align="center" />
+          </div>
         </div>
       </section>
 

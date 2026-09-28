@@ -126,21 +126,23 @@ export function ServiceMap({ headingLevel = 'h3' }: { headingLevel?: 'h2' | 'h3'
   const draw = (delay: number, duration: number, opacity = 1) => ({
     initial: reduced ? false : { pathLength: 0, opacity: 0 },
     animate: play ? { pathLength: 1, opacity } : undefined,
-    transition: {
-      pathLength: { delay, duration, ease: EASE },
-      opacity: { delay, duration: 0.2 },
-    },
+    transition: reduced
+      ? { duration: 0 }
+      : {
+          pathLength: { delay, duration, ease: EASE },
+          opacity: { delay, duration: 0.2 },
+        },
   });
   /** Opacity only, so it never overrides an element's own positioning transform. */
   const fade = (delay: number) => ({
     initial: reduced ? false : { opacity: 0 },
     animate: play ? { opacity: 1 } : undefined,
-    transition: { delay, duration: 0.7, ease: EASE },
+    transition: reduced ? { duration: 0 } : { delay, duration: 0.7, ease: EASE },
   });
   const pop = (delay: number) => ({
     initial: reduced ? false : { scale: 0, opacity: 0 },
     animate: play ? { scale: 1, opacity: 1 } : undefined,
-    transition: { delay, duration: 0.6, ease: EASE },
+    transition: reduced ? { duration: 0 } : { delay, duration: 0.6, ease: EASE },
     style: { transformBox: 'fill-box', transformOrigin: 'center' } as CSSProperties,
   });
 
@@ -166,7 +168,14 @@ export function ServiceMap({ headingLevel = 'h3' }: { headingLevel?: 'h2' | 'h3'
   });
 
   return (
-    <div ref={ref} data-testid="service-map" className="@container">
+    // Re-mounted once the reduced-motion preference is known (after hydration), so the
+    // drawing then renders finished from its first frame instead of from the start state.
+    <div
+      ref={ref}
+      key={reduced ? 'still' : 'motion'}
+      data-testid="service-map"
+      className="@container"
+    >
       <div className="flex items-baseline justify-between gap-4 border-b border-ink/15 pb-3">
         <Heading id="service-area-heading" className="label">
           {contact.serviceAreaHeading}

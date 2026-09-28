@@ -20,8 +20,8 @@ const { rows } = copy.ledger;
 const { moveIn } = copy;
 const STAGES = rows.map((row, i) => ({ name: row.name, milestones: moveIn.milestones[i] }));
 
-/** Move-in lands here on the horizontal line; the scheduled date sits at the far end. */
-const MOVED = 0.86;
+/** Move-in: the end of the line. */
+const MOVED = 1;
 const SEG = MOVED / STAGES.length;
 /** Seconds to glide between stops, and to hold at each. */
 const GLIDE = 0.62;
@@ -54,12 +54,12 @@ function along(values: number[], p: number) {
  * The payoff of the punch list: an illustrative build schedule. The six stages sit under the
  * line, each with two example milestones. When it comes into view a dot works through the
  * schedule one milestone at a time, gliding to each, pausing, and lighting it, so the
- * sequencing reads in order. It comes to rest at move-in, short of the scheduled date, and a
- * bracket closes the gap: one month early. Beneath, the family it happened to, in their own
- * words. Wide screens run it left to right; narrower screens run it top to bottom. Reduced
- * motion shows the finished schedule.
+ * sequencing reads in order, and comes to rest at move-in. Beneath, a family who moved in a
+ * month early, in their own words. Wide screens run it left to right; narrower screens run it
+ * top to bottom. Reduced motion shows the finished schedule. `align="center"` centers the
+ * label and the quote beneath the schedule.
  */
-export function MoveInTimeline() {
+export function MoveInTimeline({ align = 'start' }: { align?: 'start' | 'center' }) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.35 });
   const reduced = useReducedMotion();
@@ -96,14 +96,20 @@ export function MoveInTimeline() {
   return (
     <figure ref={ref} data-testid="move-in-timeline" data-arrived={arrived}>
       <p className="sr-only">{moveIn.label}</p>
-      <p className="label text-ink/70">{moveIn.sequenceNote}</p>
+      <p className={`label text-ink/70 ${align === 'center' ? 'text-center' : ''}`}>
+        {moveIn.sequenceNote}
+      </p>
 
       <Horizontal p={p} reached={reached} arrived={arrived} reduced={reduced} />
       <Vertical p={p} reached={reached} arrived={arrived} reduced={reduced} />
 
       {/* In their words. */}
       <motion.figcaption
-        className="mt-14 max-w-[46rem] border-l-2 border-accent pl-6"
+        className={
+          align === 'center'
+            ? 'mx-auto mt-16 max-w-[44rem] text-center'
+            : 'mt-14 max-w-[46rem] border-l-2 border-accent pl-6'
+        }
         initial={false}
         animate={{ opacity: arrived ? 1 : 0.0001, y: arrived ? 0 : 10 }}
         transition={{ duration: 0.9, delay: reduced ? 0 : 0.7, ease: EASE }}
@@ -111,9 +117,13 @@ export function MoveInTimeline() {
         <blockquote className="font-serif text-[clamp(1.25rem,2.2vw,1.75rem)] italic leading-snug text-ink">
           <Sentences text={`“${moveIn.quote}”`} />
         </blockquote>
+        {align === 'center' && (
+          <span aria-hidden="true" className="mx-auto mt-6 block h-px w-10 bg-accent" />
+        )}
         <p className="label mt-5 text-ink">
           {moveIn.attribution}
-          <span className="text-ink/70"> · {moveIn.projectType}</span>
+          <span className="hidden text-ink/70 md:inline"> · </span>
+          <span className="mt-1 block text-ink/70 md:mt-0 md:inline">{moveIn.projectType}</span>
         </p>
       </motion.figcaption>
     </figure>
@@ -135,7 +145,7 @@ function Milestone({ label, lit }: { label: string; lit: boolean }) {
         lit ? 'text-ink' : 'text-ink/35'
       }`}
     >
-      {label}
+      {keepTogether(label)}
     </span>
   );
 }
@@ -158,14 +168,10 @@ function Horizontal({ p, reached, arrived, reduced }: LayoutProps) {
 
   return (
     <div className="relative mt-10 hidden xl:block" aria-hidden="true">
-      {/* Above the line: the scheduled date, then "Moved in" when the dot arrives. */}
-      <div className="relative h-[5.5rem]">
-        <span className="label absolute right-0 top-0 whitespace-nowrap text-ink/70">
-          {moveIn.scheduled}
-        </span>
+      {/* Above the line: "Moved in", at the end, when the dot arrives. */}
+      <div className="relative h-[3.75rem]">
         <motion.span
-          className="absolute bottom-3 whitespace-nowrap font-serif text-[2rem] leading-none text-ink"
-          style={{ right: `${(1 - MOVED) * 100}%` }}
+          className="absolute bottom-4 right-0 whitespace-nowrap font-serif text-[2rem] leading-none text-ink"
           initial={false}
           animate={{ opacity: arrived ? 1 : 0, y: arrived ? 0 : 8 }}
           transition={{ duration: 0.7, ease: EASE }}
@@ -203,8 +209,12 @@ function Horizontal({ p, reached, arrived, reduced }: LayoutProps) {
             />
           ) : null,
         )}
-        {/* The scheduled date: a hollow ring at the end. */}
-        <span className="absolute right-0 top-1/2 h-3 w-3 -translate-y-1/2 translate-x-1/2 rounded-full border border-ink/50 bg-bone" />
+        {/* Move-in: the end mark, closing the last stage. */}
+        <span
+          className={`absolute right-0 top-1/2 h-4 w-px -translate-y-1/2 transition-colors duration-500 ${
+            arrived ? 'bg-accent' : 'bg-ink/30'
+          }`}
+        />
         <motion.span
           className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{ left }}
@@ -213,7 +223,7 @@ function Horizontal({ p, reached, arrived, reduced }: LayoutProps) {
         </motion.span>
       </div>
 
-      {/* Below the line: the six stages and their milestones, then the gap to the date. */}
+      {/* Below the line: the six stages and their milestones. */}
       <div className="relative mt-8 min-h-[9.5rem]">
         {STAGES.map((stage, s) => {
           const lit = reached >= firstStopOf(s);
@@ -240,30 +250,7 @@ function Horizontal({ p, reached, arrived, reduced }: LayoutProps) {
             </div>
           );
         })}
-        <Gap arrived={arrived} reduced={reduced} />
       </div>
-    </div>
-  );
-}
-
-/** The bracket from move-in to the scheduled date: one month early. */
-function Gap({ arrived, reduced }: { arrived: boolean; reduced: boolean }) {
-  return (
-    <div className="absolute right-0 top-[-1.5rem]" style={{ left: `${MOVED * 100}%` }}>
-      <motion.div
-        className="h-2 origin-left border-x border-b border-accent"
-        initial={false}
-        animate={{ scaleX: arrived ? 1 : 0, opacity: arrived ? 1 : 0 }}
-        transition={{ duration: reduced ? 0 : 0.8, ease: EASE }}
-      />
-      <motion.p
-        className="mt-4 text-right font-serif text-[1.375rem] italic leading-tight text-accent"
-        initial={false}
-        animate={{ opacity: arrived ? 1 : 0, y: arrived ? 0 : 6 }}
-        transition={{ duration: 0.7, delay: reduced ? 0 : 0.4, ease: EASE }}
-      >
-        {moveIn.early}
-      </motion.p>
     </div>
   );
 }
@@ -346,18 +333,6 @@ function Vertical({ p, reached, arrived, reduced }: LayoutProps) {
           >
             {moveIn.moved}
           </motion.p>
-        </div>
-        <div className="relative mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 pb-1">
-          <span className="absolute -left-9 top-1/2 ml-[0.5px] h-3 w-3 -translate-y-1/2 rounded-full border border-ink/50 bg-bone" />
-          <span className="label text-ink/70">{moveIn.scheduled}</span>
-          <motion.span
-            className="font-serif text-[1.125rem] italic text-accent"
-            initial={false}
-            animate={{ opacity: arrived ? 1 : 0 }}
-            transition={{ duration: 0.7, delay: reduced ? 0 : 0.4, ease: EASE }}
-          >
-            · {moveIn.early}
-          </motion.span>
         </div>
         <motion.span className="absolute left-[6.5px] top-0" style={{ y }}>
           <span className="block -translate-x-1/2 -translate-y-1/2">

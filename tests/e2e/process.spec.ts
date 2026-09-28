@@ -19,7 +19,7 @@ for (const route of ['/', '/process']) {
     await expect(list.locator('[aria-live]')).toContainText('05');
   });
 
-  test(`move-in timeline on ${route}: works through the example milestones and arrives a month early`, async ({
+  test(`move-in timeline on ${route}: works through the example milestones to move-in`, async ({
     page,
   }) => {
     test.setTimeout(60000);
@@ -33,8 +33,8 @@ for (const route of ['/', '/process']) {
     await expect(timeline).toHaveAttribute('data-arrived', 'false');
     await expect(timeline).toHaveAttribute('data-arrived', 'true', { timeout: 25000 });
     await expect(visible('Moved in')).toBeVisible();
-    await expect(visible('Scheduled move-in')).toBeVisible();
-    await expect(timeline.getByText(/One month early/).filter({ visible: true })).toBeVisible();
+    // No scheduled-date marker or one-month-early bracket: the quote carries that.
+    await expect(timeline.getByText(/One month early|Scheduled move-in/)).toHaveCount(0);
     await expect(timeline.getByText(/a month earlier than scheduled/)).toBeVisible();
     await expect(page.getByText('Yes, that is correct.')).toHaveCount(0);
   });

@@ -110,14 +110,12 @@ const copy = {
   // McDonalds' testimonial (content/testimonials.json).
   moveIn: {
     moved: 'Moved in',
-    scheduled: 'Scheduled move-in',
-    early: 'One month early',
     quote:
       'We were in the house a month earlier than scheduled. This is my third time building a custom home, and I have never been more satisfied.',
     attribution: 'Michael and Jane McDonald',
     projectType: 'New Custom Home',
     label:
-      'Timeline: a build moves through the six stages and reaches move-in one month before the scheduled move-in date.',
+      'Timeline: an illustrative build moving through the six stages, milestone by milestone, to move-in.',
     // Example milestones for each of the six stages, in build order. Illustrative, not a
     // specific project's schedule, and labelled as such on the page.
     sequenceNote: 'An illustrative build sequence',
