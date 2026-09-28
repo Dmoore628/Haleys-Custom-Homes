@@ -8,6 +8,8 @@ import { PlumbBob } from '@/components/ui/SignatureAccents';
 import { ClosingCta } from '@/components/sections/ClosingCta';
 import { Community } from '@/components/sections/Community';
 import { CoverStack } from '@/components/ui/CoverStack';
+import { Sentences } from '@/components/ui/Sentences';
+import { keepTogether } from '@/lib/text';
 
 export const metadata: Metadata = {
   title: copy.about.meta.title,
@@ -50,7 +52,7 @@ export default function AboutPage() {
           <div className="grid-12 py-[clamp(2rem,6vw,6rem)]">
             <div className="col-span-12 max-w-statement md:col-span-10 md:col-start-2">
               <Reveal as="h2" className="font-serif text-section font-normal">
-                {philosophy.statement}
+                <Sentences text={philosophy.statement} />
               </Reveal>
               <Reveal as="p" className="text-block mt-8 text-body" delay={0.1}>
                 {philosophy.supporting}
@@ -97,7 +99,7 @@ export default function AboutPage() {
                     {a.name}
                     {a.year ? ` (${a.year})` : ''}
                   </h3>
-                  <p className="mt-3 max-w-text text-body">{a.description}</p>
+                  <p className="mt-3 max-w-text text-body">{keepTogether(a.description)}</p>
                 </div>
               </Reveal>
             );

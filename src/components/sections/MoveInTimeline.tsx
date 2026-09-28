@@ -13,6 +13,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import copy from '@content/copy.config';
 import { EASE } from '@/lib/animation';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { keepTogether } from '@/lib/text';
+import { Sentences } from '@/components/ui/Sentences';
 
 const { rows } = copy.ledger;
 const { moveIn } = copy;
@@ -107,7 +109,7 @@ export function MoveInTimeline() {
         transition={{ duration: 0.9, delay: reduced ? 0 : 0.7, ease: EASE }}
       >
         <blockquote className="font-serif text-[clamp(1.25rem,2.2vw,1.75rem)] italic leading-snug text-ink">
-          &ldquo;{moveIn.quote}&rdquo;
+          <Sentences text={`“${moveIn.quote}”`} />
         </blockquote>
         <p className="label mt-5 text-ink">
           {moveIn.attribution}
@@ -228,7 +230,7 @@ function Horizontal({ p, reached, arrived, reduced }: LayoutProps) {
                 <span className="font-serif text-[1rem] tabular-nums">
                   {String(s + 1).padStart(2, '0')}
                 </span>
-                <span className="label leading-snug">{stage.name}</span>
+                <span className="label leading-snug">{keepTogether(stage.name)}</span>
               </p>
               <div className="mt-3 space-y-2.5">
                 {stage.milestones.map((m, k) => (
@@ -316,7 +318,7 @@ function Vertical({ p, reached, arrived, reduced }: LayoutProps) {
                 <span className="font-serif text-[1rem] tabular-nums">
                   {String(s + 1).padStart(2, '0')}
                 </span>
-                <span className="label">{stage.name}</span>
+                <span className="label">{keepTogether(stage.name)}</span>
               </p>
               <div className="mt-3 space-y-2.5">
                 {stage.milestones.map((m, k) => (

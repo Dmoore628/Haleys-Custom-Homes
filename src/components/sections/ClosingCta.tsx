@@ -4,6 +4,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { AmbientVideo } from '@/components/ui/AmbientVideo';
+import { Sentences } from '@/components/ui/Sentences';
 
 /**
  * Identical on Home, Process and About. A twilight flyover of a completed Haley home
@@ -24,8 +25,8 @@ export function ClosingCta() {
       <div className="absolute inset-0 bg-black/30" aria-hidden="true" />
       <Reveal className="section-x section-y relative flex flex-col items-center text-center">
         <Badge>{closingCta.scarcity}</Badge>
-        <h2 className="mt-8 max-w-[18em] font-serif text-section font-normal">
-          {closingCta.headline}
+        <h2 className="mt-8 max-w-[20em] font-serif text-section font-normal">
+          <Sentences text={closingCta.headline} />
         </h2>
         <div className="mt-10">
           <ButtonLink href={closingCta.button.href} variant="primary" surface="dark" magnetic>

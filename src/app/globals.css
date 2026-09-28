@@ -23,6 +23,23 @@
     min-height: 100vh;
   }
 
+  /* Line breaking: headings, quotes and short display lines wrap balanced (no one-word last
+     line, no lopsided stacks); running text avoids a lone last word. */
+  h1,
+  h2,
+  h3,
+  h4,
+  .label {
+    text-wrap: balance;
+  }
+  p,
+  li,
+  dd,
+  figcaption,
+  blockquote {
+    text-wrap: pretty;
+  }
+
   /* Tighten the serif slightly at display sizes and keep kerning and ligatures on for every
      serif setting. */
   .font-serif {

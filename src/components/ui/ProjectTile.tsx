@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRef, type PointerEvent } from 'react';
 import type { Project } from '@/lib/schema';
 import { SmartImage } from './SmartImage';
+import { keepTogether } from '@/lib/text';
 
 const MAX_TILT = 4; // degrees on each axis
 
@@ -69,7 +70,7 @@ export function ProjectTile({ project, frameClassName, sizes, priority }: Projec
           />
           <div aria-hidden="true" className="tile-overlay absolute inset-0 bg-black" />
           <div className="tile-caption absolute bottom-0 left-0 p-5 text-bone md:p-6">
-            <p className="font-serif text-statement font-normal">{project.name}</p>
+            <p className="font-serif text-statement font-normal">{keepTogether(project.name)}</p>
             <p className="label mt-2">{project.location}</p>
           </div>
         </div>

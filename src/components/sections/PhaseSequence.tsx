@@ -6,6 +6,7 @@ import copy from '@content/copy.config';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
+import { keepTogether } from '@/lib/text';
 
 /**
  * The one place the blueprint-line motif appears: a 1px architectural dimension line
@@ -131,8 +132,10 @@ export function PhaseSequence() {
                   delay={0.1}
                 >
                   <p className="label text-ink/70">{String(i + 1).padStart(2, '0')}</p>
-                  <h3 className="mt-3 font-serif text-statement font-normal">{phase.title}</h3>
-                  <p className="mt-5 max-w-text text-body">{phase.body}</p>
+                  <h3 className="mt-3 font-serif text-statement font-normal">
+                    {keepTogether(phase.title)}
+                  </h3>
+                  <p className="mt-5 max-w-text text-body">{keepTogether(phase.body)}</p>
                 </Reveal>
               </article>
             </li>

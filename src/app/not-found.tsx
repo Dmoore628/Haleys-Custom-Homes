@@ -4,6 +4,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { PageFrame } from '@/components/layout/PageFrame';
 import { CoverStack } from '@/components/ui/CoverStack';
+import { Sentences } from '@/components/ui/Sentences';
 
 export const metadata: Metadata = {
   title: 'Page Not Found',
@@ -19,7 +20,7 @@ export default function NotFound() {
         <section className="section-x flex min-h-[80vh] flex-col items-center justify-center bg-bone pb-section pt-[calc(6.5rem+4rem)] text-center">
           <Eyebrow>{notFound.eyebrow}</Eyebrow>
           <h1 className="mt-6 max-w-[16em] font-serif text-section font-normal">
-            {notFound.headline}
+            <Sentences text={notFound.headline} />
           </h1>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <ButtonLink href={notFound.primary.href} variant="primary">

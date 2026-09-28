@@ -7,6 +7,7 @@ import { testimonials } from '@/lib/content';
 import { EASE } from '@/lib/animation';
 import { contourRing } from '@/lib/topo';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { keepTogether } from '@/lib/text';
 import { Marquee } from '@/components/ui/Marquee';
 
 const { reviews } = copy.home;
@@ -138,7 +139,7 @@ export function HouzzReviews() {
                 ))}
               </div>
               <blockquote className="mt-6 font-serif text-card italic">
-                &ldquo;{t.quote}&rdquo;
+                &ldquo;{keepTogether(`${t.quote}”`)}
               </blockquote>
               <figcaption className="label mt-8">
                 {t.name}

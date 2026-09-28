@@ -6,6 +6,7 @@ import copy from '@content/copy.config';
 import { DURATION, EASE } from '@/lib/animation';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { ButtonLink } from '@/components/ui/Button';
+import { Sentences } from '@/components/ui/Sentences';
 
 /**
  * Full-viewport video hero. No scroll reveal: the content fades in together (400ms)
@@ -58,7 +59,9 @@ export function Hero() {
           transition={{ duration: DURATION.heroFade, ease: EASE }}
         >
           <p className="label">{hero.eyebrow}</p>
-          <h1 className="mt-5 max-w-[15em] font-serif text-hero font-normal">{hero.headline}</h1>
+          <h1 className="mt-5 max-w-[16em] font-serif text-hero font-normal">
+            <Sentences text={hero.headline} />
+          </h1>
           <div className="mt-10 flex flex-wrap gap-4">
             <ButtonLink href={hero.primary.href} variant="primary" surface="dark">
               {hero.primary.label}

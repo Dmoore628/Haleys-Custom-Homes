@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import copy from '@content/copy.config';
 import { EASE } from '@/lib/animation';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { keepTogether } from '@/lib/text';
 
 const { rows } = copy.ledger;
 const { punchList } = copy;
@@ -129,14 +130,16 @@ export function PunchList() {
               </span>
 
               <div className="min-w-0">
-                <p className="text-[1.0625rem] font-medium leading-snug">{row.name}</p>
+                <p className="text-[1.0625rem] font-medium leading-snug">
+                  {keepTogether(row.name)}
+                </p>
                 <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-bone/60">
                   {/* The strike draws along the text, line by line, when the item closes. */}
                   <span
                     className="bg-[linear-gradient(currentColor,currentColor)] bg-[position:0_58%] bg-no-repeat transition-[background-size] duration-700 ease-brand"
                     style={{ backgroundSize: done ? '100% 1px' : '0% 1px' }}
                   >
-                    {row.annotation}
+                    {keepTogether(row.annotation)}
                   </span>
                 </p>
                 {isLast && (

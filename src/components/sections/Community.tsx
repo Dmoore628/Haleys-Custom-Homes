@@ -2,6 +2,7 @@ import copy from '@content/copy.config';
 import { community } from '@/lib/content';
 import { Reveal } from '@/components/ui/Reveal';
 import { MarkImage } from '@/components/ui/MarkImage';
+import { keepTogether } from '@/lib/text';
 
 /**
  * About: the causes Haley and Dan Fuller support, each with its own mark and the specific
@@ -33,8 +34,8 @@ export function Community() {
               <span aria-hidden="true" className="h-1.5 w-1.5 rotate-45 bg-accent" />
               {c.role}
             </p>
-            <h3 className="mt-3 font-serif text-statement font-normal">{c.name}</h3>
-            <p className="mt-4 max-w-text text-body text-ink/80">{c.detail}</p>
+            <h3 className="mt-3 font-serif text-statement font-normal">{keepTogether(c.name)}</h3>
+            <p className="mt-4 max-w-text text-body text-ink/80">{keepTogether(c.detail)}</p>
           </Reveal>
         ))}
       </ul>
