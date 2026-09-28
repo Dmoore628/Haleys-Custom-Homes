@@ -1,13 +1,12 @@
 'use client';
 
-import { AnimatePresence, motion, useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useEffect, useId, useRef, useState } from 'react';
 import copy from '@content/copy.config';
 import { EASE } from '@/lib/animation';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 const { intro } = copy.process;
-const { rows } = copy.ledger;
 
 const BONE = '#EFE9DE';
 const CHAMPAGNE = '#C6BAAC';
@@ -38,7 +37,7 @@ const CORNERS = [150, 380, 760, 1070];
  * grid and dimension lines. Pre-construction: ground line, survey stakes, footings. Framing:
  * studs rise across the silhouette. Trade sequencing: the envelope, roofs, chimney and openings
  * close in as the framing recedes. Finish work: siding and mullions. Move-in: the windows light
- * up. A ticker names each stage as it draws. It plays once, then rests lit, the glow breathing
+ * up. It plays once, then rests lit, the glow breathing
  * slowly. Reduced motion shows the finished, lit drawing.
  */
 export function ProcessHero() {
@@ -46,21 +45,18 @@ export function ProcessHero() {
   const inView = useInView(ref, { once: true, amount: 0.3 });
   const reduced = useReducedMotion();
   const play = reduced || inView;
-  const [stage, setStage] = useState(reduced ? rows.length - 1 : -1);
   const [done, setDone] = useState(reduced);
   const uid = useId().replace(/:/g, '');
   const id = (n: string) => `${uid}-${n}`;
 
   useEffect(() => {
     if (reduced) {
-      setStage(rows.length - 1);
       setDone(true);
       return;
     }
     if (!inView) return;
-    const timers = T.map((t, i) => setTimeout(() => setStage(i), t * 1000));
-    timers.push(setTimeout(() => setDone(true), DONE * 1000));
-    return () => timers.forEach(clearTimeout);
+    const timer = setTimeout(() => setDone(true), DONE * 1000);
+    return () => clearTimeout(timer);
   }, [inView, reduced]);
 
   /** A stroke that draws itself at `at` seconds, over `dur`, to `opacity`. */
@@ -341,46 +337,6 @@ export function ProcessHero() {
               />
             ))}
           </svg>
-
-          {/* The stage ticker: which stage is drawing. */}
-          <div className="mt-6 flex flex-col-reverse items-start gap-3 md:flex-row md:items-center md:gap-5">
-            <div className="flex w-full flex-1 gap-1.5" aria-hidden="true">
-              {rows.map((r, i) => (
-                <span key={r.name} className="h-px flex-1 bg-bone/20">
-                  <motion.span
-                    className="block h-px origin-left bg-[#C6BAAC]"
-                    initial={false}
-                    animate={{ scaleX: i <= stage ? 1 : 0 }}
-                    transition={{ duration: reduced ? 0 : 1.2, ease: EASE }}
-                  />
-                </span>
-              ))}
-            </div>
-            <p
-              className="label flex items-baseline gap-3 text-bone/80 md:min-w-[15rem] md:justify-end"
-              aria-hidden="true"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span
-                  key={stage}
-                  className="flex items-baseline gap-3"
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -5 }}
-                  transition={{ duration: 0.3, ease: EASE }}
-                >
-                  {stage >= 0 && (
-                    <>
-                      <span className="font-serif text-[1.125rem] normal-case tabular-nums tracking-normal text-bone">
-                        {String(stage + 1).padStart(2, '0')}
-                      </span>
-                      <span>{rows[stage].name}</span>
-                    </>
-                  )}
-                </motion.span>
-              </AnimatePresence>
-            </p>
-          </div>
         </div>
       </div>
     </section>

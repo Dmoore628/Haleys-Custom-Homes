@@ -59,7 +59,8 @@ test('process hero: the elevation draws through all six stages, then rests lit',
   await expect(hero.getByRole('img', { name: /architectural elevation/ })).toBeVisible();
   const drawing = hero.locator('[data-done]');
   await expect(drawing).toHaveAttribute('data-done', 'true', { timeout: 20000 });
-  await expect(hero.getByText('Move-In', { exact: true })).toBeVisible();
+  // Just the house: no stage ticker beneath it.
+  await expect(hero.getByText('Move-In', { exact: true })).toHaveCount(0);
   await expect(page.getByTestId('accent-framing-square')).toHaveCount(0);
 });
 
