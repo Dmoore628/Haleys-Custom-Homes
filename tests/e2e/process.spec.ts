@@ -19,16 +19,22 @@ for (const route of ['/', '/process']) {
     await expect(list.locator('[aria-live]')).toContainText('05');
   });
 
-  test(`move-in timeline on ${route}: arrives a month early, with the family's words`, async ({
+  test(`move-in timeline on ${route}: works through the example milestones and arrives a month early`, async ({
     page,
   }) => {
+    test.setTimeout(60000);
     await page.goto(route);
     const timeline = page.getByTestId('move-in-timeline');
     await timeline.scrollIntoViewIfNeeded();
-    await expect(timeline).toHaveAttribute('data-arrived', 'true', { timeout: 10000 });
-    await expect(timeline.getByText('Moved in', { exact: true })).toBeVisible();
-    await expect(timeline.getByText('One month early')).toBeVisible();
-    await expect(timeline.getByText('Scheduled move-in', { exact: true })).toBeVisible();
+    const visible = (text: string) =>
+      timeline.getByText(text, { exact: true }).filter({ visible: true });
+    await expect(visible('An illustrative build sequence')).toBeVisible();
+    await expect(visible('Permit applied for')).toBeVisible();
+    await expect(timeline).toHaveAttribute('data-arrived', 'false');
+    await expect(timeline).toHaveAttribute('data-arrived', 'true', { timeout: 25000 });
+    await expect(visible('Moved in')).toBeVisible();
+    await expect(visible('Scheduled move-in')).toBeVisible();
+    await expect(timeline.getByText(/One month early/).filter({ visible: true })).toBeVisible();
     await expect(timeline.getByText(/a month earlier than scheduled/)).toBeVisible();
     await expect(page.getByText('Yes, that is correct.')).toHaveCount(0);
   });

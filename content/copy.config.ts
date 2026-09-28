@@ -118,6 +118,17 @@ const copy = {
     projectType: 'New Custom Home',
     label:
       'Timeline: a build moves through the six stages and reaches move-in one month before the scheduled move-in date.',
+    // Example milestones for each of the six stages, in build order. Illustrative, not a
+    // specific project's schedule, and labelled as such on the page.
+    sequenceNote: 'An illustrative build sequence',
+    milestones: [
+      ['Plans and finishes locked', 'Permit applied for'],
+      ['Trades scheduled in sequence', 'Permit issued'],
+      ['Foundation poured', 'Frame inspected'],
+      ['Each trade follows the last', 'Rough-ins inspected'],
+      ['Finishes installed to spec', 'Checked against the spec'],
+      ['Final walk-through', 'Keys handed over'],
+    ],
   },
 
   closingCta: {
