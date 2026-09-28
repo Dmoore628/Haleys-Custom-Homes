@@ -16,48 +16,44 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { keepTogether } from '@/lib/text';
 import { Sentences } from '@/components/ui/Sentences';
 
-const { rows } = copy.ledger;
 const { moveIn } = copy;
-const STAGES = rows.map((row, i) => ({ name: row.name, milestones: moveIn.milestones[i] }));
-
-/** Move-in: the end of the line. */
-const MOVED = 1;
-const SEG = MOVED / STAGES.length;
-/** Seconds to glide between stops, and to hold at each. */
-const GLIDE = 0.62;
-const HOLD = 0.42;
+const MONTHS = moveIn.months;
+const SCHEDULE = moveIn.schedule;
 
 /**
- * Stops along the line, in order: 0 is the start, then every milestone, then move-in.
- * `at` is the horizontal position (0 to 1) on the wide layout.
+ * Stops along the line, in order: the start (month 0), every milestone, then move-in at the
+ * last month. The dot glides stop to stop, taking longer where more time passes.
  */
-const STOPS: { at: number; stage: number; label: string | null }[] = [
-  { at: 0, stage: 0, label: null },
-];
-STAGES.forEach((stage, s) => {
-  stage.milestones.forEach((label, k) => {
-    STOPS.push({ at: s * SEG + ((k + 1) / (stage.milestones.length + 1)) * SEG, stage: s, label });
-  });
-});
-STOPS.push({ at: MOVED, stage: STAGES.length - 1, label: null });
-const LAST = STOPS.length - 1;
-const firstStopOf = (s: number) => STOPS.findIndex((st) => st.stage === s && st.label);
+const STOP_MONTHS = [0, ...SCHEDULE.map((m) => m.month), MONTHS];
+const LAST = STOP_MONTHS.length - 1;
+/** Stop index of milestone i. */
+const stopOf = (i: number) => i + 1;
+/** Seconds of travel per month, the minimum glide, and the pause at each milestone. */
+const PER_MONTH = 0.17;
+const MIN_GLIDE = 0.35;
+const HOLD = 0.45;
 
-/** Piecewise-linear lookup of stop index (fractional) into a list of coordinates. */
+/** Piecewise-linear lookup of stop index (fractional) into a list of values. */
 function along(values: number[], p: number) {
   const i = Math.max(0, Math.min(values.length - 2, Math.floor(p)));
   const t = Math.max(0, Math.min(1, p - i));
   return values[i] + (values[i + 1] - values[i]) * t;
 }
 
+const pad = (n: number) => String(n).padStart(2, '0');
+/** The calendar month (1 to MONTHS) a point on the ruler falls in. */
+const monthOf = (m: number) => Math.min(MONTHS, Math.floor(m) + 1);
+
 /**
- * The payoff of the punch list: an illustrative build schedule. The six stages sit under the
- * line, each with two example milestones. When it comes into view a dot works through the
- * schedule one milestone at a time, gliding to each, pausing, and lighting it, so the
- * sequencing reads in order, and comes to rest at move-in. Beneath, a family who moved in a
- * month early, in their own words. Wide screens run it left to right; narrower screens run it
- * top to bottom. Reduced motion shows the finished schedule. `align="center"` centers the
- * label and the quote beneath the schedule.
+ * The payoff of the punch list: where the punch list shows the system's stages, this shows the
+ * calendar. An illustrative build schedule on a month ruler, from the permit application to
+ * move-in, with the on-site milestones a client actually waits for. When it comes into view a
+ * dot works along the schedule, pausing at each milestone and lighting it, while the month
+ * counter runs, and comes to rest at move-in. Beneath, a family who moved in a month early, in
+ * their own words. Wide screens run it left to right with milestones alternating above and
+ * below the line; tablets run it down a rail; phones down a centered line with milestones
+ * alternating either side. Spacing on every layout is proportional to time. Reduced motion
+ * shows the finished schedule.
  */
 export function MoveInTimeline({ align = 'start' }: { align?: 'start' | 'center' }) {
   const ref = useRef<HTMLElement>(null);
@@ -65,14 +61,19 @@ export function MoveInTimeline({ align = 'start' }: { align?: 'start' | 'center'
   const reduced = useReducedMotion();
   const p = useMotionValue(reduced ? LAST : 0);
   const [reached, setReached] = useState(reduced ? LAST : 0);
+  const [month, setMonth] = useState(reduced ? MONTHS : 1);
   const arrived = reached >= LAST;
 
-  useMotionValueEvent(p, 'change', (v) => setReached(Math.floor(v + 0.001)));
+  useMotionValueEvent(p, 'change', (v) => {
+    setReached(Math.floor(v + 0.001));
+    setMonth(monthOf(along(STOP_MONTHS, v) + 0.001));
+  });
 
   useEffect(() => {
     if (reduced) {
       p.set(LAST);
       setReached(LAST);
+      setMonth(MONTHS);
       return;
     }
     if (!inView) return;
@@ -82,7 +83,11 @@ export function MoveInTimeline({ align = 'start' }: { align?: 'start' | 'center'
     (async () => {
       await wait(0.4);
       for (let k = 1; k <= LAST && !cancelled; k++) {
-        current = animate(p, k, { duration: GLIDE, ease: [0.45, 0, 0.25, 1] });
+        const span = STOP_MONTHS[k] - STOP_MONTHS[k - 1];
+        current = animate(p, k, {
+          duration: Math.max(MIN_GLIDE, span * PER_MONTH),
+          ease: [0.45, 0, 0.25, 1],
+        });
         await current;
         if (k < LAST) await wait(HOLD);
       }
@@ -93,19 +98,44 @@ export function MoveInTimeline({ align = 'start' }: { align?: 'start' | 'center'
     };
   }, [inView, reduced, p]);
 
+  const layout = { p, reached, arrived, reduced };
+
   return (
     <figure ref={ref} data-testid="move-in-timeline" data-arrived={arrived}>
-      <p className="sr-only">{moveIn.label}</p>
-      <p className={`label text-ink/70 ${align === 'center' ? 'text-center' : ''}`}>
-        {moveIn.sequenceNote}
-      </p>
+      <figcaption className="sr-only">
+        {moveIn.label}
+        <ol>
+          {SCHEDULE.map((m) => (
+            <li key={m.label}>
+              {moveIn.month} {monthOf(m.month)}: {m.label}
+            </li>
+          ))}
+          <li>
+            {moveIn.month} {MONTHS}: {moveIn.moved}
+          </li>
+        </ol>
+      </figcaption>
 
-      <Horizontal p={p} reached={reached} arrived={arrived} reduced={reduced} />
-      <Vertical p={p} reached={reached} arrived={arrived} reduced={reduced} />
-      <Centered p={p} reached={reached} arrived={arrived} reduced={reduced} />
+      {/* The heading row: what this is, and the month the dot has reached. */}
+      <div
+        className={`flex items-baseline gap-6 ${align === 'center' ? 'justify-center md:justify-between' : 'justify-between'}`}
+        aria-hidden="true"
+      >
+        <p className="label text-ink/70">{moveIn.sequenceNote}</p>
+        <p className="label hidden items-baseline gap-2 text-ink/70 md:flex">
+          {moveIn.month}
+          <span className="inline-block min-w-[2ch] font-serif text-[1.125rem] normal-case tabular-nums tracking-normal text-accent">
+            {pad(month)}
+          </span>
+        </p>
+      </div>
+
+      <Horizontal {...layout} />
+      <Vertical {...layout} />
+      <Centered {...layout} />
 
       {/* In their words. */}
-      <motion.figcaption
+      <motion.div
         className={
           align === 'center'
             ? 'mx-auto mt-16 max-w-[44rem] text-center'
@@ -126,7 +156,7 @@ export function MoveInTimeline({ align = 'start' }: { align?: 'start' | 'center'
           <span className="hidden text-ink/70 md:inline"> · </span>
           <span className="mt-1 block text-ink/70 md:mt-0 md:inline">{moveIn.projectType}</span>
         </p>
-      </motion.figcaption>
+      </motion.div>
     </figure>
   );
 }
@@ -138,19 +168,7 @@ interface LayoutProps {
   reduced: boolean;
 }
 
-/** A milestone line of text: faint until the dot reaches it, then full ink. */
-function Milestone({ label, lit }: { label: string; lit: boolean }) {
-  return (
-    <span
-      className={`block text-[0.875rem] leading-snug transition-colors duration-700 ease-brand ${
-        lit ? 'text-ink' : 'text-ink/35'
-      }`}
-    >
-      {keepTogether(label)}
-    </span>
-  );
-}
-
+/** The travelling dot; once it arrives it breathes, unless motion is reduced. */
 function Dot({ arrived, reduced }: { arrived: boolean; reduced: boolean }) {
   return (
     <span className="relative block h-3.5 w-3.5 rounded-full bg-accent shadow-[0_0_0_6px_rgba(122,98,80,0.16)]">
@@ -161,93 +179,121 @@ function Dot({ arrived, reduced }: { arrived: boolean; reduced: boolean }) {
   );
 }
 
-/** Wide screens: the line left to right, stages as columns beneath it. */
+/** A milestone's mark on the line: a small ring that fills when the dot reaches it. */
+function Mark({ on, stop, className = '' }: { on: boolean; stop?: number; className?: string }) {
+  return (
+    <span
+      data-stop={stop}
+      className={`block h-[7px] w-[7px] rounded-full border transition-colors duration-500 ${
+        on ? 'border-accent bg-accent' : 'border-ink/35 bg-bone'
+      } ${className}`}
+    />
+  );
+}
+
+/** A milestone's text: faint until the dot reaches it, then full ink. */
+function Label({ text, on }: { text: string; on: boolean }) {
+  return (
+    <span
+      className={`block text-[0.875rem] leading-snug transition-colors duration-700 ease-brand ${
+        on ? 'text-ink' : 'text-ink/35'
+      }`}
+    >
+      {keepTogether(text)}
+    </span>
+  );
+}
+
+/**
+ * Wide screens: a month ruler left to right, a tick a month. Milestones alternate above and below the line on
+ * hairline leaders, like dimensions on a drawing; "Moved in" closes the line at the right.
+ */
 function Horizontal({ p, reached, arrived, reduced }: LayoutProps) {
-  const xs = STOPS.map((s) => s.at);
+  const xs = STOP_MONTHS.map((m) => m / MONTHS);
   const x = useTransform(p, (v) => along(xs, v));
   const left = useTransform(x, (v) => `${v * 100}%`);
+  const at = (m: number) => `${(m / MONTHS) * 100}%`;
 
   return (
-    <div className="relative mt-10 hidden xl:block" aria-hidden="true">
-      {/* Above the line: "Moved in", at the end, when the dot arrives. */}
-      <div className="relative h-[3.75rem]">
-        <motion.span
-          className="absolute bottom-4 right-0 whitespace-nowrap font-serif text-[2rem] leading-none text-ink"
-          initial={false}
-          animate={{ opacity: arrived ? 1 : 0, y: arrived ? 0 : 8 }}
-          transition={{ duration: 0.7, ease: EASE }}
-        >
-          {moveIn.moved}
-        </motion.span>
-      </div>
-
-      {/* The line. */}
-      <div className="relative h-px">
-        <div className="absolute inset-0 bg-ink/15" />
-        <motion.div
-          className="absolute left-0 top-[-0.5px] h-[2px] w-full origin-left bg-accent"
-          style={{ scaleX: x }}
-        />
-        {/* Stage boundaries: short upright marks. */}
-        {STAGES.map((_, s) => (
-          <span
-            key={`b${s}`}
-            className={`absolute top-1/2 h-4 w-px -translate-y-1/2 transition-colors duration-500 ${
-              reached >= firstStopOf(s) ? 'bg-accent' : 'bg-ink/30'
-            }`}
-            style={{ left: `${s * SEG * 100}%` }}
-          />
-        ))}
-        {/* Milestones: small rings that fill when reached. */}
-        {STOPS.map((st, i) =>
-          st.label ? (
-            <span
-              key={i}
-              className={`absolute top-1/2 h-[7px] w-[7px] -translate-x-1/2 -translate-y-1/2 rounded-full border transition-colors duration-500 ${
-                reached >= i ? 'border-accent bg-accent' : 'border-ink/35 bg-bone'
-              }`}
-              style={{ left: `${st.at * 100}%` }}
-            />
-          ) : null,
-        )}
-        {/* Move-in: the end mark, closing the last stage. */}
-        <span
-          className={`absolute right-0 top-1/2 h-4 w-px -translate-y-1/2 transition-colors duration-500 ${
-            arrived ? 'bg-accent' : 'bg-ink/30'
-          }`}
-        />
-        <motion.span
-          className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{ left }}
-        >
-          <Dot arrived={arrived} reduced={reduced} />
-        </motion.span>
-      </div>
-
-      {/* Below the line: the six stages and their milestones. */}
-      <div className="relative mt-8 min-h-[9.5rem]">
-        {STAGES.map((stage, s) => {
-          const lit = reached >= firstStopOf(s);
-          const firstIdx = firstStopOf(s);
+    <div className="mt-8 hidden pr-[10rem] xl:block" aria-hidden="true">
+      <div className="relative h-[17.5rem]">
+        {/* Above the line: milestones 1, 3, 5... */}
+        {SCHEDULE.map((m, i) => {
+          if (i % 2 === 1) return null;
+          const on = reached >= stopOf(i);
           return (
             <div
-              key={stage.name}
-              className="absolute top-0 pr-5"
-              style={{ left: `${s * SEG * 100}%`, width: `${SEG * 100}%` }}
+              key={m.label}
+              className="absolute bottom-[calc(50%+0.75rem)] flex w-[6.5rem] flex-col"
+              style={{ left: at(m.month) }}
             >
-              <p
-                className={`flex min-h-[2.9em] items-baseline gap-2 transition-colors duration-500 ${lit ? 'text-ink' : 'text-ink/45'}`}
-              >
-                <span className="font-serif text-[1rem] tabular-nums">
-                  {String(s + 1).padStart(2, '0')}
-                </span>
-                <span className="label leading-snug">{keepTogether(stage.name)}</span>
-              </p>
-              <div className="mt-3 space-y-2.5">
-                {stage.milestones.map((m, k) => (
-                  <Milestone key={m} label={m} lit={reached >= firstIdx + k} />
-                ))}
-              </div>
+              <MonthTag month={monthOf(m.month)} on={on} />
+              <Label text={m.label} on={on} />
+              <span
+                className={`mt-2 block h-9 w-px transition-colors duration-500 ${on ? 'bg-accent/60' : 'bg-ink/15'}`}
+              />
+            </div>
+          );
+        })}
+
+        {/* The line, its ruler, and its travelled length. */}
+        <div className="absolute inset-x-0 top-1/2 h-px">
+          <div className="absolute inset-0 bg-ink/15" />
+          <motion.div
+            className="absolute left-0 top-[-0.5px] h-[2px] w-full origin-left bg-accent"
+            style={{ scaleX: x }}
+          />
+          {Array.from({ length: MONTHS + 1 }, (_, m) => (
+            <span
+              key={`t${m}`}
+              className={`absolute top-0 w-px transition-colors duration-500 ${
+                m === 0 || m === MONTHS ? 'h-[7px]' : 'h-1'
+              } ${m <= STOP_MONTHS[reached] ? 'bg-accent/70' : 'bg-ink/25'}`}
+              style={{ left: at(m) }}
+            />
+          ))}
+
+          {SCHEDULE.map((m, i) => (
+            <span
+              key={`m${m.label}`}
+              className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
+              style={{ left: at(m.month) }}
+            >
+              <Mark on={reached >= stopOf(i)} />
+            </span>
+          ))}
+          <motion.span
+            className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{ left }}
+          >
+            <Dot arrived={arrived} reduced={reduced} />
+          </motion.span>
+          {/* Move-in: the end of the line. */}
+          <motion.span
+            className="absolute left-full top-1/2 ml-7 -translate-y-1/2 whitespace-nowrap font-serif text-[1.875rem] leading-none text-ink"
+            initial={false}
+            animate={{ opacity: arrived ? 1 : 0.2 }}
+            transition={{ duration: 0.7, ease: EASE }}
+          >
+            {moveIn.moved}
+          </motion.span>
+        </div>
+
+        {/* Below the line: milestones 2, 4, 6... on longer leaders that clear the ruler. */}
+        {SCHEDULE.map((m, i) => {
+          if (i % 2 === 0) return null;
+          const on = reached >= stopOf(i);
+          return (
+            <div
+              key={m.label}
+              className="absolute top-[calc(50%+0.75rem)] flex w-[6.5rem] flex-col"
+              style={{ left: at(m.month) }}
+            >
+              <span
+                className={`mb-2 block h-9 w-px transition-colors duration-500 ${on ? 'bg-accent/60' : 'bg-ink/15'}`}
+              />
+              <MonthTag month={monthOf(m.month)} on={on} />
+              <Label text={m.label} on={on} />
             </div>
           );
         })}
@@ -256,13 +302,16 @@ function Horizontal({ p, reached, arrived, reduced }: LayoutProps) {
   );
 }
 
+/** Space between milestones in a vertical layout, proportional to the months between them. */
+const gapFor = (i: number) => `${Math.max(1, (SCHEDULE[i].month - STOP_MONTHS[i]) * 1.1)}rem`;
+
 /**
  * The vertical position of each stop (elements marked data-stop) within a list, kept current as
  * the layout changes, for the dot to travel between.
  */
 function useStopPositions() {
   const listRef = useRef<HTMLDivElement>(null);
-  const [ys, setYs] = useState<number[]>(STOPS.map((_, i) => i * 40));
+  const [ys, setYs] = useState<number[]>(STOP_MONTHS.map((_, i) => i * 40));
   const [height, setHeight] = useState(0);
 
   useLayoutEffect(() => {
@@ -270,11 +319,11 @@ function useStopPositions() {
     if (!list) return;
     const measure = () => {
       const top = list.getBoundingClientRect().top;
-      const next = STOPS.map((_, i) => {
+      const next = STOP_MONTHS.map((_, i) => {
         const el = list.querySelector<HTMLElement>(`[data-stop="${i}"]`);
         if (!el) return 0;
         const r = el.getBoundingClientRect();
-        return r.top - top + Math.min(r.height / 2, 11);
+        return r.top - top + r.height / 2;
       });
       setYs(next);
       setHeight(list.offsetHeight);
@@ -288,7 +337,18 @@ function useStopPositions() {
   return { listRef, ys, height };
 }
 
-/** Tablets: the same schedule top to bottom, the dot travelling down a rail on the left. */
+/** A milestone's month, set small above its text. */
+function MonthTag({ month, on }: { month: number; on: boolean }) {
+  return (
+    <span
+      className={`label mb-1 block transition-colors duration-500 ${on ? 'text-accent' : 'text-ink/40'}`}
+    >
+      {moveIn.month} {month}
+    </span>
+  );
+}
+
+/** Tablets: the schedule top to bottom, the dot travelling down a rail on the left. */
 function Vertical({ p, reached, arrived, reduced }: LayoutProps) {
   const { listRef, ys, height } = useStopPositions();
   const y = useTransform(p, (v) => along(ys, v));
@@ -297,45 +357,25 @@ function Vertical({ p, reached, arrived, reduced }: LayoutProps) {
   return (
     <div className="relative mt-8 hidden md:block xl:hidden" aria-hidden="true">
       <div ref={listRef} className="relative pl-9">
-        {/* The rail, and its travelled length. */}
         <div className="absolute bottom-0 left-[6px] top-0 w-px bg-ink/15" />
         <motion.div
           className="absolute left-[5.5px] top-0 h-full w-[2px] origin-top bg-accent"
           style={{ scaleY: fill }}
         />
         <span data-stop={0} className="block h-0" />
-        {STAGES.map((stage, s) => {
-          const lit = reached >= firstStopOf(s);
-          const firstIdx = firstStopOf(s);
+        {SCHEDULE.map((m, i) => {
+          const on = reached >= stopOf(i);
           return (
-            <div key={stage.name} className="pb-7">
-              <p
-                className={`flex items-baseline gap-2 transition-colors duration-500 ${lit ? 'text-ink' : 'text-ink/45'}`}
-              >
-                <span className="font-serif text-[1rem] tabular-nums">
-                  {String(s + 1).padStart(2, '0')}
-                </span>
-                <span className="label">{keepTogether(stage.name)}</span>
-              </p>
-              <div className="mt-3 space-y-2.5">
-                {stage.milestones.map((m, k) => (
-                  <div key={m} data-stop={firstIdx + k} className="relative">
-                    <span
-                      className={`absolute -left-9 top-[0.45em] ml-[3px] h-[7px] w-[7px] rounded-full border transition-colors duration-500 ${
-                        reached >= firstIdx + k
-                          ? 'border-accent bg-accent'
-                          : 'border-ink/35 bg-bone'
-                      }`}
-                    />
-                    <Milestone label={m} lit={reached >= firstIdx + k} />
-                  </div>
-                ))}
-              </div>
+            <div key={m.label} className="relative" style={{ marginTop: gapFor(i) }}>
+              <Mark on={on} stop={stopOf(i)} className="absolute -left-9 top-[0.3em] ml-[3px]" />
+              <MonthTag month={monthOf(m.month)} on={on} />
+              <Label text={m.label} on={on} />
             </div>
           );
         })}
-        <div data-stop={LAST} className="relative">
+        <div className="relative pt-8">
           <motion.p
+            data-stop={LAST}
             className="font-serif text-[1.75rem] leading-none text-ink"
             initial={false}
             animate={{ opacity: arrived ? 1 : 0.25 }}
@@ -355,9 +395,9 @@ function Vertical({ p, reached, arrived, reduced }: LayoutProps) {
 }
 
 /**
- * Phones: the line runs down the center and the stages alternate either side of it, each
- * milestone beside its mark on the line. The line ends at move-in, and "Moved in" sits centered
- * beneath it once the dot arrives.
+ * Phones: the line runs down the center and the milestones alternate either side of it, each
+ * beside its mark on the line. The line ends at move-in, and "Moved in" sits centered beneath
+ * it once the dot arrives.
  */
 function Centered({ p, reached, arrived, reduced }: LayoutProps) {
   const { listRef, ys, height } = useStopPositions();
@@ -366,58 +406,33 @@ function Centered({ p, reached, arrived, reduced }: LayoutProps) {
 
   return (
     <div className="relative mt-8 md:hidden" aria-hidden="true">
-      <div ref={listRef} className="relative">
-        {/* The line, and its travelled length. */}
+      <div ref={listRef} className="relative pb-2">
         <div className="absolute bottom-0 left-1/2 top-0 w-px -translate-x-1/2 bg-ink/15" />
         <motion.div
           className="absolute left-1/2 top-0 h-full w-[2px] origin-top -translate-x-1/2 bg-accent"
           style={{ scaleY: fill }}
         />
         <span data-stop={0} className="block h-0" />
-        {STAGES.map((stage, s) => {
-          const lit = reached >= firstStopOf(s);
-          const firstIdx = firstStopOf(s);
-          const left = s % 2 === 0;
-          const side = left ? 'col-start-1 text-right' : 'col-start-3 text-left';
+        {SCHEDULE.map((m, i) => {
+          const on = reached >= stopOf(i);
+          const side = i % 2 === 0 ? 'col-start-1 text-right' : 'col-start-3 text-left';
           return (
-            <div key={stage.name} className="grid grid-cols-[1fr_1.75rem_1fr] pb-8">
-              <p
-                className={`${side} row-start-1 transition-colors duration-500 ${lit ? 'text-ink' : 'text-ink/45'}`}
-              >
-                <span className="block font-serif text-[1rem] tabular-nums">
-                  {String(s + 1).padStart(2, '0')}
-                </span>
-                <span className="label mt-1 block leading-snug">{keepTogether(stage.name)}</span>
-              </p>
-              {stage.milestones.map((m, k) => {
-                const on = reached >= firstIdx + k;
-                return (
-                  <div key={m} className="contents">
-                    <span
-                      className="col-start-2 mt-3 flex justify-center pt-[0.45em]"
-                      style={{ gridRow: k + 2 }}
-                    >
-                      <span
-                        className={`block h-[7px] w-[7px] rounded-full border transition-colors duration-500 ${
-                          on ? 'border-accent bg-accent' : 'border-ink/35 bg-bone'
-                        }`}
-                      />
-                    </span>
-                    <span
-                      data-stop={firstIdx + k}
-                      className={`${side} mt-3`}
-                      style={{ gridRow: k + 2 }}
-                    >
-                      <Milestone label={m} lit={on} />
-                    </span>
-                  </div>
-                );
-              })}
+            <div
+              key={m.label}
+              className="grid grid-cols-[1fr_1.75rem_1fr]"
+              style={{ marginTop: gapFor(i) }}
+            >
+              <span className="col-start-2 row-start-1 flex justify-center pt-[1.35rem]">
+                <Mark on={on} stop={stopOf(i)} />
+              </span>
+              <span className={`${side} row-start-1`}>
+                <MonthTag month={monthOf(m.month)} on={on} />
+                <Label text={m.label} on={on} />
+              </span>
             </div>
           );
         })}
-        {/* The end of the line: move-in. */}
-        <span data-stop={LAST} className="block h-0" />
+        <span data-stop={LAST} className="mt-6 block h-0" />
         <motion.span className="absolute left-1/2 top-0" style={{ y }}>
           <span className="block -translate-x-1/2 -translate-y-1/2">
             <Dot arrived={arrived} reduced={reduced} />
@@ -425,7 +440,7 @@ function Centered({ p, reached, arrived, reduced }: LayoutProps) {
         </motion.span>
       </div>
       <motion.p
-        className="mt-8 text-center font-serif text-[1.75rem] leading-none text-ink"
+        className="mt-6 text-center font-serif text-[1.75rem] leading-none text-ink"
         initial={false}
         animate={{ opacity: arrived ? 1 : 0.25, y: arrived ? 0 : 6 }}
         transition={{ duration: 0.7, ease: EASE }}

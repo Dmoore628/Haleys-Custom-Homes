@@ -19,7 +19,7 @@ for (const route of ['/', '/process']) {
     await expect(list.locator('[aria-live]')).toContainText('05');
   });
 
-  test(`move-in timeline on ${route}: works through the example milestones to move-in`, async ({
+  test(`move-in timeline on ${route}: works through the build schedule to move-in`, async ({
     page,
   }) => {
     test.setTimeout(60000);
@@ -28,8 +28,17 @@ for (const route of ['/', '/process']) {
     await timeline.scrollIntoViewIfNeeded();
     const visible = (text: string) =>
       timeline.getByText(text, { exact: true }).filter({ visible: true });
-    await expect(visible('An illustrative build sequence')).toBeVisible();
+    await expect(visible('An illustrative build schedule')).toBeVisible();
     await expect(visible('Permit applied for')).toBeVisible();
+    // The calendar, not the punch list again: none of the six stage names repeat here.
+    for (const stage of [
+      'Design and Spec Lock',
+      'Pre-Construction Sequencing',
+      'Trade Sequencing',
+      'Finish Work',
+    ]) {
+      await expect(timeline.getByText(stage)).toHaveCount(0);
+    }
     await expect(timeline).toHaveAttribute('data-arrived', 'false');
     await expect(timeline).toHaveAttribute('data-arrived', 'true', { timeout: 25000 });
     await expect(visible('Moved in')).toBeVisible();

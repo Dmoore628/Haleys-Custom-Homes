@@ -115,17 +115,24 @@ const copy = {
     attribution: 'Michael and Jane McDonald',
     projectType: 'New Custom Home',
     label:
-      'Timeline: an illustrative build moving through the six stages, milestone by milestone, to move-in.',
-    // Example milestones for each of the six stages, in build order. Illustrative, not a
-    // specific project's schedule, and labelled as such on the page.
-    sequenceNote: 'An illustrative build sequence',
-    milestones: [
-      ['Plans and finishes locked', 'Permit applied for'],
-      ['Trades scheduled in sequence', 'Permit issued'],
-      ['Foundation poured', 'Frame inspected'],
-      ['Each trade follows the last', 'Rough-ins inspected'],
-      ['Finishes installed to spec', 'Checked against the spec'],
-      ['Final walk-through', 'Keys handed over'],
+      'Timeline: an illustrative build schedule, month by month, from permit application to move-in.',
+    // The schedule beneath the punch list: what happens on site and when, not the six stages
+    // again. `month` places each on the ruler (0 to `months`), shown as the calendar month it
+    // falls in. Illustrative, not a specific project's schedule, and labelled as such on the page.
+    sequenceNote: 'An illustrative build schedule',
+    month: 'Month',
+    months: 14,
+    schedule: [
+      { month: 0.5, label: 'Permit applied for' },
+      { month: 2.4, label: 'Permit issued' },
+      { month: 2.8, label: 'Ground broken' },
+      { month: 3.9, label: 'Foundation poured' },
+      { month: 5.5, label: 'Framing inspected' },
+      { month: 6.6, label: 'Roof on, windows in' },
+      { month: 8.3, label: 'Rough-ins inspected' },
+      { month: 10.4, label: 'Cabinetry and stone set' },
+      { month: 12.5, label: 'Final inspection' },
+      { month: 13.6, label: 'Keys handed over' },
     ],
   },
 
