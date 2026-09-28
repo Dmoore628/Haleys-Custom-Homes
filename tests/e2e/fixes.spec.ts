@@ -174,7 +174,10 @@ test('8: phone hero caps at 720px and fills without letterboxing', async ({ page
   await expect(hero.locator('video')).toHaveCSS('object-fit', 'cover');
 });
 
-test('12 and 14: framing square and plumb bob accents play once', async ({ page, isMobile }) => {
+test('12 and 14: the plumb bob plays once; Process uses its drawn hero instead of the square', async ({
+  page,
+  isMobile,
+}) => {
   test.skip(isMobile, 'desktop accents');
   await page.goto('/about');
   const bob = page.getByTestId('accent-plumb-bob');
@@ -182,7 +185,8 @@ test('12 and 14: framing square and plumb bob accents play once', async ({ page,
   await expect(bob).toHaveAttribute('data-played', 'true');
   expect(await page.locator('[data-testid^="accent-"]').count()).toBe(1);
   await page.goto('/process');
-  expect(await page.locator('[data-testid^="accent-"]').count()).toBe(1);
+  expect(await page.locator('[data-testid^="accent-"]').count()).toBe(0);
+  await expect(page.getByTestId('process-hero')).toBeVisible();
 });
 
 test('13: founder portrait sits right, 5 of 12 columns, 48px lower', async ({ page, isMobile }) => {

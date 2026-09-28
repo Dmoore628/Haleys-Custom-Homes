@@ -49,15 +49,18 @@ test('reduced motion: the punch list and timeline render finished', async ({ pag
   await expect(page.getByTestId('move-in-timeline')).toHaveAttribute('data-arrived', 'true');
 });
 
-test('framing square accent animates once, on first view', async ({ page, isMobile }) => {
-  test.skip(isMobile, 'desktop-only accent');
+test('process hero: the elevation draws through all six stages, then rests lit', async ({
+  page,
+}) => {
+  test.setTimeout(45000);
   await page.goto('/process');
-  const square = page.getByTestId('accent-framing-square');
-  await expect(square).toBeVisible();
-  await expect(square).toHaveAttribute('data-played', 'true');
-  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  await page.evaluate(() => window.scrollTo(0, 0));
-  await expect(square).toHaveAttribute('data-played', 'true');
+  const hero = page.getByTestId('process-hero');
+  await expect(hero.getByRole('heading', { level: 1 })).toHaveText('A Build That Moves in Order');
+  await expect(hero.getByRole('img', { name: /architectural elevation/ })).toBeVisible();
+  const drawing = hero.locator('[data-done]');
+  await expect(drawing).toHaveAttribute('data-done', 'true', { timeout: 20000 });
+  await expect(hero.getByText('Move-In', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('accent-framing-square')).toHaveCount(0);
 });
 
 test('progress rail markers fill as the phases scroll past', async ({ page }) => {

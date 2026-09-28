@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import copy from '@content/copy.config';
-import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
-import { FramingSquare } from '@/components/ui/SignatureAccents';
+import { ProcessHero } from '@/components/sections/ProcessHero';
 import { MoveInTimeline } from '@/components/sections/MoveInTimeline';
 import { PunchList } from '@/components/sections/PunchList';
 import { PhaseSequence } from '@/components/sections/PhaseSequence';
@@ -17,23 +16,10 @@ export const metadata: Metadata = {
 };
 
 export default function ProcessPage() {
-  const { intro, hook, concierge } = copy.process;
+  const { hook, concierge } = copy.process;
   return (
     <CoverStack>
-      {/* Intro: same restrained treatment as Home's positioning statement. */}
-      <section className="section-x bg-bone pb-section pt-[calc(6.5rem+clamp(4rem,9vw,9rem))]">
-        <div className="grid-12 items-center">
-          <Reveal className="col-span-12 max-w-statement md:col-span-8 md:col-start-2">
-            <Eyebrow>{intro.eyebrow}</Eyebrow>
-            <h1 className="mt-4 font-serif text-section font-normal">{intro.headline}</h1>
-            <p className="text-block mt-8 text-body">{intro.supporting}</p>
-          </Reveal>
-          {/* Signature Motion Accent: the framing square, opposite the intro text on desktop. */}
-          <div className="hidden justify-center md:col-span-3 md:col-start-10 md:flex">
-            <FramingSquare />
-          </div>
-        </div>
-      </section>
+      <ProcessHero />
 
       {/* The punch list, then the move-in timeline it leads to. */}
       <section className="section-x bg-bone py-section">
