@@ -102,6 +102,7 @@ export function MoveInTimeline({ align = 'start' }: { align?: 'start' | 'center'
 
       <Horizontal p={p} reached={reached} arrived={arrived} reduced={reduced} />
       <Vertical p={p} reached={reached} arrived={arrived} reduced={reduced} />
+      <Centered p={p} reached={reached} arrived={arrived} reduced={reduced} />
 
       {/* In their words. */}
       <motion.figcaption
@@ -255,8 +256,11 @@ function Horizontal({ p, reached, arrived, reduced }: LayoutProps) {
   );
 }
 
-/** Narrower screens: the same schedule top to bottom, the dot travelling down a rail. */
-function Vertical({ p, reached, arrived, reduced }: LayoutProps) {
+/**
+ * The vertical position of each stop (elements marked data-stop) within a list, kept current as
+ * the layout changes, for the dot to travel between.
+ */
+function useStopPositions() {
   const listRef = useRef<HTMLDivElement>(null);
   const [ys, setYs] = useState<number[]>(STOPS.map((_, i) => i * 40));
   const [height, setHeight] = useState(0);
@@ -281,11 +285,17 @@ function Vertical({ p, reached, arrived, reduced }: LayoutProps) {
     return () => ro.disconnect();
   }, []);
 
+  return { listRef, ys, height };
+}
+
+/** Tablets: the same schedule top to bottom, the dot travelling down a rail on the left. */
+function Vertical({ p, reached, arrived, reduced }: LayoutProps) {
+  const { listRef, ys, height } = useStopPositions();
   const y = useTransform(p, (v) => along(ys, v));
   const fill = useTransform(y, (v) => (height ? v / height : 0));
 
   return (
-    <div className="relative mt-8 xl:hidden" aria-hidden="true">
+    <div className="relative mt-8 hidden md:block xl:hidden" aria-hidden="true">
       <div ref={listRef} className="relative pl-9">
         {/* The rail, and its travelled length. */}
         <div className="absolute bottom-0 left-[6px] top-0 w-px bg-ink/15" />
@@ -340,6 +350,88 @@ function Vertical({ p, reached, arrived, reduced }: LayoutProps) {
           </span>
         </motion.span>
       </div>
+    </div>
+  );
+}
+
+/**
+ * Phones: the line runs down the center and the stages alternate either side of it, each
+ * milestone beside its mark on the line. The line ends at move-in, and "Moved in" sits centered
+ * beneath it once the dot arrives.
+ */
+function Centered({ p, reached, arrived, reduced }: LayoutProps) {
+  const { listRef, ys, height } = useStopPositions();
+  const y = useTransform(p, (v) => along(ys, v));
+  const fill = useTransform(y, (v) => (height ? v / height : 0));
+
+  return (
+    <div className="relative mt-8 md:hidden" aria-hidden="true">
+      <div ref={listRef} className="relative">
+        {/* The line, and its travelled length. */}
+        <div className="absolute bottom-0 left-1/2 top-0 w-px -translate-x-1/2 bg-ink/15" />
+        <motion.div
+          className="absolute left-1/2 top-0 h-full w-[2px] origin-top -translate-x-1/2 bg-accent"
+          style={{ scaleY: fill }}
+        />
+        <span data-stop={0} className="block h-0" />
+        {STAGES.map((stage, s) => {
+          const lit = reached >= firstStopOf(s);
+          const firstIdx = firstStopOf(s);
+          const left = s % 2 === 0;
+          const side = left ? 'col-start-1 text-right' : 'col-start-3 text-left';
+          return (
+            <div key={stage.name} className="grid grid-cols-[1fr_1.75rem_1fr] pb-8">
+              <p
+                className={`${side} row-start-1 transition-colors duration-500 ${lit ? 'text-ink' : 'text-ink/45'}`}
+              >
+                <span className="block font-serif text-[1rem] tabular-nums">
+                  {String(s + 1).padStart(2, '0')}
+                </span>
+                <span className="label mt-1 block leading-snug">{keepTogether(stage.name)}</span>
+              </p>
+              {stage.milestones.map((m, k) => {
+                const on = reached >= firstIdx + k;
+                return (
+                  <div key={m} className="contents">
+                    <span
+                      className="col-start-2 mt-3 flex justify-center pt-[0.45em]"
+                      style={{ gridRow: k + 2 }}
+                    >
+                      <span
+                        className={`block h-[7px] w-[7px] rounded-full border transition-colors duration-500 ${
+                          on ? 'border-accent bg-accent' : 'border-ink/35 bg-bone'
+                        }`}
+                      />
+                    </span>
+                    <span
+                      data-stop={firstIdx + k}
+                      className={`${side} mt-3`}
+                      style={{ gridRow: k + 2 }}
+                    >
+                      <Milestone label={m} lit={on} />
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+        {/* The end of the line: move-in. */}
+        <span data-stop={LAST} className="block h-0" />
+        <motion.span className="absolute left-1/2 top-0" style={{ y }}>
+          <span className="block -translate-x-1/2 -translate-y-1/2">
+            <Dot arrived={arrived} reduced={reduced} />
+          </span>
+        </motion.span>
+      </div>
+      <motion.p
+        className="mt-8 text-center font-serif text-[1.75rem] leading-none text-ink"
+        initial={false}
+        animate={{ opacity: arrived ? 1 : 0.25, y: arrived ? 0 : 6 }}
+        transition={{ duration: 0.7, ease: EASE }}
+      >
+        {moveIn.moved}
+      </motion.p>
     </div>
   );
 }
