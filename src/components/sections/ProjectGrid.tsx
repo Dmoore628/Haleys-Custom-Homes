@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import type { Project } from '@/lib/schema';
+import type { Project } from '@/lib/projects/types';
 import { DURATION, REVEAL_VIEWPORT, revealVariants, transition } from '@/lib/animation';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { ProjectTile } from '@/components/ui/ProjectTile';

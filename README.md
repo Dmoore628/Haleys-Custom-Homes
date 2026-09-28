@@ -1,8 +1,9 @@
 # Haley Custom Homes
 
 Marketing site for Haley Custom Homes, a Denver luxury custom home builder. Next.js 14 (App Router),
-Tailwind, Framer Motion, Lenis. Every page is statically generated; the one server route is
-`/api/contact`, which sends inquiries by SMTP.
+Tailwind, Framer Motion, Lenis. Pages are statically generated; `/api/contact` sends inquiries by
+SMTP, and a private admin at `/admin` manages the portfolio (Postgres + Vercel Blob or any S3-compatible
+storage). **Admin setup, backups and moving hosts: [`docs/ADMIN.md`](docs/ADMIN.md).**
 
 The design, copy and interaction decisions live in [`docs/`](docs/). Build from those, not from memory.
 
@@ -25,23 +26,25 @@ docker compose up dev
 Everything client-specific lives in `content/`. Re-skinning the template for another builder means
 replacing these files and the media, with no component changes:
 
-| File                        | Holds                                                          |
-| --------------------------- | -------------------------------------------------------------- |
-| `content/site.config.ts`    | Business name, contact info, service areas, SEO defaults       |
-| `content/copy.config.ts`    | Every headline, label and paragraph, keyed by page and section |
-| `content/projects.json`     | Portfolio projects                                             |
-| `content/testimonials.json` | Client quotes                                                  |
-| `content/awards.json`       | Awards and marks                                               |
-| `content/faq.json`          | Contact page questions                                         |
+| File                        | Holds                                                                    |
+| --------------------------- | ------------------------------------------------------------------------ |
+| `content/site.config.ts`    | Business name, contact info, service areas, SEO defaults                 |
+| `content/copy.config.ts`    | Every headline, label and paragraph, keyed by page and section           |
+| `content/projects.json`     | Portfolio seed (the admin manages projects once a database is connected) |
+| `content/testimonials.json` | Client quotes                                                            |
+| `content/awards.json`       | Awards and marks                                                         |
+| `content/faq.json`          | Contact page questions                                                   |
 
 All of it is validated with Zod (`src/lib/schema.ts`) at build time. A bad edit fails the build with the
 exact file and field.
 
 ### Sources and open items
 
-- Projects are the six on Haley's Houzz profile, matched to the asset folders by comparing each Houzz
-  cover photo (see `scripts/process-media.py`). Location and completion year come from Houzz. Square
-  footage and build duration are not published, so they are omitted (the schema allows them once known).
+- Projects: ten published (eight new builds, two remodels) plus three drafts (Laney, Millisor, Quincy,
+  whose details are still "TBD" on Haley's own site). Names, descriptions and credits come from Haley's
+  project pages (haleycustomhomes.com/project/...); locations and years for the first six from Houzz. Each
+  project's `source` field records exactly where its facts came from. Square footage and build duration
+  are not published anywhere, so they are omitted until known.
 - Haley's own average build duration is not published; the FAQ answer is framed around the national
   12-month average without inventing a Haley figure.
 - The service-area map (Home and Contact) is drawn in-house as SVG from `src/lib/coloradoGeo.ts` and the

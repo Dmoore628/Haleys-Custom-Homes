@@ -4,7 +4,7 @@ import { test, expect } from './fixtures';
 const ROUTES = [
   '/',
   '/portfolio',
-  '/portfolio/cherry-creek-historical-remodel',
+  '/portfolio/curated-house',
   '/process',
   '/about',
   '/contact',

@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import { useRef, type PointerEvent } from 'react';
-import type { Project } from '@/lib/schema';
+import type { Project } from '@/lib/projects/types';
 import { SmartImage } from './SmartImage';
 import { keepTogether } from '@/lib/text';
 
 const MAX_TILT = 4; // degrees on each axis
 
 interface ProjectTileProps {
-  project: Pick<Project, 'slug' | 'name' | 'location' | 'coverImage'>;
+  project: Pick<Project, 'slug' | 'name' | 'location' | 'cover'>;
   /** Tailwind aspect-ratio / height classes for the tile module. */
   frameClassName: string;
   sizes: string;
@@ -61,7 +61,8 @@ export function ProjectTile({ project, frameClassName, sizes, priority }: Projec
       >
         <div className={`relative overflow-hidden rounded-tile ${frameClassName}`}>
           <SmartImage
-            src={project.coverImage}
+            src={project.cover.src}
+            meta={project.cover}
             alt={project.name}
             fill
             sizes={sizes}
@@ -71,7 +72,7 @@ export function ProjectTile({ project, frameClassName, sizes, priority }: Projec
           <div aria-hidden="true" className="tile-overlay absolute inset-0 bg-black" />
           <div className="tile-caption absolute bottom-0 left-0 p-5 text-bone md:p-6">
             <p className="font-serif text-statement font-normal">{keepTogether(project.name)}</p>
-            <p className="label mt-2">{project.location}</p>
+            {project.location && <p className="label mt-2">{project.location}</p>}
           </div>
         </div>
       </div>

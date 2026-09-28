@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next';
 import siteConfig from '@content/site.config';
-import { projects } from '@/lib/content';
+import { getPublishedProjects } from '@/lib/projects/repo';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const projects = await getPublishedProjects();
   const pages = ['', '/portfolio', '/process', '/about', '/contact'];
   return [
     ...pages.map((p) => ({ url: `${siteConfig.url}${p}` })),

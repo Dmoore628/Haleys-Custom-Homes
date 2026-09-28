@@ -1,12 +1,13 @@
 import copy from '@content/copy.config';
-import { featuredProjects } from '@/lib/content';
+import { getFeaturedProjects } from '@/lib/projects/repo';
 import { ButtonLink } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
 import { ProjectGrid } from './ProjectGrid';
 
-export function FeaturedPortfolio() {
+export async function FeaturedPortfolio() {
   const { featured } = copy.home;
+  const featuredProjects = await getFeaturedProjects();
   return (
     <section className="section-x section-y bg-bone">
       <Reveal>

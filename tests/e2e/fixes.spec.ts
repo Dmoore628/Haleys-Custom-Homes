@@ -2,7 +2,7 @@ import { test, expect } from './fixtures';
 
 /** One check per acceptance line in docs/haley-custom-homes-fixes-spec.md that a browser can verify. */
 
-const ROUTES = ['/', '/portfolio', '/portfolio/denver-modern', '/process', '/about', '/contact'];
+const ROUTES = ['/', '/portfolio', '/portfolio/modern-elevated', '/process', '/about', '/contact'];
 
 test('1: Newsreader and Switzer only; no Fraunces or Inter loads anywhere', async ({ page }) => {
   const fontRequests: string[] = [];
@@ -24,7 +24,7 @@ test('2 and 15: every section on every page covers the one before it', async ({ 
   const sections: Record<string, number> = {
     '/': 6,
     '/portfolio': 1,
-    '/portfolio/denver-modern': 2,
+    '/portfolio/modern-elevated': 2,
     '/process': 5,
     '/about': 5,
     '/contact': 2,
@@ -261,7 +261,8 @@ test('26: accent text selection and a designed og:image on every page', async ({
   for (const route of ROUTES) {
     await page.goto(route);
     const og = await page.locator('meta[property="og:image"]').first().getAttribute('content');
-    expect(og, route).toMatch(/\/og\/[a-z-]+\.jpg$/);
+    // Pages use a designed share card; project pages use their own cover photo.
+    expect(og, route).toMatch(/\/og\/[a-z-]+\.jpg$|\/images\/projects\/[a-z0-9-]+\/cover\.jpg$/);
   }
   const selection = await page.evaluate(() => {
     const sheet = [...document.styleSheets].flatMap((s) => {

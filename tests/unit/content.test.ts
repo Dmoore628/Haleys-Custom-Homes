@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import projectsJson from '../../content/projects.json';
-import { awards, faq, missingMedia, projects, testimonials, validate } from '@/lib/content';
+import { awards, faq, getMedia, missingMedia, testimonials, validate } from '@/lib/content';
+import { seedProjects } from '@/lib/seed';
 import { inquirySchema, projectsSchema } from '@/lib/schema';
+
+const projects = seedProjects;
+const published = seedProjects.filter((p) => p.published);
 
 describe('content files', () => {
   it('all validate against their schemas', () => {
@@ -11,33 +15,52 @@ describe('content files', () => {
     expect(faq).toHaveLength(10);
   });
 
-  it('shows only the six real Houzz projects, with no placeholders anywhere', () => {
-    expect(projects.map((p) => p.name).sort()).toEqual(
+  it('publishes every verified project, new builds and remodels, with no placeholders', () => {
+    expect(published.map((p) => p.name).sort()).toEqual(
       [
-        'Cherry Creek Historical Remodel',
-        'Cherry Hills Traditional',
-        'Cherry Hills Transitional',
-        'Denver Modern',
-        'Modern',
-        'Modern Farm House in Cherry Hills',
+        'Curated House',
+        'Endlessly Charming',
+        'Heaven at Sunset',
+        'House of Tranquility',
+        'Modern Elevated',
+        'Naturally Modern',
+        'Simplicity Perfected',
+        'Striking Modern Sanctuary',
+        'Timeless Estate',
+        'Tradition Reimagined',
       ].sort(),
     );
-    expect(projects.filter((p) => p.category === 'remodel').map((p) => p.name)).toEqual([
-      'Cherry Creek Historical Remodel',
-    ]);
+    expect(
+      published
+        .filter((p) => p.category === 'remodel')
+        .map((p) => p.name)
+        .sort(),
+    ).toEqual(['Curated House', 'Endlessly Charming']);
     const values = [
-      ...projects.flatMap((p) => [p.name, p.location, p.description, p.completionYear ?? '']),
+      ...published.flatMap((p) => [
+        p.name,
+        p.location ?? '',
+        p.description,
+        p.completionYear ?? '',
+        p.tagline ?? '',
+      ]),
       ...faq.flatMap((f) => [f.question, f.answer]),
     ];
     for (const v of values) expect(v).not.toMatch(/PLACEHOLDER|\[|\]|TBD/);
+    // Every published project has a cover and at least one gallery photo.
+    for (const p of published) expect(p.images.length).toBeGreaterThan(0);
   });
 
   it('every referenced image exists in the generated media manifest', () => {
     expect(missingMedia()).toEqual([]);
+    for (const p of projects) {
+      for (const img of [p.cover, ...p.images])
+        expect(getMedia(img.src).blurDataURL, img.src).not.toBe('');
+    }
   });
 
   it('featured projects fill exactly one five-tile module', () => {
-    expect(projects.filter((p) => p.featured)).toHaveLength(5);
+    expect(published.filter((p) => p.featured)).toHaveLength(5);
   });
 
   it('fails with the exact file and field when a required field is missing', () => {

@@ -27,22 +27,31 @@ MANIFEST = os.path.join(ROOT, 'src', 'lib', 'media.generated.json')
 BONE = (0xEF, 0xE9, 0xDE)
 INK = (0x1A, 0x18, 0x15)
 
-# The six real projects, matched to Haley's Houzz profile by comparing each Houzz project's
-# cover photo with the asset folders (the folders are named after clients, not projects):
-#   Cherry Creek Historical Remodel  -> mcdonald   (Houzz cover: the tub under the tree painting)
-#   Modern Farm House in Cherry Hills -> lowe      (pool, metal roofs)
-#   Denver Modern                     -> beckman   (limestone, steel fascia, exterior stair)
-#   Cherry Hills Transitional         -> walker    (great room with steel windows)
-#   Cherry Hills Traditional          -> fisher    (brick twin gables)
-#   Modern                            -> polzin    (dark modern front)
-# Output folders use the project slugs. Hero images are the sharpest full-resolution frames.
+# Every project, keyed by the slug it is published under. Names, descriptions and credits come
+# from Haley's own project pages (haleycustomhomes.com/project/...); locations and years for the
+# first six from Haley's Houzz profile, matched by comparing each Houzz cover photo with the
+# asset folders (the folders are named after clients, not projects). Values: (folder, cover
+# file, optional list of files to leave out).
 PROJECTS = {
-    'cherry-creek-historical-remodel': ('mcdonald', 'Nancy-Holst-McDonald-08-25-23-Front-Living-Horizantal-Web.jpg'),
-    'modern-farm-house-in-cherry-hills': ('lowe', 'Lowe+Exterior+back.jpg'),
-    'denver-modern': ('beckman', 'Beckman+Exterior+Side+2.jpg'),
-    'cherry-hills-transitional': ('walker', 'Walker+Great+Room.jpeg'),
-    'cherry-hills-traditional': ('fisher', 'Fischer+Front+417A7330_v2.jpg'),
-    'modern': ('polzin', 'Polzin+Front+Exterior+3.0.jpg'),
+    'curated-house': ('mcdonald', 'Nancy-Holst-McDonald-08-25-23-Front-Living-Horizantal-Web.jpg', []),
+    'naturally-modern': ('lowe', 'Lowe+Exterior+back.jpg', []),
+    'modern-elevated': ('beckman', 'Beckman+Exterior+Side+2.jpg', []),
+    'tradition-reimagined': ('walker', 'Walker+Great+Room.jpeg', []),
+    'timeless-estate': ('fisher', 'Fischer+Front+417A7330_v2.jpg', []),
+    'simplicity-perfected': ('polzin', 'Polzin+Front+Exterior+3.0.jpg', []),
+    # The retouched '-Edit' drone frame replaces its unretouched twin.
+    'striking-modern-sanctuary': ('timian', 'Cover+Option+Copy.jpeg',
+                                  ['5+CHP-DJI_20230921172329_0723_D.jpg']),
+    'house-of-tranquility': ('19-chp', '19+Backyard.jpg', []),
+    'heaven-at-sunset': ('landeskog', 'ExteriorRear.jpg', []),
+    'endlessly-charming': ('boland', 'Boland+EMR_7046.jpg', []),
+    # Drafts: listed on Haley's site with details still "TBD"; imported unpublished so they can
+    # be completed and published from the admin.
+    'laney': ('laney', '01+-+Laney+Pool+Side.jpg', []),
+    'millisor': ('millisor', '01+-+Millisor+Exterior.jpg', []),
+    # The quincy folder also holds three Polzin photos; only the Quincy exterior belongs here.
+    'quincy': ('quincy', '01+-+Quincy+Exterior2.jpg', ['01+-+Polzin+Front+Exterior+3.0.jpg',
+               '02+-+Polzin+Back+yard+through+3.0.jpg', '03+-+Polzin+Backyard+Side+3.0.jpg']),
 }
 GALLERY_MAX = 24
 GALLERY_MIN_WIDTH = 1200  # skip older low-res duplicates when a project has better files
@@ -210,10 +219,11 @@ def main():
     if os.path.isdir(os.path.join(PUB, 'images')):
         shutil.rmtree(os.path.join(PUB, 'images'))
 
-    for slug, (folder_name, cover) in PROJECTS.items():
+    for slug, (folder_name, cover, skip) in PROJECTS.items():
         folder = os.path.join(SRC, 'projects', folder_name)
         emit(f'projects/{folder_name}/{cover}', f'projects/{slug}/cover.jpg', max_w=2400)
-        files = sorted(f for f in os.listdir(folder) if f.lower().endswith(('.jpg', '.jpeg', '.png')))
+        files = sorted(f for f in os.listdir(folder)
+                       if f.lower().endswith(('.jpg', '.jpeg', '.png')) and f not in skip)
         sized = [(f, Image.open(os.path.join(folder, f)).size) for f in files]
         good = [f for f, (w, h) in sized if max(w, h) >= GALLERY_MIN_WIDTH]
         chosen = (good if len(good) >= 4 else [f for f, _ in sized])
@@ -310,18 +320,10 @@ def main():
 OG_PAGES = {
     # file: (eyebrow, headline, background image)
     'home': ('DENVER METRO. BOULDER. ASPEN. VAIL.', 'Three to five homes a year.', 'sections/cta-twilight.jpg'),
-    'portfolio': ('PORTFOLIO', "A Sample of What We've Built", 'projects/cherry-hills-transitional/cover.jpg'),
+    'portfolio': ('PORTFOLIO', "A Sample of What We've Built", 'projects/tradition-reimagined/cover.jpg'),
     'process': ('OUR PROCESS', 'A Build That Moves in Order', 'phases/4-trade-sequencing.jpg'),
     'about': ('ABOUT', 'Dan Haley Fuller', 'sections/philosophy-detail.jpg'),
     'contact': ('CONTACT', 'Start Your Build', 'sections/concierge.jpg'),
-}
-OG_PROJECT_TITLES = {
-    'cherry-creek-historical-remodel': ('DENVER, CO', 'Cherry Creek Historical Remodel'),
-    'modern-farm-house-in-cherry-hills': ('ENGLEWOOD, CO', 'Modern Farm House in Cherry Hills'),
-    'denver-modern': ('ENGLEWOOD, CO', 'Denver Modern'),
-    'cherry-hills-transitional': ('CHERRY HILLS VILLAGE, CO', 'Cherry Hills Transitional'),
-    'cherry-hills-traditional': ('DENVER, CO', 'Cherry Hills Traditional'),
-    'modern': ('DENVER, CO', 'Modern'),
 }
 
 
@@ -368,8 +370,6 @@ def make_og_images():
 
     for name, (eyebrow, headline, bg) in OG_PAGES.items():
         card(name, eyebrow, headline, bg)
-    for slug, (eyebrow, headline) in OG_PROJECT_TITLES.items():
-        card(f'project-{slug}', eyebrow, headline, f'projects/{slug}/cover.jpg')
 
 
 if __name__ == '__main__':

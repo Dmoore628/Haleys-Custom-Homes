@@ -2,30 +2,44 @@ import { z } from 'zod';
 
 export const categorySchema = z.enum(['new-build', 'remodel']);
 
-export const projectSchema = z.object({
-  slug: z.string().regex(/^[a-z0-9-]+$/, 'slug must be lowercase letters, numbers and dashes'),
-  name: z.string().min(1),
-  category: categorySchema,
-  location: z.string().min(1),
-  // Stats appear only when a real, sourced value exists. Never a placeholder.
-  squareFootage: z.string().min(1).optional(),
-  buildDuration: z.string().min(1).optional(),
-  completionYear: z
-    .string()
-    .regex(/^\d{4}$/)
-    .optional(),
-  /** Where the project facts come from, for whoever maintains this file. */
-  source: z.string().min(1),
-  description: z
-    .string()
-    .min(1)
-    .refine((d) => !d.includes('['), 'no bracketed placeholders'),
-  heroImage: z.string().startsWith('/images/'),
-  heroVideo: z.string().startsWith('/video/').nullable(),
-  coverImage: z.string().startsWith('/images/'),
-  images: z.array(z.string().startsWith('/images/')).min(1),
-  featured: z.boolean(),
-});
+export const creditSchema = z.object({ role: z.string().min(1), name: z.string().min(1) });
+
+/**
+ * A project in content/projects.json: the portfolio's seed. Once a database is connected the
+ * admin (/admin) becomes the source of truth and this file only seeds an empty database.
+ */
+export const projectSchema = z
+  .object({
+    slug: z.string().regex(/^[a-z0-9-]+$/, 'slug must be lowercase letters, numbers and dashes'),
+    name: z.string().min(1),
+    category: categorySchema,
+    // Facts appear only when a real, sourced value exists. Never a placeholder.
+    location: z.string().min(1).optional(),
+    squareFootage: z.string().min(1).optional(),
+    buildDuration: z.string().min(1).optional(),
+    completionYear: z
+      .string()
+      .regex(/^\d{4}$/)
+      .optional(),
+    tagline: z.string().min(1).optional(),
+    /** Where the project facts come from, for whoever maintains this file. */
+    source: z.string().min(1),
+    description: z
+      .string()
+      .min(1)
+      .refine((d) => !d.includes('['), 'no bracketed placeholders'),
+    credits: z.array(creditSchema).default([]),
+    heroImage: z.string().startsWith('/images/'),
+    heroVideo: z.string().startsWith('/video/').nullable(),
+    coverImage: z.string().startsWith('/images/'),
+    images: z.array(z.string().startsWith('/images/')),
+    featured: z.boolean(),
+    /** Drafts are kept for editing in the admin but never shown on the site. */
+    published: z.boolean().default(true),
+  })
+  .refine((p) => !p.published || p.images.length > 0, {
+    message: 'a published project needs at least one gallery image',
+  });
 
 export const projectsSchema = z
   .array(projectSchema)
@@ -106,7 +120,7 @@ export const inquirySchema = z.object({
   company: z.string().max(0).optional().default(''),
 });
 
-export type Project = z.infer<typeof projectSchema>;
+export type SeedProject = z.infer<typeof projectSchema>;
 export type Category = z.infer<typeof categorySchema>;
 export type Testimonial = z.infer<typeof testimonialSchema>;
 export type Award = z.infer<typeof awardSchema>;

@@ -3,7 +3,7 @@
 import { LayoutGroup, motion } from 'framer-motion';
 import { useState } from 'react';
 import copy from '@content/copy.config';
-import type { Category, Project } from '@/lib/schema';
+import type { Category, Project } from '@/lib/projects/types';
 import { DURATION, EASE } from '@/lib/animation';
 import { ProjectGrid } from './ProjectGrid';
 

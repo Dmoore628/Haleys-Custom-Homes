@@ -8,6 +8,7 @@ import { EASE } from '@/lib/animation';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
+import type { ProjectImage } from '@/lib/projects/types';
 
 function CloseMark() {
   return (
@@ -22,7 +23,7 @@ function CloseMark() {
  * lightbox: ink background, image centered, close mark top-right, arrow keys or edge taps to move
  * through this project's set. Closing returns to the same scroll position.
  */
-export function ProjectGallery({ images, name }: { images: string[]; name: string }) {
+export function ProjectGallery({ images, name }: { images: ProjectImage[]; name: string }) {
   const [index, setIndex] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -75,8 +76,8 @@ export function ProjectGallery({ images, name }: { images: string[]; name: strin
   return (
     <>
       <ul className="flex flex-col gap-16">
-        {images.map((src, i) => (
-          <Reveal as="li" key={src}>
+        {images.map((img, i) => (
+          <Reveal as="li" key={img.src}>
             <button
               type="button"
               className="block w-full"
@@ -88,7 +89,8 @@ export function ProjectGallery({ images, name }: { images: string[]; name: strin
               data-cursor="expand"
             >
               <SmartImage
-                src={src}
+                src={img.src}
+                meta={img}
                 alt={`${name}, photograph ${i + 1}`}
                 sizes="100vw"
                 className="h-auto w-full"
@@ -130,7 +132,7 @@ export function ProjectGallery({ images, name }: { images: string[]; name: strin
 
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
-                    key={images[index]}
+                    key={images[index].src}
                     className="relative h-[86vh] w-[92vw]"
                     initial={{ opacity: 0, scale: reduced ? 1 : 0.99 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -138,7 +140,8 @@ export function ProjectGallery({ images, name }: { images: string[]; name: strin
                     transition={{ duration: 0.3, ease: EASE }}
                   >
                     <SmartImage
-                      src={images[index]}
+                      src={images[index].src}
+                      meta={images[index]}
                       alt={`${name}, photograph ${index + 1}`}
                       fill
                       sizes="92vw"

@@ -320,3 +320,19 @@
     opacity: 0;
   }
 }
+
+/* Admin buttons. */
+@layer components {
+  .admin-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-[4px] px-5 py-3 text-[0.8125rem] font-medium uppercase tracking-[0.08em] transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .admin-btn-primary {
+    @apply bg-ink text-bone hover:bg-accent;
+  }
+  .admin-btn-ghost {
+    @apply border border-ink/25 text-ink hover:border-ink;
+  }
+  .admin-btn-danger {
+    @apply border border-[#8a2c1d]/40 text-[#8a2c1d] hover:bg-[#8a2c1d] hover:text-bone;
+  }
+}

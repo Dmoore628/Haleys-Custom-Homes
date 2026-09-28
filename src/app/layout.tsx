@@ -8,6 +8,7 @@ import { ScrollProgress } from '@/components/layout/ScrollProgress';
 import { CookieNotice } from '@/components/layout/CookieNotice';
 import { CustomCursor } from '@/components/layout/CustomCursor';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
+import { SiteChrome } from '@/components/layout/SiteChrome';
 import './globals.css';
 
 const isProduction = process.env.SITE_ENV === 'production';
@@ -33,15 +34,19 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${newsreader.variable} ${switzer.variable}`}>
       <body>
-        <SkipLink />
-        <ScrollProgress />
-        <Nav />
+        <SiteChrome>
+          <SkipLink />
+          <ScrollProgress />
+          <Nav />
+        </SiteChrome>
         {/* <main> and the footer are rendered by the (site) template and by not-found. */}
         {children}
-        <CookieNotice />
-        <CustomCursor />
-        <SmoothScroll />
-        <div className="grain" aria-hidden="true" />
+        <SiteChrome>
+          <CookieNotice />
+          <CustomCursor />
+          <SmoothScroll />
+          <div className="grain" aria-hidden="true" />
+        </SiteChrome>
       </body>
     </html>
   );

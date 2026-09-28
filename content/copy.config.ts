@@ -163,7 +163,9 @@ const copy = {
       squareFootage: 'Square Footage',
       buildDuration: 'Build Duration',
       completionYear: 'Completion Year',
+      category: 'Type',
     },
+    categories: { 'new-build': 'New Build', remodel: 'Remodel' },
     lightbox: {
       close: 'Close',
       previous: 'Previous image',

@@ -1,5 +1,4 @@
 import type { z } from 'zod';
-import projectsJson from '@content/projects.json';
 import testimonialsJson from '@content/testimonials.json';
 import awardsJson from '@content/awards.json';
 import faqJson from '@content/faq.json';
@@ -12,7 +11,6 @@ import {
   pressSchema,
   faqSchema,
   mediaManifestSchema,
-  projectsSchema,
   testimonialsSchema,
   type MediaEntry,
 } from './schema';
@@ -36,7 +34,6 @@ export function validate<T extends z.ZodTypeAny>(
   return result.data;
 }
 
-export const projects = validate('content/projects.json', projectsSchema, projectsJson);
 export const testimonials = validate(
   'content/testimonials.json',
   testimonialsSchema,
@@ -48,12 +45,6 @@ export const press = validate('content/press.json', pressSchema, pressJson);
 export const community = validate('content/community.json', communitySchema, communityJson);
 const media = validate('src/lib/media.generated.json', mediaManifestSchema, mediaJson);
 
-export const featuredProjects = projects.filter((p) => p.featured);
-
-export function getProject(slug: string) {
-  return projects.find((p) => p.slug === slug);
-}
-
 const FALLBACK: MediaEntry = { width: 1600, height: 1067, color: '#cfc6b8', blurDataURL: '' };
 
 export function getMedia(src: string): MediaEntry {
@@ -62,7 +53,7 @@ export function getMedia(src: string): MediaEntry {
 
 /** Every image referenced from content must exist in the generated media manifest. */
 export function missingMedia(): string[] {
-  const refs = projects.flatMap((p) => [p.heroImage, p.coverImage, ...p.images]);
+  const refs: string[] = [];
   awards.forEach((a) => a.mark && refs.push(a.mark));
   press.forEach((p) => refs.push(p.mark));
   community.causes.forEach((c) => refs.push(c.mark));

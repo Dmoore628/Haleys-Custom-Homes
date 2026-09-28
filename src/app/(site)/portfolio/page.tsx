@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import copy from '@content/copy.config';
-import { projects } from '@/lib/content';
+import { getPublishedProjects } from '@/lib/projects/repo';
 import { PortfolioBrowser } from '@/components/sections/PortfolioBrowser';
 import { CoverStack } from '@/components/ui/CoverStack';
 
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
   openGraph: { images: [{ url: '/og/portfolio.jpg', width: 1200, height: 630 }] },
 };
 
-export default function PortfolioPage() {
+export default async function PortfolioPage() {
+  const projects = await getPublishedProjects();
   return (
     // Nav height plus 96px, so the filter tabs sit 96px below the nav.
     <CoverStack>

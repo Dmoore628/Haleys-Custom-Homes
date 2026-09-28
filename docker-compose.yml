@@ -19,6 +19,18 @@ services:
     depends_on:
       - mailhog
 
+  # Local Postgres for the portfolio admin: DATABASE_URL=postgres://haley:haley@localhost:5432/haley
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: haley
+      POSTGRES_PASSWORD: haley
+      POSTGRES_DB: haley
+    ports:
+      - '5432:5432'
+    volumes:
+      - haley-db:/var/lib/postgresql/data
+
   mailhog:
     image: mailhog/mailhog
     ports:
@@ -40,3 +52,6 @@ services:
       CONTACT_FROM_ADDRESS: website@example.test
     depends_on:
       - mailhog
+
+volumes:
+  haley-db:
