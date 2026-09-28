@@ -283,16 +283,18 @@ def main():
     subprocess.run([ff, '-y', '-loglevel', 'error', '-ss', '0.1', '-i', out_video, '-frames:v', '1',
                     '-q:v', '3', os.path.join(PUB, 'video', 'hero-poster.jpg')], check=True)
 
-    # Closing CTA background: the Timian twilight flyover. The source's second half is an
-    # AI-interpolated crossfade with visible double exposure (about 3.5-4.8s), so only the
-    # clean opening drone push-in (0-3.3s) is used, played forward then reversed for a
-    # seamless 6.6s loop. No audio.
+    # Closing CTA background: the whole Timian twilight flyover (8s, 1280x720, 24fps), looped.
+    # Its last frame (the close pool view) and first frame (the high aerial) don't match, so the
+    # loop point is made seamless: the clip plays from 0.6s to the end, and its final 0.6s
+    # cross-dissolves into the opening 0.6s. The output ends on the exact frame it starts on.
     cta_src = os.path.join(SRC, 'videos', 'timian-twilight-flyover.mp4')
-    cta_out = os.path.join(PUB, 'video', 'cta.mp4')
-    cta_filter = ('[0:v]trim=0:3.3,setpts=PTS-STARTPTS,split[f][r];[r]reverse[rv];'
-                  '[f][rv]concat=n=2:v=1:a=0,format=yuv420p[out]')
+    cta_out = os.path.join(PUB, 'video', 'cta-flyover.mp4')
+    cta_filter = ('[0:v]split[a][b];'
+                  '[a]trim=start=0.6,setpts=PTS-STARTPTS,fps=24[main];'
+                  '[b]trim=0:0.6,setpts=PTS-STARTPTS,fps=24[head];'
+                  '[main][head]xfade=transition=fade:duration=0.6:offset=6.8,format=yuv420p[out]')
     subprocess.run([ff, '-y', '-loglevel', 'error', '-i', cta_src, '-filter_complex', cta_filter,
-                    '-map', '[out]', '-an', '-c:v', 'libx264', '-preset', 'slow', '-crf', '22',
+                    '-map', '[out]', '-an', '-c:v', 'libx264', '-preset', 'slow', '-crf', '20',
                     '-profile:v', 'high', '-movflags', '+faststart', cta_out], check=True)
 
     make_og_images()

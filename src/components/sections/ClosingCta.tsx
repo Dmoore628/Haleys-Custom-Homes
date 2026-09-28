@@ -20,7 +20,7 @@ export function ClosingCta() {
         sizes="100vw"
         className="object-cover"
       />
-      <AmbientVideo src="/video/cta.mp4" poster="/images/sections/cta-twilight.jpg" />
+      <AmbientVideo src="/video/cta-flyover.mp4" poster="/images/sections/cta-twilight.jpg" />
       <div className="absolute inset-0 bg-black/30" aria-hidden="true" />
       <Reveal className="section-x section-y relative flex flex-col items-center text-center">
         <Badge>{closingCta.scarcity}</Badge>
