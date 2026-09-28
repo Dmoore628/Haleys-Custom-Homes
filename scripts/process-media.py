@@ -70,6 +70,10 @@ SECTIONS = {
     'phases/4-trade-sequencing.jpg': 'projects/landeskog/Stairs7677.jpg',
     'phases/5-finish-work.jpg': 'projects/timian/5+CHP-Master+Bath+1+-+1F2A9894.jpg',
     'phases/6-move-in.jpg': 'projects/mcdonald/Nancy-Holst-McDonald-08-25-23-One-Point-Living-Web.jpg',
+    # Eco-building page, from Haley's own eco-building page (assets/other/eco-building)
+    'eco/rooftop-garden.jpg': 'other/eco-building/rooftop+garden+and+solar+panels+1920.jpg',
+    'eco/rain-capture.jpg': 'other/eco-building/rain+capture+tank.jpg',
+    'eco/framing.jpg': 'other/eco-building/eco+home+framing.jpg',
     # Founder
     # Founder: studio portrait supplied by Damian (477x1024); a solid black band across the top
     # (rows 0-123) is cropped off in main().
@@ -190,6 +194,15 @@ def make_logo_marks():
         'community/childrens-diabetes-foundation.png': ('community/sourced/childrens-diabetes-foundation.png', None, False),
         'community/st-thomas-more.png': ('community/sourced/st-thomas-more.png', None, False),
         'community/ekman-design-studio.png': ('community/sourced/ekman-design-studio.png', None, True),
+        # Board service and professional associations (assets/affiliations/SOURCES.md).
+        'affiliations/ypo.png': ('affiliations/sourced/ypo.jpg', 'white', False),
+        'affiliations/hba-metro-denver.png': ('affiliations/sourced/hba-metro-denver.png', None, False),
+        'affiliations/colorado-association-of-home-builders.png': (
+            'affiliations/sourced/colorado-association-of-home-builders.jpg', 'white', False),
+        'affiliations/nahb.png': ('affiliations/sourced/nahb.png', None, False),
+        # Eco-building programs (assets/eco/SOURCES.md).
+        'eco/epa-indoor-airplus.png': ('eco/sourced/epa-indoor-airplus.png', None, False),
+        'eco/boulder-county-buildsmart.png': ('eco/sourced/boulder-county-buildsmart.png', None, False),
     }
     for out_rel, (src_rel, knock, recolor) in raster.items():
         im = Image.open(os.path.join(SRC, src_rel)).convert('RGBA')
@@ -324,6 +337,7 @@ OG_PAGES = {
     'process': ('OUR PROCESS', 'A Build That Moves in Order', 'phases/4-trade-sequencing.jpg'),
     'about': ('ABOUT', 'Dan Haley Fuller', 'sections/philosophy-detail.jpg'),
     'contact': ('CONTACT', 'Start Your Build', 'sections/concierge.jpg'),
+    'eco-building': ('ECO-BUILDING', 'Energy-Efficient Homes', 'eco/rooftop-garden.jpg'),
 }
 
 

@@ -7,6 +7,7 @@ import { MoveInTimeline } from '@/components/sections/MoveInTimeline';
 import { PunchList } from '@/components/sections/PunchList';
 import { PhaseSequence } from '@/components/sections/PhaseSequence';
 import { ClosingCta } from '@/components/sections/ClosingCta';
+import { EcoSummary } from '@/components/sections/EcoSummary';
 import { CoverStack } from '@/components/ui/CoverStack';
 
 export const metadata: Metadata = {
@@ -61,6 +62,8 @@ export default function ProcessPage() {
           </Reveal>
         </div>
       </section>
+
+      <EcoSummary />
 
       <ClosingCta />
     </CoverStack>

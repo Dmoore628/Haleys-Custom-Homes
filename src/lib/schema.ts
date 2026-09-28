@@ -87,6 +87,17 @@ export const communitySchema = z.object({
   }),
 });
 
+const affiliationSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  mark: z.string().startsWith('/images/').nullable(),
+});
+export const affiliationsSchema = z.object({
+  source: z.string().min(1),
+  boards: z.array(affiliationSchema).min(1),
+  associations: z.array(affiliationSchema).min(1),
+});
+
 export const faqSchema = z.array(
   z.object({ question: z.string().min(1), answer: z.string().min(1) }),
 );

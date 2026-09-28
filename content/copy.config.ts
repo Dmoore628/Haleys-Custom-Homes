@@ -142,6 +142,7 @@ const copy = {
       { label: 'Home', href: '/' },
       { label: 'Portfolio', href: '/portfolio' },
       { label: 'Process', href: '/process' },
+      { label: 'Eco-Building', href: '/eco-building' },
       { label: 'About', href: '/about' },
       { label: 'Contact', href: '/contact' },
     ],
@@ -222,8 +223,16 @@ const copy = {
     ],
     concierge: {
       headline: 'Your Personal Haley Concierge',
-      body: 'Every client is paired with a dedicated supervisor and project manager for the life of the build, one point of contact who knows your home as well as you do.',
+      body: 'Every client is paired with a dedicated supervisor and a project manager and estimator for the life of the build. One supervisor per job, never shared across sites: one point of contact who knows your home as well as you do.',
       image: '/images/sections/concierge.jpg',
+    },
+    // The eco-building summary, linking to /eco-building (facts from haleycustomhomes.com/eco-building).
+    eco: {
+      eyebrow: 'ECO-BUILDING',
+      headline: 'Energy-Efficient Homes',
+      body: 'The discipline that takes waste out of the schedule takes it out of the build. Our framing process cuts lumber waste significantly, our homes are built to EPA Indoor airPLUS standards with Energy Star certification, and we have built net-zero homes for years, well ahead of Boulder County’s requirement.',
+      button: { label: 'Explore Eco-Building', href: '/eco-building' },
+      image: '/images/eco/rooftop-garden.jpg',
     },
   },
 
@@ -236,6 +245,8 @@ const copy = {
     founder: {
       headline: 'Dan Haley Fuller',
       body: 'Dan Fuller founded Haley Custom Homes in 1998, building on real estate experience in the Colorado market that began in 1991. What started with renovating and reselling homes became, in 1996, a commitment to building new homes from the ground up. In the decades since, Dan has personally overseen custom homes ranging from 4,500 to 20,000 square feet, all without ever losing the habit of treating each one like his own.',
+      // From Haley's About page (haleycustomhomes.com/about-us).
+      more: 'Born and raised in Colorado, Dan knows the Denver metro area and its real estate. He has built for some of Denver’s most prominent families and athletes, in every style from modernist to traditionalist, and brings an entrepreneur’s and developer’s eye to a boutique building company. He lives in Greenwood Village with his wife and their two sons.',
       image: '/images/people/dan-fuller.jpg',
       imageAlt: 'Dan Haley Fuller, founder of Haley Custom Homes',
     },
@@ -247,6 +258,11 @@ const copy = {
       image: '/images/sections/philosophy-detail.jpg',
     },
     awardsHeading: 'Awards and recognition',
+    affiliations: {
+      heading: 'Service and Associations',
+      boards: 'Board service, current and past',
+      associations: 'Professional associations',
+    },
     community: {
       heading: 'In the Community',
       partnersLabel: 'Industry partners',
@@ -288,6 +304,105 @@ const copy = {
       'Map of Colorado showing where Haley Custom Homes builds: the Denver Metro area, Boulder, Vail and Aspen, with the office in Greenwood Village',
     officeLabel: 'Office',
     faqEyebrow: 'COMMON QUESTIONS',
+  },
+
+  // The eco-building page. Every fact is from haleycustomhomes.com/eco-building.
+  eco: {
+    meta: {
+      title: 'Eco-Building',
+      description:
+        'Energy-efficient luxury homes in Denver and Boulder: eco framing that cuts lumber waste, EPA Indoor airPLUS construction, Energy Star certification, net-zero homes and Boulder County BuildSmart.',
+    },
+    hero: {
+      eyebrow: 'ECO-BUILDING',
+      headline: 'Energy-Efficient Homes',
+      intro:
+        'Sustainability in home building is more than a trend. It\u2019s the way homes should be built: cleaner air inside, a lower cost of ownership, and protection for what you\u2019ve invested, in a luxury home that makes its neighborhood more beautiful.',
+      image: '/images/eco/rooftop-garden.jpg',
+    },
+    framing: {
+      eyebrow: 'ECO FRAMING',
+      headline: 'Less Lumber, Same Home',
+      body: [
+        'Framing is where a home takes shape, and it\u2019s the stage that consumes the most resources. Homes framed the traditional way can use more than forty mature trees for every 2,500 square feet, and luxury homes often use more.',
+        'Our framing process, part of the Accelerated Precision Building System, significantly cuts lumber waste. Whatever the size or architecture of your home, it lowers both the lumber cost and the ecological footprint, without giving up an inch of quality.',
+      ],
+      stat: { value: '40+', label: 'Mature trees per 2,500 sq ft in traditional framing' },
+      image: '/images/eco/framing.jpg',
+      imageAlt: 'A Haley home in framing',
+    },
+    airplus: {
+      eyebrow: 'INDOOR AIRPLUS',
+      headline: 'The Air Inside Your Home',
+      body: 'Even more valuable than the house is the family who calls it home. We build to the EPA\u2019s Indoor airPLUS standards: design that reduces indoor air pollution, controls moisture and mold, and resists radon.',
+      benefits: [
+        'Energy Star certification for enhanced energy efficiency',
+        'No-VOC and low-VOC building materials for cleaner indoor air',
+        'Protection against pest entry',
+        'Moisture and mold control',
+        'Airtight radon resistance',
+        'Efficient heating, cooling and insulation systems',
+      ],
+    },
+    netZero: {
+      eyebrow: 'NET ZERO',
+      headline: 'Homes That Make Their Own Energy',
+      body: 'A net-zero home produces as much energy as it consumes. Since 2022, Boulder County has required new homes over 5,000 square feet to meet net-zero standards. We\u2019ve been building to that standard for our clients for years, in every size and style.',
+      stats: [
+        {
+          value: '$1,500\u20131,800',
+          label: 'Average annual energy savings in a Haley net-zero home',
+        },
+        {
+          value: '\u2153',
+          label: 'Share of Boulder County\u2019s energy used by conventionally built homes',
+        },
+      ],
+      benefits: [
+        'Lower long-term cost of ownership',
+        'Year-round comfort from net-zero heating and cooling',
+        'Protection against rising energy costs',
+        'Easier to maintain',
+        'Net-zero carbon emissions',
+      ],
+    },
+    features: {
+      eyebrow: 'GREEN, WITHOUT COMPROMISE',
+      headline: 'Efficient and Beautiful',
+      intro:
+        'Homes that exceed today\u2019s eco-friendly standards and still belong to the landscape of their neighborhood.',
+      items: [
+        {
+          id: 'rain',
+          title: 'Rain Capture Tanks',
+          body: 'Harvested rainwater reduces stormwater runoff and waters gardens, landscaping and fountains, in tanks designed to suit the home.',
+        },
+        {
+          id: 'roof',
+          title: 'Rooftop Gardens and Solar',
+          body: 'Solar panels among a landscaped roof garden: more efficient, cooler inside, cleaner air, and room to grow flowers or food.',
+        },
+        {
+          id: 'passive',
+          title: 'Passive Design',
+          body: 'Passive solar, efficient ventilation, and window design and placement that keep a home comfortable through Colorado\u2019s weather extremes.',
+        },
+        {
+          id: 'envelope',
+          title: 'Airtight Building Envelope',
+          body: 'A tight barrier between inside and out that still lets in plenty of natural light, for efficient energy use against the harshest weather.',
+        },
+      ],
+      image: '/images/eco/rain-capture.jpg',
+      imageAlt: 'A rain capture tank beside a stone wall at a Haley home',
+    },
+    buildSmart: {
+      eyebrow: 'BOULDER COUNTY BUILDSMART',
+      headline: 'Meeting and Exceeding BuildSmart',
+      body: 'Boulder County BuildSmart sets the county\u2019s green building requirements for sustainable, energy-efficient homes. We meet and exceed them, working with each client and their architect so every requirement is met through the build, for better indoor air, fewer greenhouse gases and a lighter footprint.',
+    },
+    closing:
+      'Whether you\u2019re building from the ground up or remodeling for a greener home, we\u2019re here to be your partner.',
   },
 
   notFound: {

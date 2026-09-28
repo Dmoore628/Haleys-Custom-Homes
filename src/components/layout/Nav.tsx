@@ -12,7 +12,12 @@ import { MobileMenuOverlay } from './MobileMenuOverlay';
 
 /** Routes that open on a full-bleed dark hero, where the transparent nav needs light text. */
 function hasDarkHero(pathname: string) {
-  return pathname === '/' || pathname === '/process' || /^\/portfolio\/[^/]+\/?$/.test(pathname);
+  return (
+    pathname === '/' ||
+    pathname === '/process' ||
+    pathname === '/eco-building' ||
+    /^\/portfolio\/[^/]+\/?$/.test(pathname)
+  );
 }
 
 export function Nav() {

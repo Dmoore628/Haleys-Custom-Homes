@@ -2,7 +2,15 @@ import { test, expect } from './fixtures';
 
 /** One check per acceptance line in docs/haley-custom-homes-fixes-spec.md that a browser can verify. */
 
-const ROUTES = ['/', '/portfolio', '/portfolio/modern-elevated', '/process', '/about', '/contact'];
+const ROUTES = [
+  '/',
+  '/portfolio',
+  '/portfolio/modern-elevated',
+  '/process',
+  '/eco-building',
+  '/about',
+  '/contact',
+];
 
 test('1: Newsreader and Switzer only; no Fraunces or Inter loads anywhere', async ({ page }) => {
   const fontRequests: string[] = [];
@@ -25,8 +33,9 @@ test('2 and 15: every section on every page covers the one before it', async ({ 
     '/': 6,
     '/portfolio': 1,
     '/portfolio/modern-elevated': 2,
-    '/process': 5,
-    '/about': 5,
+    '/process': 6,
+    '/eco-building': 7,
+    '/about': 6,
     '/contact': 2,
   };
   for (const [route, count] of Object.entries(sections)) {
@@ -292,4 +301,44 @@ test('no horizontal scrolling at any phone, tablet or desktop width', async ({ b
     }
     await ctx.close();
   }
+});
+
+test('eco-building: Process summarizes it and links to the full page', async ({ page }) => {
+  await page.goto('/process');
+  const link = page.getByRole('link', { name: 'Explore Eco-Building' });
+  // Bring it up from below, as a reader scrolling down meets it, before the next section covers it.
+  await link.evaluate((el) => el.scrollIntoView({ block: 'end' }));
+  await link.click();
+  await expect(page).toHaveURL(/\/eco-building$/);
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Energy-Efficient Homes' }),
+  ).toBeVisible();
+  for (const name of [
+    'Less Lumber, Same Home',
+    'The Air Inside Your Home',
+    'Homes That Make Their Own Energy',
+    'Efficient and Beautiful',
+    'Meeting and Exceeding BuildSmart',
+  ]) {
+    await expect(page.getByRole('heading', { level: 2, name })).toHaveCount(1);
+  }
+});
+
+test('about: board service and professional associations from the old About page', async ({
+  page,
+}) => {
+  await page.goto('/about');
+  const section = page.locator('section', { hasText: 'Service and Associations' });
+  for (const name of [
+    /YPO/,
+    /Children.s Diabetes Foundation/,
+    /ACE Foundation/,
+    /Home Builders Association of Metro Denver/,
+    /Colorado Association of Home Builders/,
+    /National Association of Home Builders/,
+  ]) {
+    await expect(section.getByText(name)).toHaveCount(1);
+  }
+  // Every association and all but the unverified ACE mark show a logo.
+  await expect(section.locator('img')).toHaveCount(5);
 });

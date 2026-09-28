@@ -6,6 +6,7 @@ const ROUTES = [
   '/portfolio',
   '/portfolio/curated-house',
   '/process',
+  '/eco-building',
   '/about',
   '/contact',
   '/missing-page',

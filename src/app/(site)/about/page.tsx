@@ -7,6 +7,7 @@ import { SmartImage } from '@/components/ui/SmartImage';
 import { PlumbBob } from '@/components/ui/SignatureAccents';
 import { ClosingCta } from '@/components/sections/ClosingCta';
 import { Community } from '@/components/sections/Community';
+import { Affiliations } from '@/components/sections/Affiliations';
 import { CoverStack } from '@/components/ui/CoverStack';
 import { Sentences } from '@/components/ui/Sentences';
 import { keepTogether } from '@/lib/text';
@@ -40,6 +41,7 @@ export default function AboutPage() {
           <Reveal className="md:order-1 md:col-span-7 md:pr-[clamp(0rem,4vw,4rem)]" delay={0.1}>
             <h1 className="font-serif text-section font-normal">{founder.headline}</h1>
             <p className="mt-8 max-w-text text-body">{founder.body}</p>
+            <p className="mt-5 max-w-text text-body">{founder.more}</p>
           </Reveal>
         </div>
       </section>
@@ -106,6 +108,8 @@ export default function AboutPage() {
           })}
         </ul>
       </section>
+
+      <Affiliations />
 
       <Community />
 

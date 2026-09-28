@@ -4,10 +4,12 @@ import awardsJson from '@content/awards.json';
 import faqJson from '@content/faq.json';
 import pressJson from '@content/press.json';
 import communityJson from '@content/community.json';
+import affiliationsJson from '@content/affiliations.json';
 import mediaJson from './media.generated.json';
 import {
   awardsSchema,
   communitySchema,
+  affiliationsSchema,
   pressSchema,
   faqSchema,
   mediaManifestSchema,
@@ -43,6 +45,11 @@ export const awards = validate('content/awards.json', awardsSchema, awardsJson);
 export const faq = validate('content/faq.json', faqSchema, faqJson);
 export const press = validate('content/press.json', pressSchema, pressJson);
 export const community = validate('content/community.json', communitySchema, communityJson);
+export const affiliations = validate(
+  'content/affiliations.json',
+  affiliationsSchema,
+  affiliationsJson,
+);
 const media = validate('src/lib/media.generated.json', mediaManifestSchema, mediaJson);
 
 const FALLBACK: MediaEntry = { width: 1600, height: 1067, color: '#cfc6b8', blurDataURL: '' };
@@ -58,5 +65,8 @@ export function missingMedia(): string[] {
   press.forEach((p) => refs.push(p.mark));
   community.causes.forEach((c) => refs.push(c.mark));
   community.partners.marks.forEach((m) => refs.push(m.mark));
+  [...affiliations.boards, ...affiliations.associations].forEach(
+    (a) => a.mark && refs.push(a.mark),
+  );
   return refs.filter((r) => !media[r]);
 }

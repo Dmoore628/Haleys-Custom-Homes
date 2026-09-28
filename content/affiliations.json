@@ -1,0 +1,37 @@
+{
+  "source": "haleycustomhomes.com/about-us: 'Current and/or Past Board Member of' and 'Professional Association Member of'",
+  "boards": [
+    {
+      "id": "ypo",
+      "name": "Young Presidents' Organization of Colorado (YPO)",
+      "mark": "/images/affiliations/ypo.png"
+    },
+    {
+      "id": "childrens-diabetes-foundation",
+      "name": "Children's Diabetes Foundation (Barbara Davis Center)",
+      "mark": "/images/community/childrens-diabetes-foundation.png"
+    },
+    {
+      "id": "ace-foundation",
+      "name": "ACE Foundation, America's Children's Education",
+      "mark": null
+    }
+  ],
+  "associations": [
+    {
+      "id": "hba-metro-denver",
+      "name": "Home Builders Association of Metro Denver",
+      "mark": "/images/affiliations/hba-metro-denver.png"
+    },
+    {
+      "id": "cahb",
+      "name": "Colorado Association of Home Builders",
+      "mark": "/images/affiliations/colorado-association-of-home-builders.png"
+    },
+    {
+      "id": "nahb",
+      "name": "National Association of Home Builders",
+      "mark": "/images/affiliations/nahb.png"
+    }
+  ]
+}
