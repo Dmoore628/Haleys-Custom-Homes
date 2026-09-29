@@ -5,10 +5,10 @@ import { newsreader, switzer } from '@/lib/fonts';
 import { SkipLink } from '@/components/layout/SkipLink';
 import { Nav } from '@/components/layout/Nav';
 import { ScrollProgress } from '@/components/layout/ScrollProgress';
-import { CookieNotice } from '@/components/layout/CookieNotice';
 import { CustomCursor } from '@/components/layout/CustomCursor';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
 import { SiteChrome } from '@/components/layout/SiteChrome';
+import { StructuredData } from '@/components/layout/StructuredData';
 import { YearProvider } from '@/components/providers/YearProvider';
 import { currentYear } from '@/lib/year';
 import './globals.css';
@@ -40,6 +40,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${newsreader.variable} ${switzer.variable}`}>
       <body>
+        <StructuredData />
         <YearProvider rendered={currentYear()}>
           <SiteChrome>
             <SkipLink />
@@ -49,7 +50,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {/* <main> and the footer are rendered by the (site) template and by not-found. */}
           {children}
           <SiteChrome>
-            <CookieNotice />
             <CustomCursor />
             <SmoothScroll />
             <div className="grain" aria-hidden="true" />

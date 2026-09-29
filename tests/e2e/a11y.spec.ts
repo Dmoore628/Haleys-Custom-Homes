@@ -11,6 +11,9 @@ const ROUTES = [
   '/contact',
   '/builder20',
   '/client-portal',
+  '/privacy',
+  '/terms',
+  '/accessibility',
   '/missing-page',
 ];
 

@@ -317,6 +317,9 @@ const copy = {
     invalidEmail: 'Please enter a valid email address.',
     sendError:
       'Your inquiry could not be sent right now. Please call us directly, or try again in a moment.',
+    // Under the submit button, linking to /privacy.
+    privacyNote: 'We use what you send only to respond about your project, and never sell it.',
+    privacyLink: 'Privacy Policy',
     serviceAreaHeading: 'Where We Build',
     mapLabel:
       'Map of Colorado showing where Haley Custom Homes builds: the Denver Metro area, Boulder, Vail and Aspen, with the office in Greenwood Village',
@@ -459,11 +462,6 @@ const copy = {
     headline: "This page doesn't exist. The homes we build do.",
     primary: { label: 'Back to Home', href: '/' },
     ghost: { label: 'View Our Work', href: '/portfolio' },
-  },
-
-  cookie: {
-    body: 'This site uses cookies for basic analytics.',
-    button: 'Got It',
   },
 } as const;
 

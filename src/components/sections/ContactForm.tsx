@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState, type FormEvent } from 'react';
 import copy from '@content/copy.config';
 import { BUDGETS, LOT_STATUSES, PROJECT_TYPES } from '@/lib/schema';
@@ -229,6 +230,15 @@ export function ContactForm() {
         >
           {status === 'sending' ? contact.sending : contact.submit}
         </Button>
+        <p className="mt-4 max-w-[30rem] text-[0.875rem] leading-relaxed text-ink/70">
+          {contact.privacyNote}{' '}
+          <Link
+            href="/privacy"
+            className="underline decoration-ink/30 underline-offset-[4px] hover:decoration-ink"
+          >
+            {contact.privacyLink}
+          </Link>
+        </p>
       </div>
     </form>
   );

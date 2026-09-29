@@ -49,15 +49,28 @@ test('unknown routes render the designed 404 with a way back', async ({ page }) 
   await expect(page.getByRole('link', { name: 'Back to Home' })).toBeVisible();
 });
 
-test.describe('cookie notice', () => {
-  test.use({ keepCookieNotice: true });
-  test('appears once and dismisses permanently', async ({ page }) => {
-    await page.goto('/');
-    const notice = page.getByRole('region', { name: 'Cookie notice' });
-    await expect(notice).toBeVisible();
-    await notice.getByRole('button', { name: 'Got It' }).click();
-    await expect(notice).toBeHidden();
-    await page.reload();
-    await expect(page.getByRole('region', { name: 'Cookie notice' })).toBeHidden();
-  });
+test('no tracking: visitors get no cookies, so no cookie banner', async ({ page, context }) => {
+  await page.goto('/');
+  await page.goto('/contact');
+  expect(await context.cookies()).toEqual([]);
+  await expect(page.getByRole('region', { name: /cookie/i })).toHaveCount(0);
+});
+
+test('legal pages: linked from every footer and from the contact form', async ({ page }) => {
+  await page.goto('/contact');
+  await expect(page.locator('form').getByRole('link', { name: 'Privacy Policy' })).toHaveAttribute(
+    'href',
+    '/privacy',
+  );
+  for (const [name, heading] of [
+    ['Privacy', 'Privacy Policy'],
+    ['Terms', 'Terms of Use'],
+    ['Accessibility', 'Accessibility'],
+  ]) {
+    await page.locator('footer').getByRole('link', { name, exact: true }).click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(heading);
+    await expect(page.getByText(/^Effective /)).toBeVisible();
+    // Tokens are filled from the site's business facts.
+    await expect(page.getByTestId('legal-page')).not.toContainText('{');
+  }
 });
