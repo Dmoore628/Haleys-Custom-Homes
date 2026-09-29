@@ -5,6 +5,12 @@
  * run by Buildertrend, and hosting that keeps standard server logs. If any of that changes (for
  * example, analytics is added), update the Privacy Policy before it goes live.
  *
+ * The Privacy Policy keeps the commitments from Haley's previous policy (haleycustomhomes.com/
+ * privacy-policy) that still apply: privacy of critical importance, no sharing of email addresses,
+ * users over 18, EEA rights, sale of business, consent to material changes, written notice. It
+ * drops that policy's template sections for features this site does not have (Google Analytics,
+ * AdThrive advertising, Facebook remarketing, newsletters, user accounts).
+ *
  * These are plain-language documents prepared for Haley's review; they are not legal advice.
  * Have them reviewed by Haley's attorney before launch.
  *
@@ -41,7 +47,7 @@ const privacy: LegalDoc = {
     'How Haley Custom Homes collects, uses and protects the information you share through this website.',
   effective: 'September 29, 2026',
   intro:
-    'This policy explains what information {company} collects through this website, how we use it, and the choices you have. We keep it short because we collect very little.',
+    'As the owner of this website, {company} understands that your privacy is of critical importance. This policy explains what information we collect through the site, how we use and disclose it, and the choices you have. It replaces the privacy policy on our previous website, whose advertising, analytics and account features this site does not have.',
   sections: [
     {
       id: 'what-we-collect',
@@ -74,8 +80,8 @@ const privacy: LegalDoc = {
       id: 'sharing',
       heading: 'Who we share it with',
       body: [
-        'We do not sell your personal information, and we do not share it for advertising. We share it only with the service providers that help us run the website and our business, such as our website host and our email provider, and only as needed for them to do that work. If you become a client, we share project information with the architects, designers and trade partners working on your home, as your project requires.',
-        'We may also disclose information when the law requires it, to protect our rights or the safety of others, or as part of a sale or transfer of our business.',
+        'We do not sell your personal information, we do not share it for advertising, and we will not share your email address with third parties for their own use. We share information only with the service providers that help us run the website and our business, such as our website host and our email provider, and only as needed for them to do that work. If you become a client, we share project information with the architects, designers and trade partners working on your home, as your project requires.',
+        'We may also disclose information when the law requires it, or to protect our rights or the safety of others.',
       ],
     },
     {
@@ -110,27 +116,50 @@ const privacy: LegalDoc = {
       id: 'your-choices',
       heading: 'Your choices and rights',
       body: [
-        'You can ask us at any time to tell you what personal information we have about you, to correct it, or to delete it, and you can ask us to stop contacting you. Depending on where you live, including under the Colorado Privacy Act where it applies, you may have additional rights. Contact us using the details below; we will respond within 45 days.',
+        'You can ask us at any time to tell you what personal information we have about you, to correct it, or to delete it, and you can ask us to stop contacting you; any email we send you about our services can also be declined with a reply. Depending on where you live, including under the Colorado Privacy Act where it applies, you may have additional rights. Contact us using the details below, or by written notice to our office; we will respond within 45 days.',
       ],
     },
     {
-      id: 'children',
-      heading: 'Children',
+      id: 'eea',
+      heading: 'Residents of the European Economic Area',
       body: [
-        'This website is intended for adults planning a home. It is not directed to children under 13, and we do not knowingly collect information from them.',
+        'If you live in a country in the European Economic Area, you have the right, under the GDPR and applicable data protection laws, to:',
+      ],
+      list: [
+        'access your personal data;',
+        'ensure the accuracy of your personal data;',
+        'have us delete your personal data;',
+        'restrict further processing of your personal data; and',
+        'complain to a data protection supervisory authority in the country where you live or work, or where you believe your data was misused.',
+      ],
+    },
+    {
+      id: 'age',
+      heading: 'Age',
+      body: [
+        'This website is intended for users over the age of 18. It is not directed to children, and we do not knowingly collect information from them.',
+      ],
+    },
+    {
+      id: 'sale-of-business',
+      heading: 'Sale of business or assets',
+      body: [
+        'If the site or substantially all of our assets is sold or transferred, whether by merger, sale of assets or otherwise, or in the event of insolvency, bankruptcy or receivership, the information we have collected may be among the assets transferred.',
       ],
     },
     {
       id: 'changes',
       heading: 'Changes to this policy',
       body: [
-        'If we change how we handle information, we will update this policy and its effective date above.',
+        'We may change this policy from time to time, as our practices change or as we add or change services. The current version will always be posted here with its effective date. If we make a material change, or intend to use personal information in a way that is materially different from what this policy said when we collected it, we will give you a reasonable opportunity to consent first; if you do not, we will keep using your information under the policy in effect when we collected it.',
       ],
     },
     {
       id: 'contact',
       heading: 'Contact us',
-      body: ['{company}, {address}. Phone {phone}. Email {email}.'],
+      body: [
+        'If you have any questions about this policy or our practices, or to exercise any of your rights, contact us at {email}, call {phone}, or write to {company}, {address}.',
+      ],
     },
   ],
 };
