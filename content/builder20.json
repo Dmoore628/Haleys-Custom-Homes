@@ -1,0 +1,53 @@
+{
+  "source": "haleycustomhomes.com/builder20 (September 2026); each builder's website checked the same month. Richard Padgham's market corrected to Georgia (Lake Lanier is in Georgia) and Cook Bonner's name updated from their own site. Paul Homes' website did not respond, so it is listed without a link.",
+  "builders": [
+    {
+      "id": "casas-del-oso",
+      "name": "Casas Del Oso",
+      "market": "Phoenix and Scottsdale, Arizona",
+      "url": "https://www.casasdeloso.com/"
+    },
+    {
+      "id": "jenkins-custom-homes",
+      "name": "Jenkins Custom Homes",
+      "market": "Greater Austin, Texas",
+      "url": "https://newhousebuilder.com/"
+    },
+    {
+      "id": "monetti-custom-homes",
+      "name": "Monetti Custom Homes",
+      "market": "Brielle, New Jersey",
+      "url": "https://monettibuilt.net/"
+    },
+    {
+      "id": "paul-homes",
+      "name": "Paul Homes",
+      "market": "Cape Coral and Fort Myers, Florida",
+      "url": null
+    },
+    {
+      "id": "richard-padgham-homes",
+      "name": "Richard Padgham Homes",
+      "market": "Gainesville and Lake Lanier, Georgia",
+      "url": "https://rpihomes.com/"
+    },
+    {
+      "id": "colby-construction",
+      "name": "Colby Construction",
+      "market": "Delafield, Wisconsin",
+      "url": "https://colbyconstruction.com/"
+    },
+    {
+      "id": "greystone-homes",
+      "name": "Greystone Homes",
+      "market": "Midland, Michigan",
+      "url": "https://greystonehomesmi.com/"
+    },
+    {
+      "id": "cook-bonner-ebeling",
+      "name": "Cook Bonner Ebeling Construction",
+      "market": "Charleston, South Carolina",
+      "url": "https://cookbonner.com/"
+    }
+  ]
+}

@@ -30,11 +30,15 @@ const nextConfig = {
     serverActions: { bodySizeLimit: '2mb' },
   },
   async redirects() {
-    return Object.entries(renamed).map(([from, to]) => ({
-      source: `/portfolio/${from}`,
-      destination: `/portfolio/${to}`,
-      permanent: true,
-    }));
+    return [
+      ...Object.entries(renamed).map(([from, to]) => ({
+        source: `/portfolio/${from}`,
+        destination: `/portfolio/${to}`,
+        permanent: true,
+      })),
+      // The old site's client login address, bookmarked by current clients.
+      { source: '/client-login', destination: '/client-portal', permanent: true },
+    ];
   },
   async headers() {
     // The Vercel live demo is staging, not production: keep it out of search indexes.

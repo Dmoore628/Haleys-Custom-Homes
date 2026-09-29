@@ -37,6 +37,8 @@ test('2 and 15: every section on every page covers the one before it', async ({ 
     '/eco-building': 7,
     '/about': 6,
     '/contact': 2,
+    '/builder20': 2,
+    '/client-portal': 1,
   };
   for (const [route, count] of Object.entries(sections)) {
     await page.goto(route);

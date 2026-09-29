@@ -161,6 +161,8 @@ const copy = {
       { label: 'Eco-Building', href: '/eco-building' },
       { label: 'About', href: '/about' },
       { label: 'Contact', href: '/contact' },
+      { label: 'Builder 20', href: '/builder20' },
+      { label: 'Client Portal', href: '/client-portal' },
     ],
     copyright: '© {year} Haley Custom Homes. All rights reserved.',
   },
@@ -419,6 +421,37 @@ const copy = {
     },
     closing:
       'Whether you\u2019re building from the ground up or remodeling for a greener home, we\u2019re here to be your partner.',
+  },
+
+  // /builder20: the NAHB 20 Club builders Haley recommends outside Colorado (content/builder20.json).
+  builder20: {
+    meta: {
+      title: 'Builder 20',
+      description:
+        'Building outside Colorado? The custom home builders Haley Custom Homes knows personally through the NAHB Builder 20 Club, and recommends in their markets.',
+    },
+    eyebrow: 'NAHB BUILDER 20 CLUB',
+    headline: 'Building Outside Colorado?',
+    intro:
+      'We meet twice a year with a select group of builders through the National Association of Home Builders’ 20 Clubs. They are similar in size and scope to our own business, and we work together on improving our companies. We know each of them personally, and we recommend them in their markets.',
+    visit: 'Visit website',
+    listLabel: 'Builders we recommend',
+  },
+
+  // /client-portal: hands clients to the portal set in site.config (clientPortal).
+  clientPortal: {
+    meta: {
+      title: 'Client Portal',
+      description: 'Sign in to the Haley Custom Homes client portal.',
+    },
+    eyebrow: 'CLIENTS',
+    headline: 'Client Portal',
+    body: 'Your project schedule, notes from our meetings and conversations, and change orders, in one place.',
+    button: 'Sign In to the Portal',
+    secure: 'Continues to {provider}’s secure sign-in.',
+    help: 'Trouble signing in? We’re here to help.',
+    unavailable:
+      'The client portal is being connected to the new site. In the meantime, reach us directly for anything about your project.',
   },
 
   notFound: {

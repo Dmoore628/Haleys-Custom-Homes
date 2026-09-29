@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import copy from '@content/copy.config';
 import { affiliations } from '@/lib/content';
 import { MarkImage } from '@/components/ui/MarkImage';
@@ -58,7 +59,17 @@ export function Affiliations() {
                     )}
                   </div>
                   <p className="mt-4 max-w-[18rem] text-[0.9375rem] leading-snug">{a.name}</p>
-                  {a.note && <p className="label mt-2 text-ink/70">{a.note}</p>}
+                  {a.note &&
+                    (a.href ? (
+                      <Link
+                        href={a.href}
+                        className="label mt-2 text-accent underline decoration-accent/40 underline-offset-[6px] transition-colors duration-200 hover:text-ink hover:decoration-ink"
+                      >
+                        {a.note}
+                      </Link>
+                    ) : (
+                      <p className="label mt-2 text-ink/70">{a.note}</p>
+                    ))}
                 </li>
               ))}
             </ul>

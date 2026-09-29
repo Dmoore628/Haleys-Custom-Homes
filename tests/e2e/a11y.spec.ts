@@ -9,6 +9,8 @@ const ROUTES = [
   '/eco-building',
   '/about',
   '/contact',
+  '/builder20',
+  '/client-portal',
   '/missing-page',
 ];
 

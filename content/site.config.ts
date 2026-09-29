@@ -10,6 +10,15 @@ const siteConfig = {
   founder: 'Dan Haley Fuller',
   buildsPerYear: { min: 3, max: 5 },
   url: 'https://haleycustomhomes.com',
+  // The client portal. Haley's clients sign in to Buildertrend (Haley's builder ID 85, from the
+  // login frame on haleycustomhomes.com/client-login); /client-portal hands them to its secure
+  // sign-in. To change providers, replace `provider` and `signInUrl`; set `signInUrl` to null
+  // and the page says the portal is being set up. See docs/CLIENT_PORTAL.md.
+  clientPortal: {
+    provider: 'Buildertrend',
+    signInUrl: 'https://buildertrend.net/app/Login' as string | null,
+    builderId: 85,
+  },
   contact: {
     phone: '303-601-9446',
     phoneHref: 'tel:+13036019446',

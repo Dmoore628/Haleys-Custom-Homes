@@ -5,11 +5,13 @@ import faqJson from '@content/faq.json';
 import pressJson from '@content/press.json';
 import communityJson from '@content/community.json';
 import affiliationsJson from '@content/affiliations.json';
+import builder20Json from '@content/builder20.json';
 import mediaJson from './media.generated.json';
 import {
   awardsSchema,
   communitySchema,
   affiliationsSchema,
+  builder20Schema,
   pressSchema,
   faqSchema,
   mediaManifestSchema,
@@ -45,6 +47,8 @@ export const awards = validate('content/awards.json', awardsSchema, awardsJson);
 export const faq = validate('content/faq.json', faqSchema, faqJson);
 export const press = validate('content/press.json', pressSchema, pressJson);
 export const community = validate('content/community.json', communitySchema, communityJson);
+export const builder20 = validate('content/builder20.json', builder20Schema, builder20Json);
+
 export const affiliations = validate(
   'content/affiliations.json',
   affiliationsSchema,

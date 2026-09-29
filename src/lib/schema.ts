@@ -93,11 +93,27 @@ const affiliationSchema = z.object({
   mark: z.string().startsWith('/images/').nullable(),
   /** A second line under the name: a chapter or a membership within the organization. */
   note: z.string().min(1).optional(),
+  /** Where the note links, e.g. the Builder 20 page. */
+  href: z.string().startsWith('/').optional(),
 });
 export const affiliationsSchema = z.object({
   source: z.string().min(1),
   boards: z.array(affiliationSchema).min(1),
   associations: z.array(affiliationSchema).min(1),
+});
+
+export const builder20Schema = z.object({
+  source: z.string().min(1),
+  builders: z
+    .array(
+      z.object({
+        id: z.string().min(1),
+        name: z.string().min(1),
+        market: z.string().min(1),
+        url: z.string().url().nullable(),
+      }),
+    )
+    .min(1),
 });
 
 export const faqSchema = z.array(
