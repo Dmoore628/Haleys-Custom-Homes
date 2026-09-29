@@ -9,6 +9,7 @@ import { contourRing } from '@/lib/topo';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { keepTogether } from '@/lib/text';
 import { Marquee } from '@/components/ui/Marquee';
+import { YearText } from '@/components/providers/YearProvider';
 
 const { reviews } = copy.home;
 const STAR =
@@ -94,7 +95,9 @@ export function HouzzReviews() {
             {reviews.count} {reviews.countLabel}
           </a>
         </p>
-        <p className="label mt-3 text-ink/70">{reviews.bestOf}</p>
+        <p className="label mt-3 text-ink/70">
+          <YearText text={reviews.bestOf} />
+        </p>
       </div>
 
       <Marquee

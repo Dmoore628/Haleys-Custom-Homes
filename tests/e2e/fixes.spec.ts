@@ -342,3 +342,12 @@ test('about: board service and professional associations from the old About page
   // Every association and all but the unverified ACE mark show a logo.
   await expect(section.locator('img')).toHaveCount(5);
 });
+
+test('dated lines follow the visitor’s clock, not the build date', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2031-02-01T12:00:00'));
+  await page.goto('/');
+  await expect(page.locator('footer').getByText('© 2031 Haley Custom Homes')).toBeAttached();
+  await expect(page.getByText('Best of Houzz, every year 2016 to 2031').first()).toBeAttached();
+  await expect(page.getByText(/has spent 33 years/)).toBeAttached();
+  await expect(page.getByTestId('founding-line')).toContainText('2031');
+});

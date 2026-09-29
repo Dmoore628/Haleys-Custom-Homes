@@ -34,15 +34,16 @@ const copy = {
       highlight: 'three to five homes',
       main: "We build three to five homes a year. Not because we can't build more. Because a home that takes shortcuts isn't a Haley home.",
       supporting:
-        'Founded in 1998 by Dan Haley Fuller, Haley Custom Homes has spent over 25 years building for families across the Denver Metro area, one home, one owner, at a time.',
+        'Founded in 1998 by Dan Haley Fuller, Haley Custom Homes has spent {years} years building for families across the Denver Metro area, one home, one owner, at a time.',
     },
+    // `{year}` and `{years}` are filled with the current year and the years since 1998 (src/lib/year.ts).
     // Houzz standing, read from Haley's live Houzz profile on 2026-09-26
     // (houzz.com/professionals/home-builders/haley-custom-homes-pfvwus-pf~1703183129).
     reviews: {
       rating: '5.0',
       count: 36,
       countLabel: 'reviews on Houzz',
-      bestOf: 'Best of Houzz, every year 2016 to 2026',
+      bestOf: 'Best of Houzz, every year 2016 to {year}',
       href: 'https://www.houzz.com/professionals/home-builders/haley-custom-homes-pfvwus-pf~1703183129',
       label: 'Client reviews',
     },

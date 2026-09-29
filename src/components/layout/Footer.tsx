@@ -3,10 +3,10 @@ import copy from '@content/copy.config';
 import siteConfig from '@content/site.config';
 import { Logo } from './Logo';
 import { SocialGlyph } from './SocialGlyph';
+import { YearText } from '@/components/providers/YearProvider';
 
 /** One footer, identical on every page. `relative z-10` so it can slide over a pinned section. */
 export function Footer() {
-  const year = new Date().getFullYear();
   const { contact, social, credit } = siteConfig;
   return (
     <footer className="section-x relative z-10 bg-ink pb-12 pt-24 text-bone">
@@ -64,7 +64,9 @@ export function Footer() {
       </div>
 
       <div className="mt-20 flex flex-col gap-3 border-t border-bone/10 pt-6 md:flex-row md:items-baseline md:justify-between">
-        <p className="label">{copy.footer.copyright.replace('{year}', String(year))}</p>
+        <p className="label">
+          <YearText text={copy.footer.copyright} />
+        </p>
         {/* Styled like the copyright line. Accent text fails WCAG AA contrast on ink at this
             size (3.1:1), so the accent appears as the hover underline instead. */}
         <a

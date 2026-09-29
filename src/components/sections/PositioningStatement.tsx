@@ -1,5 +1,6 @@
 import copy from '@content/copy.config';
 import { Reveal } from '@/components/ui/Reveal';
+import { YearText } from '@/components/providers/YearProvider';
 import { TopoBackdrop } from '@/components/ui/TopoBackdrop';
 import { FoundingLine } from './FoundingLine';
 import { HouzzReviews } from './HouzzReviews';
@@ -50,7 +51,7 @@ export function PositioningStatement() {
                 className="font-serif text-section font-normal"
               />
               <Reveal as="p" className="text-block mt-8 text-body text-ink/80">
-                {positioning.supporting}
+                <YearText text={positioning.supporting} />
               </Reveal>
               <div className="mt-12 max-w-[28rem]">
                 <FoundingLine />

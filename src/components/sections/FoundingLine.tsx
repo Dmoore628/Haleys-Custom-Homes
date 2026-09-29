@@ -6,8 +6,8 @@ import copy from '@content/copy.config';
 import { EASE } from '@/lib/animation';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { SmartImage } from '@/components/ui/SmartImage';
-
-const FOUNDED = 1998;
+import { useYear } from '@/components/providers/YearProvider';
+import { FOUNDED } from '@/lib/year';
 
 /**
  * The founding line drawn rather than restated: the founder's portrait at 1998, a rule that
@@ -19,7 +19,7 @@ export function FoundingLine() {
   const inView = useInView(ref, { once: true, amount: 0.6 });
   const reduced = useReducedMotion();
   const play = reduced || inView;
-  const now = new Date().getFullYear();
+  const now = useYear();
   const years = now - FOUNDED;
   const ticks = Array.from({ length: years + 1 }, (_, i) => i);
   const DRAW = 1.8;
@@ -52,7 +52,6 @@ export function FoundingLine() {
             {FOUNDED}
           </motion.span>
           <motion.span
-            suppressHydrationWarning
             className="text-accent"
             initial={reduced ? false : { opacity: 0 }}
             animate={play ? { opacity: 1 } : undefined}
