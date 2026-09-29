@@ -12,9 +12,15 @@ const BONE = '#EFE9DE';
 const CHAMPAGNE = '#C6BAAC';
 const GLOW = '#E4C79F';
 
-/** When each of the six stages begins drawing, in seconds after the hero comes into view. */
+/**
+ * When each of the six stages begins drawing, on the drawing's own timeline. Every delay and
+ * duration below is multiplied by SPEED, so the stages keep their order and rhythm and the whole
+ * drawing plays in about DONE * SPEED seconds (4.5s).
+ */
 const T = [0.3, 1.9, 3.3, 5.2, 7.0, 8.7];
 const DONE = 10;
+const SPEED = 0.45;
+const sec = (t: number) => t * SPEED;
 
 // The elevation, in a 1200 x 720 drawing space. A modern farmhouse: a low gabled wing, the
 // tall main gable with a two-storey window wall, and a flat-roofed wing with a chimney.
@@ -38,7 +44,7 @@ const CORNERS = [150, 380, 760, 1070];
  * studs rise across the silhouette. Trade sequencing: the envelope, roofs, chimney and openings
  * close in as the framing recedes. Finish work: siding and mullions. Move-in: the windows light
  * up. It plays once, then rests lit, the glow breathing
- * slowly. Reduced motion shows the finished, lit drawing.
+ * slowly. The whole drawing plays in about 4.5s. Reduced motion shows the finished, lit drawing.
  */
 export function ProcessHero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -55,7 +61,7 @@ export function ProcessHero() {
       return;
     }
     if (!inView) return;
-    const timer = setTimeout(() => setDone(true), DONE * 1000);
+    const timer = setTimeout(() => setDone(true), sec(DONE) * 1000);
     return () => clearTimeout(timer);
   }, [inView, reduced]);
 
@@ -66,14 +72,14 @@ export function ProcessHero() {
     transition: reduced
       ? { duration: 0 }
       : {
-          pathLength: { delay: at, duration: dur, ease: EASE },
-          opacity: { delay: at, duration: 0.25 },
+          pathLength: { delay: sec(at), duration: sec(dur), ease: EASE },
+          opacity: { delay: sec(at), duration: 0.2 },
         },
   });
   const fade = (at: number, opacity = 1, dur = 0.9) => ({
     initial: reduced ? false : { opacity: 0 },
     animate: play ? { opacity } : undefined,
-    transition: reduced ? { duration: 0 } : { delay: at, duration: dur, ease: EASE },
+    transition: reduced ? { duration: 0 } : { delay: sec(at), duration: sec(dur), ease: EASE },
   });
 
   const studs = Array.from({ length: Math.floor((1070 - 150) / 20) + 1 }, (_, i) => 150 + i * 20);
@@ -199,7 +205,7 @@ export function ProcessHero() {
               clipPath={`url(#${id('shell')})`}
               initial={reduced ? false : { opacity: 1 }}
               animate={play ? { opacity: [1, 1, 0.14] } : undefined}
-              transition={{ duration: T[3] + 1.2, times: [0, (T[3] + 0.2) / (T[3] + 1.2), 1] }}
+              transition={{ duration: sec(T[3] + 1.2), times: [0, (T[3] + 0.2) / (T[3] + 1.2), 1] }}
             >
               {studs.map((x, i) => (
                 <motion.path
@@ -297,7 +303,7 @@ export function ProcessHero() {
               transition={
                 done && !reduced
                   ? { duration: 5, repeat: Infinity, ease: 'easeInOut' }
-                  : { delay: T[5], duration: 1.4, ease: EASE }
+                  : { delay: sec(T[5]), duration: sec(1.4), ease: EASE }
               }
             >
               {WINDOWS.map((w, i) => (
