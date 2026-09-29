@@ -3,8 +3,7 @@ import copy from '@content/copy.config';
 import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { ProcessHero } from '@/components/sections/ProcessHero';
-import { MoveInTimeline } from '@/components/sections/MoveInTimeline';
-import { PunchList } from '@/components/sections/PunchList';
+import { BuildTimeline } from '@/components/sections/BuildTimeline';
 import { PhaseSequence } from '@/components/sections/PhaseSequence';
 import { ClosingCta } from '@/components/sections/ClosingCta';
 import { EcoSummary } from '@/components/sections/EcoSummary';
@@ -22,19 +21,15 @@ export default function ProcessPage() {
     <CoverStack>
       <ProcessHero />
 
-      {/* The punch list, then the build it leads to, centered as one column. */}
-      <section className="section-x bg-bone py-section">
-        <div className="mx-auto max-w-[78rem]">
-          <Reveal>
-            <h2 className="text-center font-serif text-section font-normal">{hook.headline}</h2>
-          </Reveal>
-          <Reveal className="mx-auto mt-10 max-w-[56rem] md:mt-14">
-            <PunchList />
-          </Reveal>
-          <div className="mt-[clamp(4rem,8vw,7rem)]">
-            <MoveInTimeline align="center" />
-          </div>
-        </div>
+      {/* The build timeline: the punch list along the schedule, scrubbed by scroll. */}
+      <section className="section-x bg-bone py-section" aria-labelledby="difference-heading">
+        <BuildTimeline
+          intro={
+            <h2 id="difference-heading" className="font-serif text-section font-normal">
+              {hook.headline}
+            </h2>
+          }
+        />
       </section>
 
       {/* Six-phase sequence with the progress rail. */}

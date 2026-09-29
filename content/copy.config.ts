@@ -63,78 +63,74 @@ const copy = {
     },
   },
 
-  // The six stages and the wait a typical build risks at each, used by the punch list.
-  ledger: {
-    rows: [
-      {
-        name: 'Design and Spec Lock',
-        annotation:
-          "The wait a typical build risks here: mid-build changes to layout or finishes that weren't locked in advance.",
-      },
-      {
-        name: 'Pre-Construction Sequencing',
-        annotation:
-          "The wait a typical build risks here: a crew standing idle on a delivery or a permit that wasn't sequenced ahead of time.",
-      },
-      {
-        name: 'Framing',
-        annotation:
-          'The wait a typical build risks here: framing crews sitting on a decision that should have already been made.',
-      },
-      {
-        name: 'Trade Sequencing',
-        annotation:
-          'The wait a typical build risks here: one trade waiting on the last trade to finish before starting their own work.',
-      },
-      {
-        name: 'Finish Work',
-        annotation:
-          'The wait a typical build risks here: a finish selection made too late to install on schedule.',
-      },
-      {
-        name: 'Move-In',
-        annotation:
-          'The wait a typical build risks here: a final walk-through finding problems that push move-in back.',
-      },
-    ],
-  },
-
-  // The architect's punch list (Home and Process): stages 1 to 5 close; Move-In stays open.
-  punchList: {
+  // The build timeline (Home and Process): the Accelerated Precision Building System as a
+  // punch list laid along an illustrative build schedule, scrubbed by scroll. Each stage carries
+  // the wait a typical build risks there (struck through as the stage closes) and its example
+  // on-site milestones; `month` places each on the schedule (0 to `months`), shown as the
+  // calendar month it falls in. Stages 1 to 5 close; Move-In stays open for the visitor. The
+  // quote is two consecutive sentences from the McDonalds' testimonial (content/testimonials.json).
+  buildTimeline: {
     title: 'Punch List',
+    note: 'An illustrative build schedule',
+    label:
+      'The Accelerated Precision Building System as a punch list along an illustrative build schedule: six stages from design to move-in over fourteen months. Stages one to five are closed; Move-In is open.',
+    month: 'Month',
+    months: 14,
     closed: 'Closed',
     open: 'Open',
     cta: { label: 'Start the Conversation', href: '/contact' },
-  },
-
-  // The move-in timeline beneath the punch list. The quote is two consecutive sentences from the
-  // McDonalds' testimonial (content/testimonials.json).
-  moveIn: {
-    moved: 'Moved in',
+    stages: [
+      {
+        name: 'Design and Spec Lock',
+        risk: "The wait a typical build risks here: mid-build changes to layout or finishes that weren't locked in advance.",
+        milestones: [
+          { month: 0.3, label: 'Plans and finishes locked' },
+          { month: 0.6, label: 'Permit applied for' },
+        ],
+      },
+      {
+        name: 'Pre-Construction Sequencing',
+        risk: "The wait a typical build risks here: a crew standing idle on a delivery or a permit that wasn't sequenced ahead of time.",
+        milestones: [
+          { month: 1.3, label: 'Trades and materials scheduled' },
+          { month: 2.4, label: 'Permit issued' },
+        ],
+      },
+      {
+        name: 'Framing',
+        risk: 'The wait a typical build risks here: framing crews sitting on a decision that should have already been made.',
+        milestones: [
+          { month: 2.8, label: 'Ground broken' },
+          { month: 3.9, label: 'Foundation poured' },
+          { month: 5.5, label: 'Framing inspected' },
+        ],
+      },
+      {
+        name: 'Trade Sequencing',
+        risk: 'The wait a typical build risks here: one trade waiting on the last trade to finish before starting their own work.',
+        milestones: [
+          { month: 6.6, label: 'Roof on, windows in' },
+          { month: 8.3, label: 'Rough-ins inspected' },
+        ],
+      },
+      {
+        name: 'Finish Work',
+        risk: 'The wait a typical build risks here: a finish selection made too late to install on schedule.',
+        milestones: [
+          { month: 10.4, label: 'Cabinetry and stone set' },
+          { month: 12.5, label: 'Final inspection' },
+        ],
+      },
+      {
+        name: 'Move-In',
+        risk: 'The wait a typical build risks here: a final walk-through finding problems that push move-in back.',
+        milestones: [{ month: 13.6, label: 'Keys handed over' }],
+      },
+    ],
     quote:
       'We were in the house a month earlier than scheduled. This is my third time building a custom home, and I have never been more satisfied.',
     attribution: 'Michael and Jane McDonald',
     projectType: 'New Custom Home',
-    label:
-      'Timeline: an illustrative build schedule, month by month, from permit application to move-in.',
-    // The schedule beneath the punch list: what happens on site and when, not the six stages
-    // again. `month` places each on the ruler (0 to `months`), shown as the calendar month it
-    // falls in. Illustrative, not a specific project's schedule, and labelled as such on the page.
-    sequenceNote: 'An illustrative build schedule',
-    month: 'Month',
-    months: 14,
-    schedule: [
-      { month: 0.5, label: 'Permit applied for' },
-      { month: 2.4, label: 'Permit issued' },
-      { month: 2.8, label: 'Ground broken' },
-      { month: 3.9, label: 'Foundation poured' },
-      { month: 5.5, label: 'Framing inspected' },
-      { month: 6.6, label: 'Roof on, windows in' },
-      { month: 8.3, label: 'Rough-ins inspected' },
-      { month: 10.4, label: 'Cabinetry and stone set' },
-      { month: 12.5, label: 'Final inspection' },
-      { month: 13.6, label: 'Keys handed over' },
-    ],
   },
 
   closingCta: {
