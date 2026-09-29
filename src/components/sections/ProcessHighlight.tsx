@@ -1,6 +1,6 @@
 import copy from '@content/copy.config';
 import { ButtonLink } from '@/components/ui/Button';
-import { Eyebrow } from '@/components/ui/Eyebrow';
+import { ApbMark } from '@/components/ui/ApbMark';
 import { BuildTimeline } from './BuildTimeline';
 
 /**
@@ -14,7 +14,7 @@ export function ProcessHighlight() {
       <BuildTimeline
         intro={
           <>
-            <Eyebrow>{processHighlight.eyebrow}</Eyebrow>
+            <ApbMark />
             <p className="mt-6 max-w-text text-body">{processHighlight.body}</p>
             <div className="mt-8">
               <ButtonLink href={processHighlight.button.href} variant="ghost">

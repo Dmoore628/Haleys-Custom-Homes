@@ -11,6 +11,12 @@
   "color": "transparent",
   "blurDataURL": ""
  },
+ "/images/affiliations/icaa.png": {
+  "width": 318,
+  "height": 192,
+  "color": "transparent",
+  "blurDataURL": ""
+ },
  "/images/affiliations/nahb.png": {
   "width": 275,
   "height": 192,
@@ -61,6 +67,12 @@
  },
  "/images/community/childrens-diabetes-foundation.png": {
   "width": 231,
+  "height": 192,
+  "color": "transparent",
+  "blurDataURL": ""
+ },
+ "/images/community/designs-by-sundown.png": {
+  "width": 1263,
   "height": 192,
   "color": "transparent",
   "blurDataURL": ""
@@ -175,6 +187,12 @@
  },
  "/images/press/colorado-homes-lifestyles.png": {
   "width": 420,
+  "height": 192,
+  "color": "transparent",
+  "blurDataURL": ""
+ },
+ "/images/press/home-garden-colorado.png": {
+  "width": 741,
   "height": 192,
   "color": "transparent",
   "blurDataURL": ""

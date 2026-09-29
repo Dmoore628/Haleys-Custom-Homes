@@ -77,7 +77,7 @@ test('FAQ has exactly the ten questions, in order', async ({ page }) => {
     'How long does a typical build take?',
     'Do you take on remodels as well as new builds?',
     'What areas do you build in?',
-    'How does the Accelerated Precision Building System actually save time?',
+    'How does the Accelerated Precision Building System™ actually save time?',
     'Do you provide design and architectural services, or do I need my own architect?',
     'Do I need to already own the lot, or can Haley help me find one?',
     'What does the payment schedule look like?',

@@ -111,13 +111,14 @@ test('5, 6, 21: recognition tiers, press marks and scarcity badge', async ({ pag
   const alts = await section
     .locator('img')
     .evaluateAll((els) => els.map((e) => e.getAttribute('alt')));
-  expect(alts.length).toBe(8);
+  expect(alts.length).toBe(9);
   expect(new Set(alts).size).toBe(alts.length);
   for (const name of [
     'Cherry Creek Lifestyle',
     'Cherry Creek Magazine',
     'Modern In Denver',
     'Colorado Homes & Lifestyles',
+    'Home & Garden Colorado',
   ]) {
     await expect(section.getByRole('img', { name, exact: true })).toBeVisible();
   }
@@ -331,16 +332,31 @@ test('about: board service and professional associations from the old About page
   const section = page.locator('section', { hasText: 'Service and Associations' });
   for (const name of [
     /YPO/,
-    /Children.s Diabetes Foundation/,
     /ACE Foundation/,
     /Home Builders Association of Metro Denver/,
     /Colorado Association of Home Builders/,
     /National Association of Home Builders/,
+    /Institute of Classical Architecture/,
+    'Builder 20 Club member',
+    'Rocky Mountain Chapter',
   ]) {
     await expect(section.getByText(name)).toHaveCount(1);
   }
   // Every association and all but the unverified ACE mark show a logo.
   await expect(section.locator('img')).toHaveCount(5);
+  // No logo repeats anywhere on the page.
+  const srcs = await page
+    .locator('main img[src*="images%2F"], main img[src*="/images/"]')
+    .evaluateAll((els) =>
+      els
+        .map((e) => decodeURIComponent(e.getAttribute('src') ?? ''))
+        .map((s) => s.match(/images\/(affiliations|community|press|awards|eco)\/[^&?]+/)?.[0])
+        .filter(Boolean),
+    );
+  expect(new Set(srcs).size).toBe(srcs.length);
+  // The Children's Diabetes Foundation card carries the board role; Designs By Sundown is a partner.
+  await expect(page.getByText('Board member and event chairman')).toBeVisible();
+  await expect(page.getByRole('img', { name: 'Designs By Sundown' })).toBeAttached();
 });
 
 test('dated lines follow the visitor’s clock, not the build date', async ({ page }) => {

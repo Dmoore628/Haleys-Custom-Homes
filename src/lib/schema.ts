@@ -91,6 +91,8 @@ const affiliationSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   mark: z.string().startsWith('/images/').nullable(),
+  /** A second line under the name: a chapter or a membership within the organization. */
+  note: z.string().min(1).optional(),
 });
 export const affiliationsSchema = z.object({
   source: z.string().min(1),

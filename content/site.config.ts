@@ -62,7 +62,7 @@ const siteConfig = {
     titleSuffix: 'Haley Custom Homes',
     defaultTitle: 'Haley Custom Homes | Denver Custom Home Builder',
     defaultDescription:
-      'Luxury custom home builder and remodeler serving Denver Metro, Boulder, Aspen and Vail since 1998. Three to five homes a year, built with the Accelerated Precision Building System.',
+      'Luxury custom home builder and remodeler serving Denver Metro, Boulder, Aspen and Vail since 1998. Three to five homes a year, built with the Accelerated Precision Building System™.',
   },
 } as const;
 

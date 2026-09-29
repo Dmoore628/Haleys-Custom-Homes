@@ -1,11 +1,11 @@
 [
   {
     "id": "houzz",
-    "name": "Houzz Best of Design",
-    "year": "2019, 2022",
-    "description": "Recognized for design excellence based on client evaluation of photography, service, and design quality.",
+    "name": "Best of Houzz, Design and Service",
+    "year": null,
+    "description": "Fourteen Best of Houzz awards: Design in 2019 and 2021 to 2026, chosen by the Houzz community, and Service in 2016 to 2018, 2020 to 2022 and 2026, earned through client reviews.",
     "mark": "/images/awards/houzz.png",
-    "markAlt": "Houzz"
+    "markAlt": "Best of Houzz"
   },
   {
     "id": "luxury-lifestyle",

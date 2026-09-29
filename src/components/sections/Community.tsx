@@ -46,7 +46,7 @@ export function Community() {
           <h3 className="label text-ink/70">{partnersLabel}</h3>
           <span className="h-px flex-1 bg-ink/15" aria-hidden="true" />
         </div>
-        <ul className="mt-[clamp(2rem,4vw,3rem)] grid grid-cols-1 items-center gap-y-10 md:grid-cols-3 md:gap-x-grid">
+        <ul className="mt-[clamp(2rem,4vw,3rem)] grid grid-cols-2 items-center gap-x-grid gap-y-10 lg:grid-cols-4">
           {community.partners.marks.map((m) => (
             <li key={m.id} className="flex justify-center">
               <MarkImage src={m.mark} alt={m.name} />

@@ -48,7 +48,6 @@ const copy = {
       label: 'Client reviews',
     },
     processHighlight: {
-      eyebrow: 'THE ACCELERATED PRECISION BUILDING SYSTEM',
       body: 'Every Haley home follows a proprietary sequencing method built on LEAN construction principles, the same discipline that eliminates waste and delay in advanced manufacturing, applied to a custom home. The result is a build that moves in order, without the idle weeks that stretch a typical project.',
       button: { label: 'Learn the Process', href: '/process' },
     },
@@ -61,6 +60,13 @@ const copy = {
       recognition: 'Recognition',
       asSeenIn: 'As Seen In',
     },
+  },
+
+  // The APB System™ lockup (src/components/ui/ApbMark.tsx). Haley's trademarked name, as on its
+  // site and its ICAA directory listing: "APB System™ – Accelerated Precision Building".
+  apb: {
+    monogram: 'APB',
+    name: 'Accelerated Precision Building System™',
   },
 
   // The build timeline (Home and Process): the Accelerated Precision Building System as a
@@ -182,7 +188,7 @@ const copy = {
     meta: {
       title: 'Process',
       description:
-        'The Accelerated Precision Building System: a LEAN-based construction sequencing method that keeps a Haley custom home build moving in order.',
+        'The Accelerated Precision Building System™: a LEAN-based construction sequencing method that keeps a Haley custom home build moving in order.',
     },
     intro: {
       eyebrow: 'OUR PROCESS',
@@ -329,7 +335,7 @@ const copy = {
       headline: 'Less Lumber, Same Home',
       body: [
         'Framing is where a home takes shape, and it\u2019s the stage that consumes the most resources. Homes framed the traditional way can use more than forty mature trees for every 2,500 square feet, and luxury homes often use more.',
-        'Our framing process, part of the Accelerated Precision Building System, significantly cuts lumber waste. Whatever the size or architecture of your home, it lowers both the lumber cost and the ecological footprint, without giving up an inch of quality.',
+        'Our framing process, part of the Accelerated Precision Building System™, significantly cuts lumber waste. Whatever the size or architecture of your home, it lowers both the lumber cost and the ecological footprint, without giving up an inch of quality.',
       ],
       stat: { value: '40+', label: 'Mature trees per 2,500 sq ft in traditional framing' },
       image: '/images/eco/framing.jpg',
@@ -403,7 +409,7 @@ const copy = {
     buildSmart: {
       eyebrow: 'BOULDER COUNTY BUILDSMART',
       headline: 'Meeting and Exceeding BuildSmart',
-      body: 'Boulder County BuildSmart sets the county\u2019s green building requirements for sustainable, energy-efficient homes. We meet and exceed them, working with each client and their architect so every requirement is met through the build, for better indoor air, fewer greenhouse gases and a lighter footprint.',
+      body: 'Boulder County BuildSmart sets the county\u2019s green building requirements for sustainable, energy-efficient homes. We meet and exceed them, working with each client and their architect so every requirement is met through the build, for better indoor air, fewer greenhouse gases and a lighter footprint. Our homes are also built to the checklists of Built Green Colorado, the green building program of the Home Builders Association of Metro Denver.',
     },
     closing:
       'Whether you\u2019re building from the ground up or remodeling for a greener home, we\u2019re here to be your partner.',

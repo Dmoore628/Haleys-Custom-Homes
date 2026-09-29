@@ -184,6 +184,22 @@ def ink_whites(im):
     return im
 
 
+def invert_neutrals(im):
+    """A mark drawn for dark backgrounds, in its light-background form: its white and black
+    swap (as in the organization's own light version), and its colored accents stay."""
+    px = im.load()
+    for y in range(im.height):
+        for x in range(im.width):
+            r, g, b, a = px[x, y]
+            if a and max(r, g, b) - min(r, g, b) < 40:
+                v = 255 - (r + g + b) // 3
+                t = v / 255
+                # White becomes ink, black becomes bone.
+                px[x, y] = (round(26 + (239 - 26) * t), round(24 + (233 - 24) * t),
+                            round(21 + (222 - 21) * t), a)
+    return im
+
+
 def make_logo_marks():
     """Press and community marks, each the organization's own (see assets/*/SOURCES.md)."""
     raster = {
@@ -191,15 +207,18 @@ def make_logo_marks():
         'press/cherry-creek-magazine.png': ('press/sourced/cherry-creek-magazine.png', None, False),
         'press/modern-in-denver.png': ('press/sourced/modern-in-denver.jpg', 'white', False),
         'press/colorado-homes-lifestyles.png': ('press/sourced/colorado-homes-lifestyles.png', None, False),
+        'press/home-garden-colorado.png': ('press/sourced/home-garden-colorado.png', None, False),
         'community/childrens-diabetes-foundation.png': ('community/sourced/childrens-diabetes-foundation.png', None, False),
         'community/st-thomas-more.png': ('community/sourced/st-thomas-more.png', None, False),
         'community/ekman-design-studio.png': ('community/sourced/ekman-design-studio.png', None, True),
+        'community/designs-by-sundown.png': ('community/sourced/designs-by-sundown.png', None, 'invert'),
         # Board service and professional associations (assets/affiliations/SOURCES.md).
         'affiliations/ypo.png': ('affiliations/sourced/ypo.jpg', 'white', False),
         'affiliations/hba-metro-denver.png': ('affiliations/sourced/hba-metro-denver.png', None, False),
         'affiliations/colorado-association-of-home-builders.png': (
             'affiliations/sourced/colorado-association-of-home-builders.jpg', 'white', False),
         'affiliations/nahb.png': ('affiliations/sourced/nahb.png', None, False),
+        'affiliations/icaa.png': ('affiliations/sourced/icaa.png', 'white', False),
         # Eco-building programs (assets/eco/SOURCES.md).
         'eco/epa-indoor-airplus.png': ('eco/sourced/epa-indoor-airplus.png', None, False),
         'eco/boulder-county-buildsmart.png': ('eco/sourced/boulder-county-buildsmart.png', None, False),
@@ -209,7 +228,9 @@ def make_logo_marks():
         if out_rel == 'press/modern-in-denver.png':
             # The wordmark only: its pale grey tagline all but vanishes once the white is removed.
             im = im.crop((0, 0, im.width, round(im.height * 0.58)))
-        if recolor:
+        if recolor == 'invert':
+            im = invert_neutrals(im)
+        elif recolor:
             im = ink_whites(im)
         write_color_mark(im, out_rel, knock, height=192)
     # Vector marks: Exquisite Kitchen Design as published; Xssentials' white strokes to ink.

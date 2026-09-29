@@ -4,9 +4,9 @@
       "id": "childrens-diabetes-foundation",
       "name": "Children's Diabetes Foundation",
       "mark": "/images/community/childrens-diabetes-foundation.png",
-      "role": "Event chairman",
-      "detail": "Dan Fuller served as one of the chairmen of the 2023 Tied to a Cure Denver golf tournament, which raises funds for the Barbara Davis Center for Diabetes.",
-      "source": "childrensdiabetesfoundation.org/tied-to-a-cure-denver-golf-tournament-2023"
+      "role": "Board member and event chairman",
+      "detail": "Dan Fuller has served on the board of the Children's Diabetes Foundation and as one of the chairmen of its 2023 Tied to a Cure Denver golf tournament, which raises funds for the Barbara Davis Center for Diabetes.",
+      "source": "haleycustomhomes.com/about-us (board); childrensdiabetesfoundation.org/tied-to-a-cure-denver-golf-tournament-2023 (event chairman)"
     },
     {
       "id": "st-thomas-more",
@@ -31,7 +31,16 @@
         "name": "Exquisite Kitchen Design",
         "mark": "/images/community/exquisite-kitchen-design.svg"
       },
-      { "id": "xssentials", "name": "Xssentials", "mark": "/images/community/xssentials.svg" }
+      {
+        "id": "designs-by-sundown",
+        "name": "Designs By Sundown",
+        "mark": "/images/community/designs-by-sundown.png"
+      },
+      {
+        "id": "xssentials",
+        "name": "Xssentials",
+        "mark": "/images/community/xssentials.svg"
+      }
     ]
   }
 }

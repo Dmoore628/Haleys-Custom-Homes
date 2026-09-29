@@ -3,16 +3,24 @@ import { affiliations } from '@/lib/content';
 import { MarkImage } from '@/components/ui/MarkImage';
 import { Reveal } from '@/components/ui/Reveal';
 
+/** Columns by item count, so a tier of any size sits balanced and centered. */
+const COLUMNS: Record<number, string> = {
+  1: 'md:mx-auto md:max-w-[24rem]',
+  2: 'md:mx-auto md:max-w-[48rem] md:grid-cols-2',
+  3: 'md:grid-cols-3',
+  4: 'md:grid-cols-2 lg:grid-cols-4',
+};
+
 /**
- * About: Dan Fuller's board service and the company's professional associations, as listed on
- * Haley's own About page. Two evenly spaced tiers, each organization's mark above its name; an
+ * About: the company's professional associations and Dan Fuller's board service, as listed on
+ * Haley's own About page, the ICAA directory and Haley's Builder 20 page. Two evenly spaced tiers, each organization's mark above its name; an
  * organization without a verifiable mark is set in type alone.
  */
 export function Affiliations() {
   const { heading, boards, associations } = copy.about.affiliations;
   const tiers = [
-    { label: boards, items: affiliations.boards },
     { label: associations, items: affiliations.associations },
+    { label: boards, items: affiliations.boards },
   ];
   return (
     <section className="section-x section-y bg-bone" aria-labelledby="affiliations-heading">
@@ -28,7 +36,9 @@ export function Affiliations() {
               <h3 className="label text-ink/70">{tier.label}</h3>
               <span className="h-px flex-1 bg-ink/15" aria-hidden="true" />
             </div>
-            <ul className="mt-8 grid grid-cols-1 gap-y-10 md:grid-cols-3 md:gap-x-grid">
+            <ul
+              className={`mt-8 grid grid-cols-1 gap-y-10 md:gap-x-grid ${COLUMNS[tier.items.length] ?? COLUMNS[4]}`}
+            >
               {tier.items.map((a) => (
                 <li
                   key={a.id}
@@ -48,6 +58,7 @@ export function Affiliations() {
                     )}
                   </div>
                   <p className="mt-4 max-w-[18rem] text-[0.9375rem] leading-snug">{a.name}</p>
+                  {a.note && <p className="label mt-2 text-ink/70">{a.note}</p>}
                 </li>
               ))}
             </ul>

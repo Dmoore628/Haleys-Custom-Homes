@@ -4,6 +4,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { ProcessHero } from '@/components/sections/ProcessHero';
 import { BuildTimeline } from '@/components/sections/BuildTimeline';
+import { ApbMark } from '@/components/ui/ApbMark';
 import { PhaseSequence } from '@/components/sections/PhaseSequence';
 import { ClosingCta } from '@/components/sections/ClosingCta';
 import { EcoSummary } from '@/components/sections/EcoSummary';
@@ -25,9 +26,12 @@ export default function ProcessPage() {
       <section className="section-x bg-bone py-section" aria-labelledby="difference-heading">
         <BuildTimeline
           intro={
-            <h2 id="difference-heading" className="font-serif text-section font-normal">
-              {hook.headline}
-            </h2>
+            <>
+              <ApbMark />
+              <h2 id="difference-heading" className="mt-8 font-serif text-section font-normal">
+                {hook.headline}
+              </h2>
+            </>
           }
         />
       </section>

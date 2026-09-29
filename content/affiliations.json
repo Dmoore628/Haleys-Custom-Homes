@@ -1,15 +1,10 @@
 {
-  "source": "haleycustomhomes.com/about-us: 'Current and/or Past Board Member of' and 'Professional Association Member of'",
+  "source": "haleycustomhomes.com/about-us ('Current and/or Past Board Member of', 'Professional Association Member of'); haleycustomhomes.com/builder20 (NAHB 20 Clubs); classicist.org/membership-directory/haley-custom-homes-llc (ICAA professional member, Rocky Mountain Chapter)",
   "boards": [
     {
       "id": "ypo",
-      "name": "Young Presidents' Organization of Colorado (YPO)",
+      "name": "Young Presidents' Organization, Colorado (YPO)",
       "mark": "/images/affiliations/ypo.png"
-    },
-    {
-      "id": "childrens-diabetes-foundation",
-      "name": "Children's Diabetes Foundation (Barbara Davis Center)",
-      "mark": "/images/community/childrens-diabetes-foundation.png"
     },
     {
       "id": "ace-foundation",
@@ -19,9 +14,10 @@
   ],
   "associations": [
     {
-      "id": "hba-metro-denver",
-      "name": "Home Builders Association of Metro Denver",
-      "mark": "/images/affiliations/hba-metro-denver.png"
+      "id": "nahb",
+      "name": "National Association of Home Builders",
+      "note": "Builder 20 Club member",
+      "mark": "/images/affiliations/nahb.png"
     },
     {
       "id": "cahb",
@@ -29,9 +25,15 @@
       "mark": "/images/affiliations/colorado-association-of-home-builders.png"
     },
     {
-      "id": "nahb",
-      "name": "National Association of Home Builders",
-      "mark": "/images/affiliations/nahb.png"
+      "id": "hba-metro-denver",
+      "name": "Home Builders Association of Metro Denver",
+      "mark": "/images/affiliations/hba-metro-denver.png"
+    },
+    {
+      "id": "icaa",
+      "name": "Institute of Classical Architecture & Art",
+      "note": "Rocky Mountain Chapter",
+      "mark": "/images/affiliations/icaa.png"
     }
   ]
 }
