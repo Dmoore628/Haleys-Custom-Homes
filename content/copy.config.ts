@@ -69,17 +69,17 @@ const copy = {
     name: 'Accelerated Precision Building System™',
   },
 
-  // The build timeline (Home and Process): the Accelerated Precision Building System as a
-  // punch list laid along an illustrative build schedule, scrubbed by scroll. Each stage carries
-  // the wait a typical build risks there (struck through as the stage closes) and its example
-  // on-site milestones; `month` places each on the schedule (0 to `months`), shown as the
+  // The build timeline (Home and Process): the Haley build process, stage by stage, as a punch
+  // list laid along an illustrative build schedule, scrubbed by scroll. Each stage carries Haley's
+  // commitment for it (drawn from the Process page's phase descriptions and the old site's
+  // continuous quality checks) and its example on-site milestones; `month` places each on the schedule (0 to `months`), shown as the
   // calendar month it falls in. Stages 1 to 5 close; Move-In stays open for the visitor. The
   // quote is two consecutive sentences from the McDonalds' testimonial (content/testimonials.json).
   buildTimeline: {
     title: 'Punch List',
     note: 'An illustrative build schedule',
     label:
-      'The Accelerated Precision Building System as a punch list along an illustrative build schedule: six stages from design to move-in over fourteen months. Stages one to five are closed; Move-In is open.',
+      'The Haley build process, stage by stage, as a punch list along an illustrative build schedule: six stages from design to move-in over fourteen months. Stages one to five are closed; Move-In is open.',
     month: 'Month',
     months: 14,
     closed: 'Closed',
@@ -88,7 +88,8 @@ const copy = {
     stages: [
       {
         name: 'Design and Spec Lock',
-        risk: "The wait a typical build risks here: mid-build changes to layout or finishes that weren't locked in advance.",
+        commitment:
+          'We ensure there are no surprise mid‑build changes to layout or finishes: every detail is locked in advance, before the first shovel moves.',
         milestones: [
           { month: 0.3, label: 'Plans and finishes locked' },
           { month: 0.6, label: 'Permit applied for' },
@@ -96,7 +97,8 @@ const copy = {
       },
       {
         name: 'Pre-Construction Sequencing',
-        risk: "The wait a typical build risks here: a crew standing idle on a delivery or a permit that wasn't sequenced ahead of time.",
+        commitment:
+          "We order materials and schedule every trade in the exact sequence they're needed, so no crew stands idle waiting on a delivery or a permit.",
         milestones: [
           { month: 1.3, label: 'Trades and materials scheduled' },
           { month: 2.4, label: 'Permit issued' },
@@ -104,7 +106,8 @@ const copy = {
       },
       {
         name: 'Framing',
-        risk: 'The wait a typical build risks here: framing crews sitting on a decision that should have already been made.',
+        commitment:
+          'We make every decision before framing begins, so framing crews are never left waiting on one.',
         milestones: [
           { month: 2.8, label: 'Ground broken' },
           { month: 3.9, label: 'Foundation poured' },
@@ -113,7 +116,8 @@ const copy = {
       },
       {
         name: 'Trade Sequencing',
-        risk: 'The wait a typical build risks here: one trade waiting on the last trade to finish before starting their own work.',
+        commitment:
+          'We bring each trade in right behind the last, with no gap between them, so no one waits on another trade to finish before starting their own work.',
         milestones: [
           { month: 6.6, label: 'Roof on, windows in' },
           { month: 8.3, label: 'Rough-ins inspected' },
@@ -121,7 +125,8 @@ const copy = {
       },
       {
         name: 'Finish Work',
-        risk: 'The wait a typical build risks here: a finish selection made too late to install on schedule.',
+        commitment:
+          'We lock finish selections early and inspect every detail against the original specification, so each one installs on schedule.',
         milestones: [
           { month: 10.4, label: 'Cabinetry and stone set' },
           { month: 12.5, label: 'Final inspection' },
@@ -129,7 +134,8 @@ const copy = {
       },
       {
         name: 'Move-In',
-        risk: 'The wait a typical build risks here: a final walk-through finding problems that push move-in back.',
+        commitment:
+          'We check quality throughout the build, not only at the end, so the final walk-through confirms your home instead of pushing move-in back.',
         milestones: [{ month: 13.6, label: 'Keys handed over' }],
       },
     ],

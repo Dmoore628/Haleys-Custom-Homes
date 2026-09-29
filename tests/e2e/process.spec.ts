@@ -8,7 +8,11 @@ for (const route of ['/', '/process']) {
     const timeline = page.getByTestId('build-timeline');
     const stages = timeline.getByTestId('build-stage');
     await expect(stages).toHaveCount(6);
-    // Every stage from the punch list, with its risk, and the schedule's milestones.
+    // Every stage, framed as Haley's commitment (no "typical build" risks), and the milestones.
+    await expect(timeline.getByText(/typical build risks/)).toHaveCount(0);
+    await expect(
+      timeline.getByText(/We ensure there are no surprise mid.build changes to layout or finishes/),
+    ).toHaveCount(1);
     for (const name of [
       'Design and Spec Lock',
       'Pre-Construction Sequencing',

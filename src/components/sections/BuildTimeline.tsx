@@ -38,18 +38,12 @@ const milestoneIndex = (s: number, k: number) =>
 const lastOfStage = (s: number) => milestoneIndex(s, STAGES[s].milestones.length - 1);
 const ALL = CHECKPOINTS.length;
 
-/** The risk sentences read "The wait a typical build risks here: …": a label, then the risk. */
-function splitRisk(risk: string) {
-  const i = risk.indexOf(': ');
-  return i === -1 ? { lead: '', body: risk } : { lead: risk.slice(0, i), body: risk.slice(i + 2) };
-}
-
 /**
- * The Accelerated Precision Building System as one vertical, scroll-scrubbed timeline: the
- * architect's punch list laid along an illustrative build schedule. Scrolling moves a scrubber
- * down the rail; as it passes a stage the stage lights, each on-site milestone lights with its
- * month, and when the stage's last milestone is passed its box takes a drawn check, the wait a
- * typical build risks there is struck through, and it flips to Closed. Scrolling back reopens
+ * The Haley build process as one vertical, scroll-scrubbed timeline: the architect's punch list
+ * laid along an illustrative build schedule, each stage with Haley's commitment for it. Scrolling
+ * moves a scrubber down the rail; as it passes a stage the stage and its commitment light, each
+ * on-site milestone lights with its month, and when the stage's last milestone is passed its box
+ * takes a drawn check and it flips to Closed. Scrolling back reopens
  * them. Move-In alone stays open, its box breathing, with the way to close it. A status card
  * (pinned beside the rail on wide screens, a pill pinned to the bottom of the screen on narrow
  * ones) keeps the live count and the month. Reduced motion shows the finished schedule.
@@ -334,7 +328,7 @@ function useOffset(tip: MotionValue<number>, top: number) {
   return v;
 }
 
-/** One stage: its box on the rail, its name and status, the risk it removes, its milestones. */
+/** One stage: its box on the rail, its name and status, Haley's commitment, its milestones. */
 function Stage({
   s,
   passed,
@@ -350,7 +344,6 @@ function Stage({
   const isMoveIn = s === LAST_STAGE;
   const active = passed > nodeIndex(s);
   const closed = !isMoveIn && passed > lastOfStage(s);
-  const { lead, body } = splitRisk(stage.risk);
 
   return (
     <li
@@ -419,15 +412,13 @@ function Stage({
           </span>
         </div>
 
-        {/* The wait a typical build risks here, struck through as the stage closes. */}
-        <p className="mt-3 max-w-[34rem] text-[0.9375rem] leading-relaxed text-ink/60">
-          {lead && <span className="label mb-1 block text-[0.6875rem] text-ink/70">{lead}</span>}
-          <span
-            className="bg-[linear-gradient(currentColor,currentColor)] bg-[position:0_58%] bg-no-repeat transition-[background-size] duration-700 ease-brand"
-            style={{ backgroundSize: closed ? '100% 1px' : '0% 1px' }}
-          >
-            {keepTogether(body)}
-          </span>
+        {/* Haley's commitment for the stage, brightening as the stage is reached. */}
+        <p
+          className={`mt-3 max-w-[34rem] text-[0.9375rem] leading-relaxed transition-colors duration-500 ${
+            active ? 'text-ink/80' : 'text-ink/45'
+          }`}
+        >
+          {keepTogether(stage.commitment)}
         </p>
 
         {/* The stage's milestones, each with its month, and a tick on the rail. */}
