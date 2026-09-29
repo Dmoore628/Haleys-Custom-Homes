@@ -1,7 +1,7 @@
-import Image from 'next/image';
 import type { Metadata } from 'next';
 import copy from '@content/copy.config';
-import { awards, getMedia } from '@/lib/content';
+import { awards } from '@/lib/content';
+import { MarkImage } from '@/components/ui/MarkImage';
 import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { PlumbBob } from '@/components/ui/SignatureAccents';
@@ -23,7 +23,7 @@ export default function AboutPage() {
 
   return (
     <CoverStack>
-      {/* Founder intro. Desktop: 7/5 split, text left and vertically centered on the portrait. */}
+      {/* Founder intro. Desktop: 7/5 split, text left, centered in its column and on the portrait. */}
       <section className="section-x bg-bone pb-section pt-[calc(6.5rem+clamp(3rem,7vw,7rem))]">
         <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:items-center md:gap-x-grid md:gap-y-0">
           <Reveal className="md:order-2 md:col-span-5 md:col-start-8">
@@ -38,10 +38,13 @@ export default function AboutPage() {
               />
             </div>
           </Reveal>
-          <Reveal className="md:order-1 md:col-span-7 md:pr-[clamp(0rem,4vw,4rem)]" delay={0.1}>
+          <Reveal
+            className="text-center md:order-1 md:col-span-7 md:pr-[clamp(0rem,4vw,4rem)]"
+            delay={0.1}
+          >
             <h1 className="font-serif text-section font-normal">{founder.headline}</h1>
-            <p className="mt-8 max-w-text text-body">{founder.body}</p>
-            <p className="mt-5 max-w-text text-body">{founder.more}</p>
+            <p className="mx-auto mt-8 max-w-text text-body">{founder.body}</p>
+            <p className="mx-auto mt-5 max-w-text text-body">{founder.more}</p>
           </Reveal>
         </div>
       </section>
@@ -72,40 +75,30 @@ export default function AboutPage() {
         <h2 id="awards-heading" className="sr-only">
           {copy.about.awardsHeading}
         </h2>
-        <ul className="relative border-t border-ink/10 md:mr-[clamp(10rem,18vw,20rem)]">
-          {awards.map((a, i) => {
-            const media = a.mark ? getMedia(a.mark) : null;
-            return (
-              <Reveal
-                as="li"
-                key={a.id}
-                delay={i * 0.05}
-                className="grid grid-cols-1 gap-6 border-b border-ink/10 py-10 md:grid-cols-12 md:items-center md:gap-x-grid"
-              >
-                <div className="flex h-14 items-center md:col-span-4">
-                  {a.mark && media && (
-                    <Image
-                      src={a.mark}
-                      alt={a.markAlt}
-                      width={media.width}
-                      height={media.height}
-                      unoptimized={a.mark.endsWith('.svg')}
-                      quality={90}
-                      sizes="240px"
-                      className="h-full w-auto max-w-[12rem] object-contain object-left"
-                    />
-                  )}
-                </div>
-                <div className="md:col-span-8">
-                  <h3 className="font-serif text-statement font-normal">
-                    {a.name}
-                    {a.year ? ` (${a.year})` : ''}
-                  </h3>
-                  <p className="mt-3 max-w-text text-body">{keepTogether(a.description)}</p>
-                </div>
-              </Reveal>
-            );
-          })}
+        <ul className="relative mx-auto max-w-[64rem] border-t border-ink/10">
+          {awards.map((a, i) => (
+            <Reveal
+              as="li"
+              key={a.id}
+              delay={i * 0.05}
+              className="grid grid-cols-1 gap-6 border-b border-ink/10 py-10 md:grid-cols-12 md:items-center md:gap-x-grid"
+            >
+              <div className="flex min-h-14 items-center justify-center md:col-span-4">
+                {a.mark && (
+                  <MarkImage src={a.mark} alt={a.markAlt} base="clamp(44px, 4.4vw, 60px)" />
+                )}
+              </div>
+              <div className="text-center md:col-span-8 md:text-left">
+                <h3 className="font-serif text-statement font-normal">
+                  {a.name}
+                  {a.year ? ` (${a.year})` : ''}
+                </h3>
+                <p className="mx-auto mt-3 max-w-text text-body md:mx-0">
+                  {keepTogether(a.description)}
+                </p>
+              </div>
+            </Reveal>
+          ))}
         </ul>
       </section>
 
