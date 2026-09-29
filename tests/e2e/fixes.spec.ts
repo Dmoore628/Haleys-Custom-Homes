@@ -172,7 +172,7 @@ test('7, 19, 20: footer contact links, social glyphs and ICAA credit', async ({ 
   await expect(credit.locator('img, svg')).toHaveCount(0);
 });
 
-test('8: phone hero: a sharp full-width video band, headline beneath it', async ({
+test('8: phone hero: the video fills the screen and the headline sits over it', async ({
   page,
   isMobile,
 }) => {
@@ -182,11 +182,13 @@ test('8: phone hero: a sharp full-width video band, headline beneath it', async 
   await expect(video).toHaveCSS('object-fit', 'cover');
   const vb = (await video.boundingBox())!;
   const vw = page.viewportSize()!;
-  // Full width, and short enough that the 2.3:1 footage isn't magnified into a blur.
   expect(vb.width).toBeGreaterThanOrEqual(vw.width - 1);
-  expect(vb.height).toBeLessThanOrEqual(vw.height * 0.6);
+  expect(vb.height).toBeGreaterThanOrEqual(vw.height - 1);
+  // The headline and buttons are inside the video's frame, in its lower part, fully on screen.
   const hb = (await page.getByRole('heading', { level: 1 }).boundingBox())!;
-  expect(hb.y).toBeGreaterThanOrEqual(vb.y + vb.height * 0.6);
+  expect(hb.y).toBeGreaterThan(vb.y + vb.height * 0.3);
+  const cta = (await page.locator('section').first().getByRole('link').last().boundingBox())!;
+  expect(cta.y + cta.height).toBeLessThanOrEqual(vb.y + vb.height);
 });
 
 test('12 and 14: the plumb bob plays once; Process uses its drawn hero instead of the square', async ({

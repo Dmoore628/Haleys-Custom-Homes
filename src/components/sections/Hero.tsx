@@ -9,12 +9,12 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Sentences } from '@/components/ui/Sentences';
 
 /**
- * Video hero. The footage is a wide panorama (about 2.3:1) with limited resolution, so it is
- * only cropped to fill the screen where the screen is wide enough to keep it sharp (lg and up:
- * full viewport, content over it). On phones and portrait tablets, where a full-height crop
- * would magnify a thin slice into a blur, it runs as a full-width band across the top that
- * fades into ink, with the headline beneath it. No scroll reveal: the content fades in
- * together (400ms) the instant the page is ready. 20% black overlay for legibility.
+ * Video hero: the footage fills the screen at every size, with the headline and buttons laid
+ * over its lower part. The footage is a wide panorama (about 2.3:1, 1920x838), so on phones the
+ * fill is a centered crop; a 20% black overlay plus a gradient rising from the bottom (deeper
+ * on narrow screens, where more of the frame sits behind the text) keeps the copy legible.
+ * `svh` keeps it to the visible screen on iPhone, toolbar included. No scroll reveal: the
+ * content fades in together (400ms) the instant the page is ready.
  */
 export function Hero() {
   const { hero } = copy.home;
@@ -56,9 +56,9 @@ export function Hero() {
 
   return (
     <>
-      <section className="relative w-full bg-ink text-bone lg:h-[100vh] lg:min-h-[560px] lg:overflow-hidden">
-        {/* The footage: a band across the top below lg, the full viewport from lg. */}
-        <div className="relative h-[max(46svh,300px)] w-full overflow-hidden lg:absolute lg:inset-0 lg:h-full">
+      <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-ink text-bone lg:h-[100vh]">
+        {/* The footage, filling the screen. */}
+        <div className="absolute inset-0 overflow-hidden">
           <video
             ref={videoRef}
             className="absolute inset-0 h-full w-full object-cover object-center"
@@ -74,13 +74,13 @@ export function Hero() {
           />
           <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
           <div
-            className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-b from-transparent to-ink lg:hidden"
+            className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-b from-transparent via-black/35 to-black/75 lg:h-1/2 lg:via-black/10 lg:to-black/45"
             aria-hidden="true"
           />
         </div>
 
         <motion.div
-          className="section-x relative pb-12 pt-1 lg:absolute lg:inset-x-0 lg:bottom-16 lg:pb-0 lg:pt-0"
+          className="section-x absolute inset-x-0 bottom-[max(2.5rem,env(safe-area-inset-bottom))] lg:bottom-16"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: DURATION.heroFade, ease: EASE }}
