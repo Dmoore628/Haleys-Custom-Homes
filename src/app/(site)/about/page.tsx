@@ -11,11 +11,12 @@ import { Affiliations } from '@/components/sections/Affiliations';
 import { CoverStack } from '@/components/ui/CoverStack';
 import { Sentences } from '@/components/ui/Sentences';
 import { keepTogether } from '@/lib/text';
+import { sharePreview } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: copy.about.meta.title,
   description: copy.about.meta.description,
-  openGraph: { images: [{ url: '/og/about.jpg', width: 1200, height: 630 }] },
+  openGraph: sharePreview('/about', { url: '/og/about.jpg' }),
 };
 
 export default function AboutPage() {

@@ -4,6 +4,7 @@ import siteConfig from '@content/site.config';
 import { CoverStack } from '@/components/ui/CoverStack';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { ButtonLink } from '@/components/ui/Button';
+import { sharePreview } from '@/lib/seo';
 
 const page = copy.clientPortal;
 
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
   title: page.meta.title,
   description: page.meta.description,
   robots: { index: false, follow: false },
+  openGraph: sharePreview('/client-portal'),
 };
 
 /**

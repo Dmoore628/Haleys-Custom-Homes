@@ -9,11 +9,12 @@ import { PhaseSequence } from '@/components/sections/PhaseSequence';
 import { ClosingCta } from '@/components/sections/ClosingCta';
 import { EcoSummary } from '@/components/sections/EcoSummary';
 import { CoverStack } from '@/components/ui/CoverStack';
+import { sharePreview } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: copy.process.meta.title,
   description: copy.process.meta.description,
-  openGraph: { images: [{ url: '/og/process.jpg', width: 1200, height: 630 }] },
+  openGraph: sharePreview('/process', { url: '/og/process.jpg' }),
 };
 
 export default function ProcessPage() {

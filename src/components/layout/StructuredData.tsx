@@ -1,5 +1,6 @@
 import siteConfig from '@content/site.config';
 import { legalCompany } from '@content/legal';
+import { siteUrl } from '@/lib/seo';
 
 /**
  * schema.org business data for search engines (a HomeAndConstructionBusiness), built only from
@@ -19,8 +20,8 @@ export function StructuredData() {
     legalName: legalCompany.name,
     url,
     description: seo.defaultDescription,
-    logo: `${url}/images/brand/logo-ink.png`,
-    image: `${url}/og/home.jpg`,
+    logo: `${siteUrl()}/images/brand/logo-ink.png`,
+    image: `${siteUrl()}/og/home.jpg`,
     telephone: contact.phone,
     email: contact.email,
     foundingDate: String(foundedYear),

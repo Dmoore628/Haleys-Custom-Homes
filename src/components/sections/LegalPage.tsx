@@ -3,6 +3,7 @@ import siteConfig from '@content/site.config';
 import { legalCompany, type LegalDoc } from '@content/legal';
 import { CoverStack } from '@/components/ui/CoverStack';
 import { Eyebrow } from '@/components/ui/Eyebrow';
+import { sharePreview } from '@/lib/seo';
 
 /** Fills the {company}, {address}, {phone} and {email} tokens from the site's business facts. */
 function fill(text: string) {
@@ -14,7 +15,12 @@ function fill(text: string) {
 }
 
 export function legalMetadata(doc: LegalDoc): Metadata {
-  return { title: doc.title, description: doc.description, alternates: { canonical: doc.path } };
+  return {
+    title: doc.title,
+    description: doc.description,
+    alternates: { canonical: doc.path },
+    openGraph: sharePreview(doc.path),
+  };
 }
 
 /**

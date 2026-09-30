@@ -330,6 +330,20 @@ def main():
     subprocess.run([ff, '-y', '-loglevel', 'error', '-ss', '0.1', '-i', out_video, '-frames:v', '1',
                     '-q:v', '3', os.path.join(PUB, 'video', 'hero-poster.jpg')], check=True)
 
+    # Link previews (og:video and the home share card). The same footage at the 1.91:1 share
+    # size, 1200x630: a centered crop of the 1920x838 hero, with its brightness restored (the
+    # site's copy is dimmed to hold the headline; a preview carries no text over it). The home
+    # card's photo is the finished exterior at 9.5s.
+    og_filter = ('crop=1596:838:162:0,scale=1200:630:flags=lanczos,'
+                 'colorlevels=rimax=0.76:gimax=0.76:bimax=0.76,format=yuv420p')
+    subprocess.run([ff, '-y', '-loglevel', 'error', '-i', out_video, '-vf', og_filter, '-an',
+                    '-c:v', 'libx264', '-preset', 'slow', '-crf', '26', '-profile:v', 'high',
+                    '-level:v', '4.0', '-r', '30', '-g', '60', '-movflags', '+faststart',
+                    os.path.join(PUB, 'video', 'og-hero.mp4')], check=True)
+    subprocess.run([ff, '-y', '-loglevel', 'error', '-ss', '9.5', '-i', out_video, '-frames:v', '1',
+                    '-vf', 'colorlevels=rimax=0.76:gimax=0.76:bimax=0.76', '-q:v', '2',
+                    os.path.join(PUB, 'images', 'sections', 'og-hero-frame.jpg')], check=True)
+
     # Closing CTA background: the whole Timian twilight flyover (8s, 1280x720, 24fps), looped.
     # Its last frame (the close pool view) and first frame (the high aerial) don't match, so the
     # loop point is made seamless: the clip plays from 0.6s to the end, and its final 0.6s
@@ -353,12 +367,13 @@ def main():
 
 OG_PAGES = {
     # file: (eyebrow, headline, background image)
-    'home': ('DENVER METRO. BOULDER. ASPEN. VAIL.', 'Three to five homes a year.', 'sections/cta-twilight.jpg'),
+    'home': ('DENVER METRO. BOULDER. ASPEN. VAIL.', 'Three to five homes a year.', 'sections/og-hero-frame.jpg'),
     'portfolio': ('PORTFOLIO', "A Sample of What We've Built", 'projects/tradition-reimagined/cover.jpg'),
     'process': ('OUR PROCESS', 'A Build That Moves in Order', 'phases/4-trade-sequencing.jpg'),
     'about': ('ABOUT', 'Dan Haley Fuller', 'sections/philosophy-detail.jpg'),
     'contact': ('CONTACT', 'Start Your Build', 'sections/concierge.jpg'),
     'eco-building': ('ECO-BUILDING', 'Energy-Efficient Homes', 'eco/rooftop-garden.jpg'),
+    'builder20': ('NAHB BUILDER 20 CLUB', 'Building Outside Colorado?', 'projects/timeless-estate/cover.jpg'),
 }
 
 

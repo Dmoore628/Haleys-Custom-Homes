@@ -7,11 +7,13 @@ import { FeaturedPortfolio } from '@/components/sections/FeaturedPortfolio';
 import { AwardsStrip } from '@/components/sections/AwardsStrip';
 import { ClosingCta } from '@/components/sections/ClosingCta';
 import { CoverStack } from '@/components/ui/CoverStack';
+import { sharePreview, heroShareVideo } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: { absolute: copy.home.meta.title },
   description: copy.home.meta.description,
-  openGraph: { images: [{ url: '/og/home.jpg', width: 1200, height: 630 }] },
+  // The hero video plays in previews that support it; the card shows everywhere else.
+  openGraph: sharePreview('/', { url: '/og/home.jpg' }, { videos: [heroShareVideo] }),
 };
 
 export default function HomePage() {

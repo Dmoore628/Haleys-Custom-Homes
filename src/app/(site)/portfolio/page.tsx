@@ -3,11 +3,12 @@ import copy from '@content/copy.config';
 import { getPublishedProjects } from '@/lib/projects/repo';
 import { PortfolioBrowser } from '@/components/sections/PortfolioBrowser';
 import { CoverStack } from '@/components/ui/CoverStack';
+import { sharePreview } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: copy.portfolio.meta.title,
   description: copy.portfolio.meta.description,
-  openGraph: { images: [{ url: '/og/portfolio.jpg', width: 1200, height: 630 }] },
+  openGraph: sharePreview('/portfolio', { url: '/og/portfolio.jpg' }),
 };
 
 export default async function PortfolioPage() {

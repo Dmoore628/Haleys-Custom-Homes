@@ -11,22 +11,18 @@ import { SiteChrome } from '@/components/layout/SiteChrome';
 import { StructuredData } from '@/components/layout/StructuredData';
 import { YearProvider } from '@/components/providers/YearProvider';
 import { currentYear } from '@/lib/year';
+import { sharePreview, siteUrl } from '@/lib/seo';
 import './globals.css';
 
 const isProduction = process.env.SITE_ENV === 'production';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
+  metadataBase: new URL(siteUrl()),
   title: { default: siteConfig.seo.defaultTitle, template: `%s | ${siteConfig.seo.titleSuffix}` },
   description: siteConfig.seo.defaultDescription,
   // The Vercel demo is staging: never indexed until this is Haley's live domain.
   robots: isProduction ? { index: true, follow: true } : { index: false, follow: false },
-  openGraph: {
-    siteName: siteConfig.name,
-    type: 'website',
-    locale: 'en_US',
-    images: [{ url: '/og/home.jpg', width: 1200, height: 630, alt: siteConfig.name }],
-  },
+  openGraph: sharePreview('/'),
   twitter: { card: 'summary_large_image' },
 };
 

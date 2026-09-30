@@ -8,13 +8,14 @@ import { MarkImage } from '@/components/ui/MarkImage';
 import { ClosingCta } from '@/components/sections/ClosingCta';
 import { EcoMarks } from '@/components/sections/EcoMarks';
 import { FeatureIcon } from '@/components/sections/EcoIcons';
+import { sharePreview } from '@/lib/seo';
 
 const { eco } = copy;
 
 export const metadata: Metadata = {
   title: eco.meta.title,
   description: eco.meta.description,
-  openGraph: { images: [{ url: '/og/eco-building.jpg', width: 1200, height: 630 }] },
+  openGraph: sharePreview('/eco-building', { url: '/og/eco-building.jpg' }),
 };
 
 function Check() {

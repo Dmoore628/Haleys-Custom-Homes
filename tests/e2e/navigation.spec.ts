@@ -74,3 +74,31 @@ test('legal pages: linked from every footer and from the contact form', async ({
     await expect(page.getByTestId('legal-page')).not.toContainText('{');
   }
 });
+
+test('link previews: every page has a full share card; home adds the hero video', async ({
+  page,
+  request,
+}) => {
+  const meta = (p: string) => page.locator(`meta[property="${p}"]`).first().getAttribute('content');
+  await page.goto('/');
+  expect(await meta('og:site_name')).toBe('Haley Custom Homes');
+  const image = (await meta('og:image'))!;
+  const video = (await meta('og:video'))!;
+  // Absolute URLs on the address the site is served from, and both files exist.
+  expect(image).toMatch(/^https?:\/\/[^/]+\/og\/home\.jpg$/);
+  expect(video).toMatch(/^https?:\/\/[^/]+\/video\/og-hero\.mp4$/);
+  expect(new URL(image).host).toBe(new URL(page.url()).host);
+  for (const url of [image, video]) {
+    expect((await request.get(new URL(url).pathname)).status()).toBe(200);
+  }
+  expect(await meta('og:video:type')).toBe('video/mp4');
+  for (const [route, card] of [
+    ['/builder20', '/og/builder20.jpg'],
+    ['/process', '/og/process.jpg'],
+    ['/privacy', '/og/home.jpg'],
+  ]) {
+    await page.goto(route);
+    expect(await meta('og:site_name')).toBe('Haley Custom Homes');
+    expect(await meta('og:image')).toContain(card);
+  }
+});

@@ -8,11 +8,12 @@ import { Reveal } from '@/components/ui/Reveal';
 import { ContactForm } from '@/components/sections/ContactForm';
 import { ServiceMap } from '@/components/sections/ServiceMap';
 import { CoverStack } from '@/components/ui/CoverStack';
+import { sharePreview } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: copy.contact.meta.title,
   description: copy.contact.meta.description,
-  openGraph: { images: [{ url: '/og/contact.jpg', width: 1200, height: 630 }] },
+  openGraph: sharePreview('/contact', { url: '/og/contact.jpg' }),
 };
 
 export default function ContactPage() {

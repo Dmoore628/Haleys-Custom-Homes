@@ -6,6 +6,7 @@ import { CoverStack } from '@/components/ui/CoverStack';
 import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { ProjectGallery } from '@/components/sections/ProjectGallery';
+import { sharePreview } from '@/lib/seo';
 
 // Projects published after the build (from the admin) render on first request, then cache.
 export const dynamicParams = true;
@@ -25,16 +26,12 @@ export async function generateMetadata({
   return {
     title: project.name,
     description: `${project.name}${where}. ${project.tagline ?? project.description}`.slice(0, 300),
-    openGraph: {
-      images: [
-        {
-          url: project.cover.src,
-          width: project.cover.width,
-          height: project.cover.height,
-          alt: project.name,
-        },
-      ],
-    },
+    openGraph: sharePreview(`/portfolio/${project.slug}`, {
+      url: project.cover.src,
+      width: project.cover.width,
+      height: project.cover.height,
+      alt: project.name,
+    }),
   };
 }
 

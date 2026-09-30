@@ -6,12 +6,14 @@ import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
 import { ClosingCta } from '@/components/sections/ClosingCta';
 import { keepTogether } from '@/lib/text';
+import { sharePreview } from '@/lib/seo';
 
 const page = copy.builder20;
 
 export const metadata: Metadata = {
   title: page.meta.title,
   description: page.meta.description,
+  openGraph: sharePreview('/builder20', { url: '/og/builder20.jpg' }),
 };
 
 /**
