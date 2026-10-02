@@ -13,14 +13,17 @@ interface RevealProps {
   delay?: number;
   className?: string;
   id?: string;
+  /** data-* attributes (test ids, state) pass through to the element. */
+  [data: `data-${string}`]: string | number | boolean | undefined;
 }
 
 /** Standard scroll reveal: opacity 0 to 1, translateY 24px to 0, 600ms, once at ~20% visibility. */
-export function Reveal({ children, as = 'div', delay = 0, className, id }: RevealProps) {
+export function Reveal({ children, as = 'div', delay = 0, className, id, ...data }: RevealProps) {
   const reduced = useReducedMotion();
   const Component = motion[as];
   return (
     <Component
+      {...data}
       id={id}
       className={className}
       initial="hidden"

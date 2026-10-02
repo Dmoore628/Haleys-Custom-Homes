@@ -115,30 +115,51 @@ export default function AboutPage() {
         <h2 id="awards-heading" className="sr-only">
           {copy.about.awardsHeading}
         </h2>
-        <ul className="relative mx-auto max-w-[64rem] border-t border-ink/10">
-          {awards.map((a, i) => (
-            <Reveal
-              as="li"
-              key={a.id}
-              delay={i * 0.05}
-              className="grid grid-cols-1 gap-6 border-b border-ink/10 py-10 md:grid-cols-12 md:items-center md:gap-x-grid"
-            >
-              <div className="flex min-h-14 items-center justify-center md:col-span-4">
-                {a.mark && (
-                  <MarkImage src={a.mark} alt={a.markAlt} base="clamp(44px, 4.4vw, 60px)" />
-                )}
-              </div>
-              <div className="text-center md:col-span-8 md:text-left">
-                <h3 className="font-serif text-statement font-normal">
-                  {a.name}
-                  {a.year ? ` (${a.year})` : ''}
-                </h3>
-                <p className="mx-auto mt-3 max-w-text text-body md:mx-0">
-                  {keepTogether(a.description)}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+        {/* Four equal rows, a quarter of the section each. The marks are set jumbo and
+            alternate sides (Houzz left, Luxury right, Energy Star left, LUXE right), each
+            award's name and description on the opposite side. Phones stack and center. */}
+        <ul className="relative mx-auto max-w-[76rem] border-t border-ink/10">
+          {awards.map((a, i) => {
+            const markLeft = i % 2 === 0;
+            return (
+              <Reveal
+                as="li"
+                key={a.id}
+                delay={i * 0.05}
+                className="flex flex-col items-center gap-8 border-b border-ink/10 py-[clamp(3rem,6vw,4.5rem)] text-center md:grid md:min-h-[clamp(20rem,28vw,26rem)] md:grid-cols-12 md:items-center md:gap-x-grid md:gap-y-0 md:py-10 md:text-left"
+                data-testid="award-row"
+                data-side={markLeft ? 'left' : 'right'}
+              >
+                <div
+                  className={`flex w-full items-center justify-center md:col-span-6 ${
+                    markLeft
+                      ? 'md:order-1 md:justify-start'
+                      : 'md:order-2 md:col-start-7 md:justify-end'
+                  }`}
+                >
+                  {a.mark && (
+                    <MarkImage
+                      src={a.mark}
+                      alt={a.markAlt}
+                      base="clamp(96px, 12vw, 176px)"
+                      className="max-h-[clamp(9rem,20vw,16rem)]"
+                    />
+                  )}
+                </div>
+                <div
+                  className={`md:col-span-5 ${markLeft ? 'md:order-2 md:col-start-8' : 'md:order-1 md:col-start-1'}`}
+                >
+                  <h3 className="font-serif text-statement font-normal">
+                    {a.name}
+                    {a.year ? ` (${a.year})` : ''}
+                  </h3>
+                  <p className="mx-auto mt-4 max-w-text text-body text-ink/75 md:mx-0">
+                    {keepTogether(a.description)}
+                  </p>
+                </div>
+              </Reveal>
+            );
+          })}
         </ul>
       </section>
 
