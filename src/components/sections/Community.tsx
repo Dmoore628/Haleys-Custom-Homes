@@ -13,7 +13,7 @@ export function Community() {
   const { heading, partnersLabel } = copy.about.community;
   return (
     <section className="section-x section-y bg-white" aria-labelledby="community-heading">
-      <Reveal>
+      <Reveal className="text-center">
         <h2 id="community-heading" className="font-serif text-section font-normal">
           {heading}
         </h2>
@@ -25,12 +25,12 @@ export function Community() {
             as="li"
             key={c.id}
             delay={i * 0.08}
-            className="flex flex-col rounded-[6px] border border-ink/10 bg-ink/[0.03] p-[clamp(1.75rem,4vw,3rem)]"
+            className="flex flex-col items-center rounded-[6px] border border-ink/10 bg-ink/[0.03] p-[clamp(1.75rem,4vw,3rem)] text-center md:items-start md:text-left"
           >
-            <div className="flex h-[clamp(72px,8vw,104px)] items-center">
+            <div className="flex h-[clamp(72px,8vw,104px)] items-center justify-center md:justify-start">
               <MarkImage src={c.mark} alt={c.name} base="clamp(52px, 5.5vw, 72px)" />
             </div>
-            <p className="label mt-8 flex items-center gap-2.5">
+            <p className="label mt-8 flex items-center justify-center gap-2.5 md:justify-start">
               <span aria-hidden="true" className="h-1.5 w-1.5 rotate-45 bg-accent" />
               {c.role}
             </p>

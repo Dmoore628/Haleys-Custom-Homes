@@ -11,14 +11,14 @@ export function Footer() {
   const { contact, social, credit } = siteConfig;
   return (
     <footer className="section-x relative z-10 bg-ink pb-12 pt-24 text-white">
-      <div className="grid gap-12 md:grid-cols-3 md:gap-grid">
-        <div>
+      <div className="grid gap-12 text-center md:grid-cols-3 md:gap-grid md:text-left">
+        <div className="flex flex-col items-center md:items-start">
           <Logo tone="white" className="h-16 w-auto" />
-          <p className="mt-6 max-w-[22rem] text-body">{copy.footer.tagline}</p>
+          <p className="mx-auto mt-6 max-w-[22rem] text-body md:mx-0">{copy.footer.tagline}</p>
         </div>
 
         <nav aria-label="Footer">
-          <ul className="flex flex-col gap-4">
+          <ul className="flex flex-col items-center gap-4 md:items-start">
             {copy.footer.links.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="label hover:text-white/70">
@@ -29,7 +29,7 @@ export function Footer() {
           </ul>
         </nav>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col items-center gap-4 md:items-start">
           <a href={contact.phoneHref} className="label hover:text-white/70">
             {contact.phone}
           </a>
@@ -39,7 +39,10 @@ export function Footer() {
           >
             {contact.email}
           </a>
-          <ul className="mt-2 flex flex-wrap gap-5" aria-label="Haley Custom Homes on social media">
+          <ul
+            className="mt-2 flex flex-wrap justify-center gap-5 md:justify-start"
+            aria-label="Haley Custom Homes on social media"
+          >
             {social.map((s) => (
               <li key={s.id}>
                 <a
@@ -54,7 +57,10 @@ export function Footer() {
               </li>
             ))}
           </ul>
-          <ul className="mt-4 flex flex-col gap-2" aria-label="Service area">
+          <ul
+            className="mt-4 flex flex-col items-center gap-2 md:items-start"
+            aria-label="Service area"
+          >
             {siteConfig.serviceAreas.map((area) => (
               <li key={area.name} className="label">
                 {area.name}
@@ -64,12 +70,12 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mt-20 flex flex-col gap-3 border-t border-white/10 pt-6 md:flex-row md:items-baseline md:justify-between">
-        <div className="flex flex-col gap-3 md:flex-row md:items-baseline md:gap-8">
+      <div className="mt-20 flex flex-col items-center gap-3 border-t border-white/10 pt-6 text-center md:flex-row md:items-baseline md:justify-between md:text-left">
+        <div className="flex flex-col items-center gap-3 md:flex-row md:items-baseline md:gap-8">
           <p className="label">
             <YearText text={copy.footer.copyright} />
           </p>
-          <ul className="flex flex-wrap gap-x-6 gap-y-2" aria-label="Legal">
+          <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2" aria-label="Legal">
             {legalLinks.map((l) => (
               <li key={l.href}>
                 <Link

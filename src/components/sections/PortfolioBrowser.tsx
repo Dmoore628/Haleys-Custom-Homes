@@ -20,7 +20,7 @@ export function PortfolioBrowser({ projects }: { projects: Project[] }) {
   return (
     <>
       <LayoutGroup>
-        <div role="tablist" aria-label="Project category" className="flex gap-10">
+        <div role="tablist" aria-label="Project category" className="flex justify-center gap-10">
           {CATEGORIES.map((c) => (
             <button
               key={c}
@@ -52,7 +52,7 @@ export function PortfolioBrowser({ projects }: { projects: Project[] }) {
         </div>
       </LayoutGroup>
 
-      <p className="mt-10 max-w-text text-body">{copy.portfolio.intro}</p>
+      <p className="mx-auto mt-10 max-w-text text-center text-body">{copy.portfolio.intro}</p>
 
       <div
         id="portfolio-grid"

@@ -38,7 +38,7 @@ export function AwardsStrip() {
         transition={{ staggerChildren: 0.08 }}
       >
         <motion.div
-          className="lg:col-span-4"
+          className="text-center lg:col-span-4 lg:text-left"
           variants={rise}
           transition={{ duration: 0.7, ease: EASE }}
         >
@@ -46,7 +46,9 @@ export function AwardsStrip() {
           <h2 id="recognition-heading" className="mt-5 font-serif text-section font-normal">
             {labels.headline}
           </h2>
-          <p className="mt-6 max-w-[26rem] text-body text-ink/75">{labels.supporting}</p>
+          <p className="mx-auto mt-6 max-w-[26rem] text-body text-ink/75 lg:mx-0">
+            {labels.supporting}
+          </p>
         </motion.div>
 
         <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-tile border border-ink/10 bg-ink/10 lg:col-span-7 lg:col-start-6">

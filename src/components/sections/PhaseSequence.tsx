@@ -187,11 +187,11 @@ export function PhaseSequence() {
                     </div>
                   </Reveal>
                   <Reveal
-                    className={`md:col-span-5 ${imageLeft ? 'md:order-2' : 'md:order-1'}`}
+                    className={`text-center md:col-span-5 md:text-left ${imageLeft ? 'md:order-2' : 'md:order-1'}`}
                     delay={0.1}
                   >
                     {/* Number, title, then the phase's months once, as its subheading. */}
-                    <div className="flex items-end justify-between gap-4">
+                    <div className="flex items-end justify-center gap-4 md:justify-between">
                       <span className="font-serif text-[clamp(2.75rem,4.5vw,3.75rem)] font-light tabular-nums leading-none text-accent">
                         {String(i + 1).padStart(2, '0')}
                       </span>
@@ -207,13 +207,13 @@ export function PhaseSequence() {
                     <p className="label mt-3 text-ink/60" data-testid="phase-months">
                       {monthSpan(phase.milestones)}
                     </p>
-                    <p className="mt-6 max-w-[30rem] text-body text-ink/80">
+                    <p className="mx-auto mt-6 max-w-[30rem] text-body text-ink/80 md:mx-0">
                       {keepTogether(phase.body)}
                     </p>
 
                     {/* What happens on site in this phase. */}
                     <ul
-                      className="mt-8 flex max-w-[30rem] flex-wrap gap-x-6 gap-y-2 border-t border-ink/10 pt-5"
+                      className="mx-auto mt-8 flex max-w-[30rem] flex-wrap justify-center gap-x-6 gap-y-2 border-t border-ink/10 pt-5 md:mx-0 md:justify-start"
                       data-testid="milestones"
                     >
                       {phase.milestones.map((m) => (

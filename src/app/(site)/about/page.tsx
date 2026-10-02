@@ -95,11 +95,11 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-black/30" aria-hidden="true" />
         <div className="section-x section-y relative">
           <div className="grid-12 py-[clamp(2rem,6vw,6rem)]">
-            <div className="col-span-12 max-w-statement md:col-span-10 md:col-start-2">
+            <div className="col-span-12 mx-auto max-w-statement text-center md:col-span-10 md:col-start-2 md:mx-0 md:text-left">
               <Reveal as="h2" className="font-serif text-section font-normal">
                 <Sentences text={philosophy.statement} />
               </Reveal>
-              <Reveal as="p" className="text-block mt-8 text-body" delay={0.1}>
+              <Reveal as="p" className="text-block mx-auto mt-8 text-body md:mx-0" delay={0.1}>
                 {philosophy.supporting}
               </Reveal>
             </div>

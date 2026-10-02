@@ -20,7 +20,11 @@ export const metadata: Metadata = {
 
 function Check() {
   return (
-    <svg viewBox="0 0 20 20" className="mt-[0.2em] h-4 w-4 shrink-0 text-accent" aria-hidden="true">
+    <svg
+      viewBox="0 0 20 20"
+      className="h-4 w-4 shrink-0 text-accent md:mt-[0.2em]"
+      aria-hidden="true"
+    >
       <circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" strokeWidth="1.25" />
       <path
         d="M6 10.4l2.6 2.6L14 7.6"
@@ -56,12 +60,14 @@ export default function EcoBuildingPage() {
           className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-black/10"
           aria-hidden="true"
         />
-        <div className="section-x relative w-full pb-10 pt-40 md:pb-16">
+        <div className="section-x relative w-full pb-10 pt-40 text-center md:pb-16 md:text-left">
           <p className="label">{eco.hero.eyebrow}</p>
-          <h1 className="mt-4 max-w-[14em] font-serif text-hero font-normal">
+          <h1 className="mx-auto mt-4 max-w-[14em] font-serif text-hero font-normal md:mx-0">
             {eco.hero.headline}
           </h1>
-          <p className="mt-6 max-w-[34rem] text-body text-white/90">{eco.hero.intro}</p>
+          <p className="mx-auto mt-6 max-w-[34rem] text-body text-white/90 md:mx-0">
+            {eco.hero.intro}
+          </p>
         </div>
       </section>
 
@@ -79,21 +85,21 @@ export default function EcoBuildingPage() {
               />
             </div>
           </Reveal>
-          <Reveal className="md:col-span-6 md:col-start-7" delay={0.1}>
+          <Reveal className="text-center md:col-span-6 md:col-start-7 md:text-left" delay={0.1}>
             <Eyebrow>{eco.framing.eyebrow}</Eyebrow>
             <h2 id="framing-heading" className="mt-4 font-serif text-section font-normal">
               {eco.framing.headline}
             </h2>
             {eco.framing.body.map((para) => (
-              <p key={para.slice(0, 20)} className="mt-6 max-w-text text-body">
+              <p key={para.slice(0, 20)} className="mx-auto mt-6 max-w-text text-body md:mx-0">
                 {para}
               </p>
             ))}
-            <div className="mt-10 flex items-baseline gap-5 border-t border-ink/15 pt-6">
+            <div className="mt-10 flex flex-col items-center gap-3 border-t border-ink/15 pt-6 md:flex-row md:items-baseline md:gap-5">
               <span className="font-serif text-[clamp(3rem,6vw,4.5rem)] leading-none text-accent">
                 {eco.framing.stat.value}
               </span>
-              <span className="label max-w-[16rem] leading-snug text-ink/70">
+              <span className="label max-w-[16rem] leading-snug text-ink/70 md:text-left">
                 {eco.framing.stat.label}
               </span>
             </div>
@@ -104,22 +110,27 @@ export default function EcoBuildingPage() {
       {/* Indoor airPLUS */}
       <section className="section-x section-y bg-white" aria-labelledby="airplus-heading">
         <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:gap-x-grid md:gap-y-0">
-          <Reveal className="md:col-span-5">
-            <MarkImage
-              src="/images/eco/epa-indoor-airplus.png"
-              alt="EPA Indoor airPLUS"
-              base="clamp(80px, 8vw, 112px)"
-            />
+          <Reveal className="text-center md:col-span-5 md:text-left">
+            <div className="flex justify-center md:justify-start">
+              <MarkImage
+                src="/images/eco/epa-indoor-airplus.png"
+                alt="EPA Indoor airPLUS"
+                base="clamp(80px, 8vw, 112px)"
+              />
+            </div>
             <Eyebrow className="mt-8">{eco.airplus.eyebrow}</Eyebrow>
             <h2 id="airplus-heading" className="mt-4 font-serif text-section font-normal">
               {eco.airplus.headline}
             </h2>
-            <p className="mt-6 max-w-text text-body">{eco.airplus.body}</p>
+            <p className="mx-auto mt-6 max-w-text text-body md:mx-0">{eco.airplus.body}</p>
           </Reveal>
           <Reveal className="md:col-span-6 md:col-start-7 md:self-end" delay={0.1}>
             <ul className="grid gap-x-8 gap-y-5 border-t border-ink/15 pt-8 md:grid-cols-2">
               {eco.airplus.benefits.map((b) => (
-                <li key={b} className="flex gap-3 text-body">
+                <li
+                  key={b}
+                  className="flex flex-col items-center gap-2 text-center text-body md:flex-row md:items-start md:gap-3 md:text-left"
+                >
                   <Check />
                   <span>{b}</span>
                 </li>
@@ -132,23 +143,31 @@ export default function EcoBuildingPage() {
       {/* Net zero */}
       <section className="section-x section-y bg-ink text-white" aria-labelledby="netzero-heading">
         <div className="flex flex-col gap-12 md:grid md:grid-cols-12 md:gap-x-grid md:gap-y-0">
-          <Reveal className="md:col-span-6">
+          <Reveal className="text-center md:col-span-6 md:text-left">
             <p className="label text-white/80">{eco.netZero.eyebrow}</p>
             <h2 id="netzero-heading" className="mt-4 font-serif text-section font-normal">
               {eco.netZero.headline}
             </h2>
-            <p className="mt-6 max-w-text text-body text-white/85">{eco.netZero.body}</p>
+            <p className="mx-auto mt-6 max-w-text text-body text-white/85 md:mx-0">
+              {eco.netZero.body}
+            </p>
             <ul className="mt-8 space-y-3">
               {eco.netZero.benefits.map((b) => (
-                <li key={b} className="flex gap-3 text-body text-white/90">
-                  <span className="mt-[0.7em] h-px w-4 shrink-0 bg-[#C6BAAC]" aria-hidden="true" />
+                <li
+                  key={b}
+                  className="flex flex-col items-center gap-2 text-center text-body text-white/90 md:flex-row md:items-start md:gap-3 md:text-left"
+                >
+                  <span
+                    className="h-px w-4 shrink-0 bg-[#C6BAAC] md:mt-[0.7em]"
+                    aria-hidden="true"
+                  />
                   {b}
                 </li>
               ))}
             </ul>
           </Reveal>
           <Reveal
-            className="flex flex-col justify-center gap-10 md:col-span-5 md:col-start-8"
+            className="flex flex-col justify-center gap-10 text-center md:col-span-5 md:col-start-8 md:text-left"
             delay={0.1}
           >
             {eco.netZero.stats.map((st) => (
@@ -156,7 +175,9 @@ export default function EcoBuildingPage() {
                 <p className="font-serif text-[clamp(3rem,6vw,4.75rem)] leading-none text-[#C6BAAC]">
                   {st.value}
                 </p>
-                <p className="label mt-4 max-w-[20rem] leading-snug text-white/80">{st.label}</p>
+                <p className="label mx-auto mt-4 max-w-[20rem] leading-snug text-white/80 md:mx-0">
+                  {st.label}
+                </p>
               </div>
             ))}
           </Reveal>
@@ -166,12 +187,12 @@ export default function EcoBuildingPage() {
       {/* Green features */}
       <section className="section-x section-y bg-white" aria-labelledby="features-heading">
         <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:gap-x-grid md:gap-y-0">
-          <Reveal className="md:col-span-5">
+          <Reveal className="text-center md:col-span-5 md:text-left">
             <Eyebrow>{eco.features.eyebrow}</Eyebrow>
             <h2 id="features-heading" className="mt-4 font-serif text-section font-normal">
               {eco.features.headline}
             </h2>
-            <p className="mt-6 max-w-text text-body">{eco.features.intro}</p>
+            <p className="mx-auto mt-6 max-w-text text-body md:mx-0">{eco.features.intro}</p>
             <div className="relative mt-10 hidden aspect-[3/4] max-w-[22rem] overflow-hidden rounded-tile md:block">
               <SmartImage
                 src={eco.features.image}
@@ -188,7 +209,7 @@ export default function EcoBuildingPage() {
                 as="li"
                 key={f.id}
                 delay={i * 0.06}
-                className="bg-white p-[clamp(1.5rem,3vw,2.25rem)]"
+                className="flex flex-col items-center bg-white p-[clamp(1.5rem,3vw,2.25rem)] text-center md:items-start md:text-left"
               >
                 <FeatureIcon id={f.id} />
                 <h3 className="mt-6 font-serif text-[1.375rem] leading-tight">{f.title}</h3>

@@ -25,9 +25,9 @@ export default function ContactPage() {
         <div className="flex flex-col gap-16 lg:grid lg:grid-cols-12 lg:gap-x-grid lg:gap-y-0">
           {/* Left: the qualification form. */}
           <div className="lg:col-span-7">
-            <Reveal>
+            <Reveal className="text-center lg:text-left">
               <h1 className="font-serif text-section font-normal">{contact.headline}</h1>
-              <p className="mt-6 max-w-text text-body">{contact.intro}</p>
+              <p className="mx-auto mt-6 max-w-text text-body lg:mx-0">{contact.intro}</p>
             </Reveal>
             <Reveal className="mt-12" delay={0.1}>
               <ContactForm />
@@ -39,7 +39,7 @@ export default function ContactPage() {
             <Reveal>
               <ServiceMap headingLevel="h2" />
             </Reveal>
-            <Reveal className="mt-10 flex flex-col gap-2" delay={0.1}>
+            <Reveal className="mt-10 flex flex-col items-center gap-2 lg:items-start" delay={0.1}>
               <a
                 href={phoneHref}
                 className="text-body text-accent underline-offset-4 hover:underline"
@@ -59,7 +59,7 @@ export default function ContactPage() {
 
       <section className="section-x bg-white py-section" aria-labelledby="faq-heading">
         <div className="mx-auto w-[min(600px,100%)]">
-          <Reveal>
+          <Reveal className="text-center">
             <Eyebrow>
               <span id="faq-heading">{contact.faqEyebrow}</span>
             </Eyebrow>

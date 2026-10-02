@@ -25,8 +25,8 @@ export default function ProcessPage() {
       {/* The build process, phase by phase: photographs, months, milestones and the
           punch-list rail, in one sequence. */}
       <section className="section-x section-y bg-white" aria-labelledby="difference-heading">
-        <Reveal className="mb-[clamp(3rem,6vw,5rem)]">
-          <ApbMark />
+        <Reveal className="mb-[clamp(3rem,6vw,5rem)] text-center">
+          <ApbMark className="justify-center" />
           <h2 id="difference-heading" className="mt-8 font-serif text-section font-normal">
             {hook.headline}
           </h2>
@@ -48,7 +48,7 @@ export default function ProcessPage() {
               />
             </div>
           </Reveal>
-          <Reveal className="md:col-span-4 md:col-start-9" delay={0.1}>
+          <Reveal className="text-center md:col-span-4 md:col-start-9 md:text-left" delay={0.1}>
             <h2 className="font-serif text-section font-normal">{concierge.headline}</h2>
             <p className="mt-6 text-body">{concierge.body}</p>
           </Reveal>

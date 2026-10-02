@@ -10,7 +10,7 @@ export async function FeaturedPortfolio() {
   const featuredProjects = await getFeaturedProjects();
   return (
     <section className="section-x section-y bg-white">
-      <Reveal>
+      <Reveal className="text-center">
         <Eyebrow>{featured.eyebrow}</Eyebrow>
         <h2 className="mt-4 font-serif text-section font-normal">{featured.headline}</h2>
       </Reveal>

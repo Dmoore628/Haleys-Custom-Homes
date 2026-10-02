@@ -75,8 +75,10 @@ export default async function ProjectPage({ params }: { params: { slug: string }
           />
         )}
         <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
-        <div className="section-x relative w-full pb-6 md:pb-16">
-          <h1 className="max-w-[14em] font-serif text-hero font-normal">{project.name}</h1>
+        <div className="section-x relative w-full pb-6 text-center md:pb-16 md:text-left">
+          <h1 className="mx-auto max-w-[14em] font-serif text-hero font-normal md:mx-0">
+            {project.name}
+          </h1>
           {project.location && <p className="label mt-4">{project.location}</p>}
         </div>
       </section>
@@ -91,7 +93,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
         </section>
 
         <section className="section-x pb-section">
-          <Reveal>
+          <Reveal className="text-center md:text-left">
             <dl
               className={`grid grid-cols-2 gap-8 border-t border-ink/10 pt-10 ${
                 statRows.length > 2 ? 'md:grid-cols-4' : 'md:max-w-xl'
@@ -105,17 +107,22 @@ export default async function ProjectPage({ params }: { params: { slug: string }
               ))}
             </dl>
             {project.tagline && (
-              <p className="mt-12 max-w-[32em] font-serif text-statement italic">
+              <p className="mx-auto mt-12 max-w-[32em] font-serif text-statement italic md:mx-0">
                 {project.tagline}
               </p>
             )}
-            <p className={`${project.tagline ? 'mt-6' : 'mt-12'} max-w-text text-body`}>
+            <p
+              className={`${project.tagline ? 'mt-6' : 'mt-12'} mx-auto max-w-text text-body md:mx-0`}
+            >
               {project.description}
             </p>
             {project.credits.length > 0 && (
               <dl className="mt-10 space-y-2">
                 {project.credits.map((c) => (
-                  <div key={`${c.role}-${c.name}`} className="flex flex-wrap gap-x-3">
+                  <div
+                    key={`${c.role}-${c.name}`}
+                    className="flex flex-wrap justify-center gap-x-3 md:justify-start"
+                  >
                     <dt className="label text-ink/70">{c.role}</dt>
                     <dd className="label">{c.name}</dd>
                   </div>

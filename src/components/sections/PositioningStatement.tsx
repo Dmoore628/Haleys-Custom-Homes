@@ -29,13 +29,13 @@ export function PositioningStatement() {
       <TopoBackdrop />
       <div className="section-x">
         <div className="grid-12 items-center gap-y-16">
-          <div className="relative col-span-12 max-w-statement xl:col-span-5 xl:max-w-none">
+          <div className="relative col-span-12 mx-auto max-w-statement text-center xl:col-span-5 xl:mx-0 xl:max-w-none xl:text-left">
             {/* Signature Motion Accent 1 of 3: an oversized Newsreader italic opening quotation
                 mark, ink at 15%, overlapping the heading's top-left corner so mark and statement
                 read as one composed object. Static. */}
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute -left-[0.18em] -top-[0.32em] select-none font-serif italic leading-none text-ink/[0.15]"
+              className="pointer-events-none absolute -top-[0.32em] left-1/2 -translate-x-1/2 select-none font-serif italic leading-none text-ink/[0.15] xl:-left-[0.18em] xl:translate-x-0"
               style={{ fontSize: 'clamp(10rem, 16vw, 19rem)', fontVariationSettings: "'opsz' 6" }}
               data-testid="accent-quote"
             >
@@ -48,10 +48,10 @@ export function PositioningStatement() {
                 highlight={positioning.highlight}
                 className="font-serif text-section font-normal"
               />
-              <Reveal as="p" className="text-block mt-8 text-body text-ink/80">
+              <Reveal as="p" className="text-block mx-auto mt-8 text-body text-ink/80 xl:mx-0">
                 <YearText text={positioning.supporting} />
               </Reveal>
-              <div className="mt-12 max-w-[28rem]">
+              <div className="mx-auto mt-12 max-w-[28rem] xl:mx-0">
                 <FoundingLine />
               </div>
             </div>

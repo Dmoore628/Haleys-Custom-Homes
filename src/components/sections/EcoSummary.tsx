@@ -22,13 +22,16 @@ export function EcoSummary() {
             />
           </div>
         </Reveal>
-        <Reveal className="md:col-span-5 md:col-start-8" delay={0.1}>
+        <Reveal className="text-center md:col-span-5 md:col-start-8 md:text-left" delay={0.1}>
           <Eyebrow>{eco.eyebrow}</Eyebrow>
           <h2 id="eco-summary-heading" className="mt-4 font-serif text-section font-normal">
             {eco.headline}
           </h2>
           <p className="mt-6 text-body">{eco.body}</p>
-          <EcoMarks className="mt-8" base="clamp(44px, 4vw, 56px)" />
+          <EcoMarks
+            className="mt-8 justify-center md:justify-start"
+            base="clamp(44px, 4vw, 56px)"
+          />
           <div className="mt-10">
             <ButtonLink href={eco.button.href} variant="ghost">
               {eco.button.label}

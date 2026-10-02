@@ -662,11 +662,11 @@ export function ServiceMap({ headingLevel = 'h3' }: { headingLevel?: 'h2' | 'h3'
             type="button"
             {...hover(OFFICE)}
             aria-pressed={active === OFFICE}
-            className="group flex w-full items-start gap-3 py-3 text-left"
+            className="group flex w-full flex-col items-center gap-2 py-3 text-center @md:flex-row @md:items-start @md:gap-3 @md:text-left"
           >
             <span
               aria-hidden="true"
-              className={`mt-[0.3em] h-2 w-2 shrink-0 rotate-45 transition-colors duration-300 ${
+              className={`h-2 w-2 shrink-0 rotate-45 transition-colors duration-300 @md:mt-[0.3em] ${
                 active === OFFICE ? 'bg-accent' : 'bg-ink'
               }`}
             />
@@ -690,10 +690,10 @@ export function ServiceMap({ headingLevel = 'h3' }: { headingLevel?: 'h2' | 'h3'
               key={region}
               className={`border-b border-ink/10 py-3 ${region === METRO ? '@xl:col-span-3' : ''}`}
             >
-              <div className="flex items-start gap-3">
+              <div className="flex flex-col items-center gap-2 text-center @md:flex-row @md:items-start @md:gap-3 @md:text-left">
                 <span
                   aria-hidden="true"
-                  className={`mt-[0.35em] h-2 w-2 shrink-0 rounded-full transition-colors duration-300 ${
+                  className={`h-2 w-2 shrink-0 rounded-full transition-colors duration-300 @md:mt-[0.35em] ${
                     on ? 'bg-accent' : 'bg-ink'
                   }`}
                 />
@@ -702,14 +702,14 @@ export function ServiceMap({ headingLevel = 'h3' }: { headingLevel?: 'h2' | 'h3'
                     type="button"
                     {...hover(region)}
                     aria-pressed={active === region}
-                    className={`label text-left transition-colors duration-300 ${
+                    className={`label text-center transition-colors duration-300 @md:text-left ${
                       active === region || (on && members.length === 1) ? 'text-accent' : ''
                     }`}
                   >
                     {region}
                   </button>
                   {members.length > 1 && (
-                    <ul className="mt-1 flex flex-wrap gap-x-1 text-[0.9375rem] leading-snug text-ink/70">
+                    <ul className="mt-1 flex flex-wrap justify-center gap-x-1 text-[0.9375rem] leading-snug text-ink/70 @md:justify-start">
                       {members.map((m, i) => (
                         <li key={m.name}>
                           <button

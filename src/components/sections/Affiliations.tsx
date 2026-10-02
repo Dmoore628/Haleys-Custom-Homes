@@ -25,7 +25,7 @@ export function Affiliations() {
   ];
   return (
     <section className="section-x section-y bg-white" aria-labelledby="affiliations-heading">
-      <Reveal>
+      <Reveal className="text-center">
         <h2 id="affiliations-heading" className="font-serif text-section font-normal">
           {heading}
         </h2>
@@ -34,7 +34,8 @@ export function Affiliations() {
         {tiers.map((tier) => (
           <Reveal key={tier.label}>
             <div className="flex items-center gap-6">
-              <h3 className="label text-ink/70">{tier.label}</h3>
+              <span className="h-px flex-1 bg-ink/15" aria-hidden="true" />
+              <h3 className="label text-center text-ink/70">{tier.label}</h3>
               <span className="h-px flex-1 bg-ink/15" aria-hidden="true" />
             </div>
             <ul

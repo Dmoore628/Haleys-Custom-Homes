@@ -32,10 +32,12 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
     <CoverStack>
       <section className="section-x bg-white pb-section pt-[calc(6.5rem+clamp(3rem,7vw,6rem))]">
         <article className="mx-auto max-w-[44rem]" data-testid="legal-page">
-          <Eyebrow>Legal</Eyebrow>
-          <h1 className="mt-5 font-serif text-section font-normal">{doc.title}</h1>
-          <p className="label mt-5 text-ink/70">Effective {doc.effective}</p>
-          <p className="mt-8 text-body">{fill(doc.intro)}</p>
+          <header className="text-center md:text-left">
+            <Eyebrow>Legal</Eyebrow>
+            <h1 className="mt-5 font-serif text-section font-normal">{doc.title}</h1>
+            <p className="label mt-5 text-ink/70">Effective {doc.effective}</p>
+            <p className="mt-8 text-body">{fill(doc.intro)}</p>
+          </header>
 
           <nav aria-label="Contents" className="mt-10 border-y border-ink/15 py-6">
             <ol className="grid gap-x-8 gap-y-2 md:grid-cols-2">

@@ -39,14 +39,18 @@ export function ProcessHero() {
       </div>
 
       <motion.div
-        className="section-x absolute inset-x-0 bottom-[max(2.5rem,env(safe-area-inset-bottom))] lg:bottom-16"
+        className="section-x absolute inset-x-0 bottom-[max(2.5rem,env(safe-area-inset-bottom))] text-center lg:bottom-16 lg:text-left"
         initial={reduced ? false : { opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, ease: EASE }}
       >
         <p className="label text-white/85">{intro.eyebrow}</p>
-        <h1 className="mt-5 max-w-[14em] font-serif text-hero font-normal">{intro.headline}</h1>
-        <p className="mt-8 max-w-text text-body text-white/90">{intro.supporting}</p>
+        <h1 className="mx-auto mt-5 max-w-[14em] font-serif text-hero font-normal lg:mx-0">
+          {intro.headline}
+        </h1>
+        <p className="mx-auto mt-8 max-w-text text-body text-white/90 lg:mx-0">
+          {intro.supporting}
+        </p>
       </motion.div>
     </section>
   );

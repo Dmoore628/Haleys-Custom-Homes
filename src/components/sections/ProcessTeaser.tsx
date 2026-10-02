@@ -32,15 +32,14 @@ export function ProcessTeaser() {
         <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/55 to-ink/10" />
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink/80 to-transparent" />
       </div>
-      <div className="flex flex-col gap-10 lg:grid lg:grid-cols-12 lg:items-end lg:gap-x-grid lg:gap-y-0">
-        <Reveal className="lg:col-span-7">
-          <ApbMark tone="light" />
-          <h2 id="process-teaser-heading" className="mt-8 font-serif text-section font-normal">
-            {processHighlight.headline}
-          </h2>
-          <p className="mt-6 max-w-text text-body text-white/85">{processHighlight.body}</p>
-        </Reveal>
-        <Reveal className="lg:col-span-4 lg:col-start-9 lg:justify-self-end" delay={0.1}>
+      {/* Centered at every size: lockup, line, sentence, then the way through. */}
+      <Reveal className="mx-auto flex max-w-[44rem] flex-col items-center text-center">
+        <ApbMark tone="light" className="justify-center" />
+        <h2 id="process-teaser-heading" className="mt-8 font-serif text-section font-normal">
+          {processHighlight.headline}
+        </h2>
+        <p className="mt-6 max-w-text text-body text-white/85">{processHighlight.body}</p>
+        <div className="mt-10 w-full md:w-auto">
           <ButtonLink
             href={processHighlight.button.href}
             variant="primary"
@@ -50,14 +49,14 @@ export function ProcessTeaser() {
           >
             {processHighlight.button.label}
           </ButtonLink>
-        </Reveal>
-      </div>
+        </div>
+      </Reveal>
 
       {/* The six phases, as a numbered strip. */}
       <Reveal delay={0.15}>
         <ol className="mt-[clamp(3rem,6vw,5rem)] grid grid-cols-2 gap-x-grid gap-y-6 border-t border-white/15 pt-8 md:grid-cols-3 xl:grid-cols-6">
           {phases.map((p, i) => (
-            <li key={p.title} className="flex flex-col gap-2">
+            <li key={p.title} className="flex flex-col items-center gap-2 text-center">
               <span className="font-serif text-[1rem] tabular-nums text-[#C6BAAC]">
                 {String(i + 1).padStart(2, '0')}
               </span>

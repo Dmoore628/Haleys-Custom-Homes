@@ -80,16 +80,16 @@ export function Hero() {
         </div>
 
         <motion.div
-          className="section-x absolute inset-x-0 bottom-[max(2.5rem,env(safe-area-inset-bottom))] lg:bottom-16"
+          className="section-x absolute inset-x-0 bottom-[max(2.5rem,env(safe-area-inset-bottom))] text-center lg:bottom-16 lg:text-left"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: DURATION.heroFade, ease: EASE }}
         >
           <p className="label">{hero.eyebrow}</p>
-          <h1 className="mt-5 max-w-[16em] font-serif text-hero font-normal">
+          <h1 className="mx-auto mt-5 max-w-[16em] font-serif text-hero font-normal lg:mx-0">
             <Sentences text={hero.headline} />
           </h1>
-          <div className="mt-10 flex flex-wrap gap-4">
+          <div className="mt-10 flex flex-wrap justify-center gap-4 lg:justify-start">
             <ButtonLink href={hero.primary.href} variant="primary" surface="dark">
               {hero.primary.label}
             </ButtonLink>
