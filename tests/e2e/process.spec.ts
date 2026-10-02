@@ -10,7 +10,12 @@ test('process sequence: each phase has its months, Haley\u2019s work and its mil
   await expect(phases).toHaveCount(6);
   await expect(phases.first()).toContainText('Month 1');
   await expect(phases.first()).toContainText('Permit applied for');
-  await expect(phases.first()).toContainText(/no surprise changes to layout or.finishes/);
+  await expect(phases.first()).toContainText(/nothing changes mid-build/);
+  // Months appear once per phase, as its subheading.
+  for (let i = 0; i < 6; i++) {
+    const text = (await phases.nth(i).innerText()).replace(/\s+/g, ' ');
+    expect(text.match(/Months? \d/gi)?.length ?? 0, `phase ${i + 1}`).toBe(1);
+  }
   await expect(phases.nth(2)).toContainText('Months 3\u20136');
   await expect(phases.nth(2).getByTestId('milestones').locator('li')).toHaveCount(3);
   await expect(page.getByText(/typical build risks/)).toHaveCount(0);

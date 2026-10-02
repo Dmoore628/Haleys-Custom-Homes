@@ -154,7 +154,7 @@ const copy = {
     phases: [
       {
         title: 'Design and Spec Lock',
-        body: 'Every detail, from layout to finish selections, is locked before the first shovel moves. Mid-build changes are the single largest source of delay in custom construction, so we design them out from the start: no surprise changes to layout or finishes.',
+        body: 'Every layout and finish selection is locked before the first shovel moves, so nothing changes mid-build: the single largest source of delay in custom construction.',
         image: '/images/phases/1-design-spec-lock.jpg',
         milestones: [
           { month: 0.3, label: 'Plans and finishes locked' },
@@ -163,7 +163,7 @@ const copy = {
       },
       {
         title: 'Pre-Construction Sequencing',
-        body: 'We order materials and schedule every trade in the exact sequence they\u2019ll be needed, so no crew is ever standing idle waiting on a delivery, a permit or a decision.',
+        body: 'Materials are ordered and every trade is scheduled in the exact sequence it\u2019s needed, so no crew stands idle waiting on a delivery, a permit or a decision.',
         image: '/images/phases/2-pre-construction.jpg',
         milestones: [
           { month: 1.3, label: 'Trades and materials scheduled' },
@@ -172,7 +172,7 @@ const copy = {
       },
       {
         title: 'Framing',
-        body: 'Every decision is made before framing begins, so framing crews are never left waiting on one. Framing then follows a fixed sequence built on LEAN construction principles, the same discipline manufacturers use to eliminate wasted motion and wasted time.',
+        body: 'Every decision is made before framing begins. Framing then follows a fixed sequence built on LEAN construction principles, eliminating wasted motion and wasted time.',
         image: '/images/phases/3-framing.jpg',
         milestones: [
           { month: 2.8, label: 'Ground broken' },
@@ -182,7 +182,7 @@ const copy = {
       },
       {
         title: 'Trade Sequencing',
-        body: 'Each trade moves in right behind the last, with no gap between them, so no one waits on another trade to finish before starting their own work. This is where most custom builds lose their timeline. It\u2019s where a Haley build holds it.',
+        body: 'Each trade moves in right behind the last, with no gap between them. This is where most custom builds lose their timeline. It\u2019s where a Haley build holds it.',
         image: '/images/phases/4-trade-sequencing.jpg',
         milestones: [
           { month: 6.6, label: 'Roof on, windows in' },
@@ -200,7 +200,7 @@ const copy = {
       },
       {
         title: 'Move-In',
-        body: 'We check quality throughout the build, not only at the end, so the final walk-through confirms your home instead of pushing move-in back. One family moved in a full month ahead of schedule. This is what the system is built to do, on every home, not just the ones that go right.',
+        body: 'Quality is checked throughout the build, not only at the end, so the final walk-through confirms your home instead of pushing move-in back.',
         image: '/images/phases/6-move-in.jpg',
         milestones: [{ month: 13.6, label: 'Keys handed over' }],
       },

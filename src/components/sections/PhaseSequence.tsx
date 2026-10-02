@@ -95,8 +95,8 @@ function RailBox({ done, isLast, reduced }: { done: boolean; isLast: boolean; re
 
 /**
  * The Haley build process, phase by phase: six photographic blocks in alternating 7/5 splits,
- * each with its months on an illustrative schedule, what Haley does in that phase, and the
- * on-site milestones a client waits for. A scroll-linked rail runs down the left margin (4px
+ * each with its number, title, its months on an illustrative schedule (said once), what Haley
+ * does in that phase, and the on-site milestones a client waits for. A scroll-linked rail runs down the left margin (4px
  * ink-at-10% track, accent fill tied to scroll progress), its markers punch-list boxes that tick
  * off as each phase is passed; Move-In stays open, with the way to close it. The McDonalds'
  * words close the sequence.
@@ -190,42 +190,39 @@ export function PhaseSequence() {
                     className={`md:col-span-5 ${imageLeft ? 'md:order-2' : 'md:order-1'}`}
                     delay={0.1}
                   >
-                    <p className="label flex flex-wrap items-baseline gap-x-3 text-ink/70">
-                      <span className="font-serif text-[1rem] normal-case tabular-nums tracking-normal text-accent">
+                    {/* Number, title, then the phase's months once, as its subheading. */}
+                    <div className="flex items-end justify-between gap-4">
+                      <span className="font-serif text-[clamp(2.75rem,4.5vw,3.75rem)] font-light tabular-nums leading-none text-accent">
                         {String(i + 1).padStart(2, '0')}
                       </span>
-                      <span
-                        aria-hidden="true"
-                        className="h-px w-6 translate-y-[-0.25em] bg-ink/25"
-                      />
-                      <span>{monthSpan(phase.milestones)}</span>
                       {isMoveIn && (
-                        <span className="ml-auto rounded-full border border-accent px-3 py-0.5 text-[0.6875rem] text-accent">
+                        <span className="label mb-1 rounded-full border border-accent px-3 py-0.5 text-[0.6875rem] text-accent">
                           {schedule.open}
                         </span>
                       )}
-                    </p>
-                    <h3 className="mt-3 font-serif text-statement font-normal">
+                    </div>
+                    <h3 className="mt-6 font-serif text-[clamp(1.75rem,2.8vw,2.375rem)] font-normal leading-[1.15]">
                       {keepTogether(phase.title)}
                     </h3>
-                    <p className="mt-5 max-w-text text-body">{keepTogether(phase.body)}</p>
+                    <p className="label mt-3 text-ink/60" data-testid="phase-months">
+                      {monthSpan(phase.milestones)}
+                    </p>
+                    <p className="mt-6 max-w-[30rem] text-body text-ink/80">
+                      {keepTogether(phase.body)}
+                    </p>
 
-                    {/* The on-site milestones of this phase, each in its month. */}
+                    {/* What happens on site in this phase. */}
                     <ul
-                      className="mt-7 max-w-text border-t border-ink/15 pt-5"
+                      className="mt-8 flex max-w-[30rem] flex-wrap gap-x-6 gap-y-2 border-t border-ink/10 pt-5"
                       data-testid="milestones"
                     >
                       {phase.milestones.map((m) => (
                         <li
                           key={m.label}
-                          className="grid grid-cols-[5.5rem_1fr] items-baseline gap-x-4 py-1.5"
+                          className="flex items-center gap-2.5 text-[0.9375rem] text-ink/75"
                         >
-                          <span className="label text-[0.6875rem] tabular-nums text-accent">
-                            {schedule.month} {monthOf(m.month)}
-                          </span>
-                          <span className="text-[0.9375rem] leading-snug text-ink/85">
-                            {keepTogether(m.label)}
-                          </span>
+                          <span aria-hidden="true" className="h-1.5 w-1.5 rotate-45 bg-accent" />
+                          {keepTogether(m.label)}
                         </li>
                       ))}
                     </ul>
