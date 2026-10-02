@@ -62,6 +62,8 @@ export const awardSchema = z.object({
   description: z.string().min(1),
   mark: z.string().startsWith('/images/').nullable(),
   markAlt: z.string().min(1),
+  /** A short line under the mark on the home page. */
+  caption: z.string().min(1),
 });
 export const awardsSchema = z.array(awardSchema).min(1);
 

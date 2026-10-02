@@ -58,8 +58,12 @@ const copy = {
       headline: "A Sample of What We've Built",
       button: { label: 'View Full Portfolio', href: '/portfolio' },
     },
+    // Home: recognition and press (AwardsStrip). Facts from content/awards.json and press.json.
     awards: {
       recognition: 'Recognition',
+      headline: 'Recognized for Design and Service',
+      supporting:
+        'Fourteen Best of Houzz awards, a 2025 Luxury Lifestyle Award, and homes featured in Colorado\u2019s leading design publications.',
       asSeenIn: 'As Seen In',
     },
   },

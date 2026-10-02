@@ -5,7 +5,8 @@
     "year": null,
     "description": "Fourteen Best of Houzz awards: Design in 2019 and 2021 to 2026, chosen by the Houzz community, and Service in 2016 to 2018, 2020 to 2022 and 2026, earned through client reviews.",
     "mark": "/images/awards/houzz.png",
-    "markAlt": "Best of Houzz"
+    "markAlt": "Best of Houzz",
+    "caption": "Best of Houzz, Design and Service"
   },
   {
     "id": "luxury-lifestyle",
@@ -13,7 +14,8 @@
     "year": "2025",
     "description": "Named among the top luxury home developers in Colorado.",
     "mark": "/images/awards/luxury-lifestyle-awards.png",
-    "markAlt": "Luxury Lifestyle Awards"
+    "markAlt": "Luxury Lifestyle Awards",
+    "caption": "Best Luxury Custom Home Developer, 2025"
   },
   {
     "id": "energy-star",
@@ -21,7 +23,8 @@
     "year": null,
     "description": "Certified for energy efficiency practices across new construction.",
     "mark": "/images/awards/energy-star.svg",
-    "markAlt": "ENERGY STAR"
+    "markAlt": "ENERGY STAR",
+    "caption": "Energy Star certified"
   },
   {
     "id": "luxe",
@@ -29,6 +32,7 @@
     "year": null,
     "description": "Named a Colorado Preferred Custom Home Builder and Remodel Contractor.",
     "mark": "/images/awards/luxe-gold-list.png",
-    "markAlt": "LUXE Interiors + Design Gold List"
+    "markAlt": "LUXE Interiors + Design Gold List",
+    "caption": "LUXE Colorado Gold List"
   }
 ]

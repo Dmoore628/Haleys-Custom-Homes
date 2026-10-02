@@ -110,7 +110,10 @@ test('5, 6, 21: recognition tiers, press marks and scarcity badge', async ({ pag
   await page.goto('/');
   const section = page.getByTestId('recognition');
   await section.scrollIntoViewIfNeeded();
-  await expect(section.getByRole('heading', { name: 'Recognition' })).toBeVisible();
+  await expect(
+    section.getByRole('heading', { name: 'Recognized for Design and Service' }),
+  ).toBeVisible();
+  await expect(section.getByText('Best of Houzz, Design and Service')).toBeVisible();
   await expect(section.getByRole('heading', { name: 'As Seen In' })).toBeVisible();
   // Every mark appears exactly once: no repeated logos.
   const alts = await section
