@@ -40,7 +40,9 @@ for (const route of ['/', '/contact']) {
   });
 }
 
-test('positioning section: statement and reviews beside the map', async ({ page }) => {
+test('positioning section: statement beside the map; reviews follow the portfolio', async ({
+  page,
+}) => {
   await page.goto('/');
   const section = page.locator('section[aria-labelledby="positioning-heading"]');
   await section.scrollIntoViewIfNeeded();
@@ -48,6 +50,17 @@ test('positioning section: statement and reviews beside the map', async ({ page 
     /We build three to five homes a year/,
   );
   await expect(section.getByTestId('founding-line')).toBeVisible();
-  await expect(section.getByTestId('houzz-reviews')).toBeVisible();
   await expect(section.getByTestId('service-map')).toBeVisible();
+  await expect(section.getByTestId('houzz-reviews')).toHaveCount(0);
+  // Order on Home: statement and map, then the portfolio sample, then the reviews.
+  const top = (sel: string) =>
+    page
+      .locator(sel)
+      .first()
+      .evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
+  const portfolio = await top('h2:has-text("A Sample of What We")');
+  const reviews = await top('[data-testid="client-reviews"]');
+  const statement = await top('section[aria-labelledby="positioning-heading"]');
+  expect(statement).toBeLessThan(portfolio);
+  expect(portfolio).toBeLessThan(reviews);
 });

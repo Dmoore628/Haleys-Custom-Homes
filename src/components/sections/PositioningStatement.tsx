@@ -3,16 +3,14 @@ import { Reveal } from '@/components/ui/Reveal';
 import { YearText } from '@/components/providers/YearProvider';
 import { TopoBackdrop } from '@/components/ui/TopoBackdrop';
 import { FoundingLine } from './FoundingLine';
-import { HouzzReviews } from './HouzzReviews';
 import { ServiceMap } from './ServiceMap';
 import { WordReveal } from './WordReveal';
 
 /**
- * The first thing after the hero: who Haley is, where Haley builds, what clients say.
- * Left, the statement, the founding line and its drawn timeline; right, the Colorado service
- * map (two columns from xl, stacked below). Beneath both, centered, Haley's Houzz standing and
- * a marquee of client reviews (the old site also put its reviews right after the hero). A
- * faint contour backdrop drifts behind it all for depth.
+ * The first thing after the hero: who Haley is and where Haley builds. Left, the statement,
+ * the founding line and its drawn timeline; right, the Colorado service map (two columns from
+ * xl, stacked below). A faint contour backdrop drifts behind it for depth. The client reviews
+ * follow the portfolio, in their own section (ClientReviews).
  *
  * `relative z-10` and an opaque background so it slides up over the pinned hero. The phrase
  * "three to five homes" is the statement's one use of the accent color.
@@ -64,10 +62,6 @@ export function PositioningStatement() {
           </Reveal>
         </div>
       </div>
-
-      <Reveal className="mt-[clamp(5rem,10vw,9rem)]" delay={0.05}>
-        <HouzzReviews />
-      </Reveal>
     </section>
   );
 }

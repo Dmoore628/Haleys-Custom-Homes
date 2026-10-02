@@ -4,6 +4,7 @@ import { Hero } from '@/components/sections/Hero';
 import { PositioningStatement } from '@/components/sections/PositioningStatement';
 import { ProcessHighlight } from '@/components/sections/ProcessHighlight';
 import { FeaturedPortfolio } from '@/components/sections/FeaturedPortfolio';
+import { ClientReviews } from '@/components/sections/ClientReviews';
 import { AwardsStrip } from '@/components/sections/AwardsStrip';
 import { ClosingCta } from '@/components/sections/ClosingCta';
 import { CoverStack } from '@/components/ui/CoverStack';
@@ -21,8 +22,9 @@ export default function HomePage() {
     <CoverStack>
       <Hero />
       <PositioningStatement />
-      <ProcessHighlight />
       <FeaturedPortfolio />
+      <ClientReviews />
+      <ProcessHighlight />
       <AwardsStrip />
       <ClosingCta />
     </CoverStack>

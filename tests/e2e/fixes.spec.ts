@@ -30,7 +30,7 @@ test('1: Newsreader and Switzer only; no Fraunces or Inter loads anywhere', asyn
 
 test('2 and 15: every section on every page covers the one before it', async ({ page }) => {
   const sections: Record<string, number> = {
-    '/': 6,
+    '/': 7,
     '/portfolio': 1,
     '/portfolio/modern-elevated': 2,
     '/process': 6,
@@ -92,7 +92,7 @@ test('3: accent phrase and quotation mark overlapping the positioning statement'
   expect(overlaps).toBe(true);
 });
 
-test('4: reviews follow the statement and map; cards keep natural heights', async ({ page }) => {
+test('4: reviews follow the portfolio sample; cards keep natural heights', async ({ page }) => {
   await page.goto('/');
   const reviews = page.getByTestId('houzz-reviews');
   await reviews.scrollIntoViewIfNeeded();
