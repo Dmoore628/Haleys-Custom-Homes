@@ -25,12 +25,12 @@ test('desktop nav shows all links and the CTA; mobile uses the Menu overlay', as
   await expect(page).toHaveURL(/\/process$/);
 });
 
-test('nav gains the bone background after 80px of scroll', async ({ page }) => {
+test('nav gains the white background after 80px of scroll', async ({ page }) => {
   await page.goto('/');
   const header = page.locator('header');
   await expect(header).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
   await page.evaluate(() => window.scrollTo(0, 400));
-  await expect(header).toHaveCSS('background-color', 'rgb(239, 233, 222)');
+  await expect(header).toHaveCSS('background-color', 'rgb(255, 255, 255)');
 });
 
 test('skip link is the first focusable element', async ({ page, isMobile }) => {

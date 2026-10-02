@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 // in the HTML itself, not only once the page loads.
 export const revalidate = 86400;
 
-export const viewport: Viewport = { themeColor: '#EFE9DE' };
+export const viewport: Viewport = { themeColor: '#FFFFFF' };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -48,7 +48,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <SiteChrome>
             <CustomCursor />
             <SmoothScroll />
-            <div className="grain" aria-hidden="true" />
           </SiteChrome>
         </YearProvider>
       </body>

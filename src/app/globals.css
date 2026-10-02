@@ -11,7 +11,7 @@
   }
 
   html {
-    background: #efe9de;
+    background: #ffffff;
     color: #1a1815;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -19,7 +19,7 @@
   }
 
   body {
-    @apply bg-bone font-sans text-body text-ink;
+    @apply bg-white font-sans text-body text-ink;
     min-height: 100vh;
   }
 
@@ -52,7 +52,7 @@
 
   ::selection {
     background: #7a6250;
-    color: #efe9de;
+    color: #ffffff;
   }
 
   /* Visible keyboard focus on every interactive element: 2px accent, 2px offset. */
@@ -121,17 +121,6 @@
     transform-origin: center;
     opacity: 0;
     animation: map-pulse 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite both;
-  }
-
-  /* Film grain: one fixed global overlay, 4% opacity, flat color only. */
-  .grain {
-    position: fixed;
-    inset: 0;
-    z-index: 60;
-    pointer-events: none;
-    opacity: 0.04;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 160px 160px;
   }
 
   /* Marquee: linear, time-based, duplicated content, pauses on hover or focus. */
@@ -327,12 +316,12 @@
     @apply inline-flex items-center justify-center gap-2 rounded-[4px] px-5 py-3 text-[0.8125rem] font-medium uppercase tracking-[0.08em] transition-colors disabled:cursor-not-allowed disabled:opacity-50;
   }
   .admin-btn-primary {
-    @apply bg-ink text-bone hover:bg-accent;
+    @apply bg-ink text-white hover:bg-accent;
   }
   .admin-btn-ghost {
     @apply border border-ink/25 text-ink hover:border-ink;
   }
   .admin-btn-danger {
-    @apply border border-[#8a2c1d]/40 text-[#8a2c1d] hover:bg-[#8a2c1d] hover:text-bone;
+    @apply border border-[#8a2c1d]/40 text-[#8a2c1d] hover:bg-[#8a2c1d] hover:text-white;
   }
 }

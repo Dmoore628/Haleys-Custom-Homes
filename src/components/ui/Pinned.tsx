@@ -13,7 +13,7 @@ const MAX_DIM = 0.32;
  * A section taller than the viewport pins by its bottom edge (top = viewport - height), so
  * all of it is seen before it is covered. While it is being covered it dims toward ink, and
  * every section after the first casts a soft shadow up onto the one beneath, so the layering
- * reads even between two bone sections. Under prefers-reduced-motion it scrolls normally.
+ * reads even between two white sections. Under prefers-reduced-motion it scrolls normally.
  */
 export function Pinned({
   children,
@@ -74,7 +74,7 @@ export function Pinned({
   return (
     <div
       ref={ref}
-      className={`relative z-0 bg-bone ${
+      className={`relative z-0 bg-white ${
         first || reduced ? '' : 'shadow-[0_-28px_56px_-28px_rgba(26,24,21,0.35)]'
       } ${className}`}
       style={reduced ? undefined : { position: 'sticky', top }}

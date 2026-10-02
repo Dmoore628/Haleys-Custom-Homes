@@ -52,7 +52,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
 
   return (
     <CoverStack>
-      <section className="relative flex min-h-[80vh] w-full items-end overflow-hidden bg-ink text-bone">
+      <section className="relative flex min-h-[80vh] w-full items-end overflow-hidden bg-ink text-white">
         {project.heroVideo ? (
           <video
             className="absolute inset-0 h-full w-full object-cover"
@@ -82,7 +82,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
       </section>
 
       {/* The gallery and the project facts read as one section. */}
-      <div className="bg-bone">
+      <div className="bg-white">
         <section className="py-section">
           <ProjectGallery
             images={project.images.filter((i) => i.src !== project.cover.src)}

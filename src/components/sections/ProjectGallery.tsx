@@ -13,7 +13,7 @@ import type { ProjectImage } from '@/lib/projects/types';
 function CloseMark() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <path d="M3 3l14 14M17 3 3 17" stroke="#EFE9DE" strokeWidth="1.25" strokeLinecap="round" />
+      <path d="M3 3l14 14M17 3 3 17" stroke="#FFFFFF" strokeWidth="1.25" strokeLinecap="round" />
     </svg>
   );
 }
@@ -151,7 +151,7 @@ export function ProjectGallery({ images, name }: { images: ProjectImage[]; name:
                   </motion.div>
                 </AnimatePresence>
 
-                <p className="label absolute bottom-6 left-1/2 -translate-x-1/2 text-bone">
+                <p className="label absolute bottom-6 left-1/2 -translate-x-1/2 text-white">
                   {index + 1} / {images.length}
                 </p>
                 <button

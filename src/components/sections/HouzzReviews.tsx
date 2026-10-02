@@ -17,11 +17,11 @@ const STAR =
 
 /**
  * Card colorways, all from the palette: the accent, ink, and a champagne tint of the accent
- * (35% accent into bone). Each pairing clears WCAG AA for its text.
+ * (35% accent into the original warm paper tone, #EFE9DE). Each pairing clears WCAG AA for its text.
  */
 const THEMES = [
-  { card: 'bg-accent text-bone', mark: '#EFE9DE' },
-  { card: 'bg-ink text-bone', mark: '#C6BAAC' },
+  { card: 'bg-accent text-white', mark: '#FFFFFF' },
+  { card: 'bg-ink text-white', mark: '#C6BAAC' },
   { card: 'bg-[#C6BAAC] text-ink', mark: '#1A1815' },
 ] as const;
 

@@ -5,7 +5,7 @@ Builds the site's public media from the raw asset library in ./assets (kept out 
 - Resizes and re-encodes every image the site uses into ./public/images
 - Samples a muted tone from each image and a tiny blur preview, written to
   src/lib/media.generated.json, so every <Image> gets an image-specific placeholder
-- Produces bone/ink logo variants and flat single-tone award marks
+- Produces white/ink logo variants and flat single-tone award marks
 - Copies the hero video
 
 Run with: npm run media   (requires Pillow and imageio-ffmpeg)
@@ -24,7 +24,7 @@ SRC = os.path.join(ROOT, 'assets')
 PUB = os.path.join(ROOT, 'public')
 MANIFEST = os.path.join(ROOT, 'src', 'lib', 'media.generated.json')
 
-BONE = (0xEF, 0xE9, 0xDE)
+WHITE = (0xFF, 0xFF, 0xFF)
 INK = (0x1A, 0x18, 0x15)
 
 # Every project, keyed by the slug it is published under. Names, descriptions and credits come
@@ -85,8 +85,8 @@ manifest = {}
 
 def muted_tone(im):
     small = im.resize((1, 1), Image.LANCZOS).getpixel((0, 0))
-    # Pull the sampled tone toward the bone background so placeholders read muted, not loud.
-    return '#%02x%02x%02x' % tuple(int(c * 0.7 + b * 0.3) for c, b in zip(small, BONE))
+    # Pull the sampled tone toward the white background so placeholders read muted, not loud.
+    return '#%02x%02x%02x' % tuple(int(c * 0.7 + b * 0.3) for c, b in zip(small, WHITE))
 
 
 def blur_data_url(im):
@@ -194,9 +194,9 @@ def invert_neutrals(im):
             if a and max(r, g, b) - min(r, g, b) < 40:
                 v = 255 - (r + g + b) // 3
                 t = v / 255
-                # White becomes ink, black becomes bone.
-                px[x, y] = (round(26 + (239 - 26) * t), round(24 + (233 - 24) * t),
-                            round(21 + (222 - 21) * t), a)
+                # White becomes ink, black becomes white.
+                px[x, y] = (round(26 + (255 - 26) * t), round(24 + (255 - 24) * t),
+                            round(21 + (255 - 21) * t), a)
     return im
 
 
@@ -274,12 +274,12 @@ def main():
 
     # Logo: the gold transparent mark, recolored to the two palette tones.
     logo = single_tone_mark('branding/Haley Custom Homes logo trans new.png', 'logo', 'alpha')
-    write_mark(logo, 'brand/logo-bone.png', BONE)
+    write_mark(logo, 'brand/logo-white.png', WHITE)
     write_mark(logo, 'brand/logo-ink.png', INK)
 
     # Award marks in their original colors (Fixes spec item 5). Solid black or white
     # backgrounds baked into the source files are knocked out to transparency so each mark
-    # sits on the bone strip; the mark itself keeps its real color. Rendered 192px tall
+    # sits on the white strip; the mark itself keeps its real color. Rendered 192px tall
     # (2x the 96px maximum display height) so they stay sharp on high-density screens.
     marks = {
         'awards/houzz.png': ('awards/sourced/houzz-2024.png', None),
@@ -305,7 +305,7 @@ def main():
     # section is cropped a few pixels inside its picture area (22px off the bottom to drop the
     # dot), scaled to one 1920x838 frame and joined. The post also dimmed the footage (whites
     # peak near 185/255). That dimming is deliberately kept: the footage is mostly white
-    # interiors, and stretching it back to full brightness drops the bone headline's contrast
+    # interiors, and stretching it back to full brightness drops the white headline's contrast
     # under the spec's 20% overlay to about 2:1 (it measures about 3.7:1 as is). No audio.
     # Uses the ffmpeg binary from the imageio-ffmpeg package.
     import subprocess
@@ -378,7 +378,7 @@ OG_PAGES = {
 
 
 def make_og_images():
-    """1200x630 share cards: photo on the left, bone panel with the logo, eyebrow and headline."""
+    """1200x630 share cards: photo on the left, white panel with the logo, eyebrow and headline."""
     from PIL import ImageDraw, ImageFont
     fonts = os.path.join(ROOT, 'scripts', 'fonts')
     serif = ImageFont.truetype(os.path.join(fonts, 'Newsreader.ttf'), 58)
@@ -394,7 +394,7 @@ def make_og_images():
 
     def card(name, eyebrow, headline, bg_rel):
         W, H, split = 1200, 630, 660
-        canvas = Image.new('RGB', (W, H), BONE)
+        canvas = Image.new('RGB', (W, H), WHITE)
         photo = Image.open(os.path.join(PUB, 'images', bg_rel)).convert('RGB')
         photo = ImageOps.fit(photo, (split, H), Image.LANCZOS)
         canvas.paste(photo, (0, 0))

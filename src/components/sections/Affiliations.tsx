@@ -24,7 +24,7 @@ export function Affiliations() {
     { label: boards, items: affiliations.boards },
   ];
   return (
-    <section className="section-x section-y bg-bone" aria-labelledby="affiliations-heading">
+    <section className="section-x section-y bg-white" aria-labelledby="affiliations-heading">
       <Reveal>
         <h2 id="affiliations-heading" className="font-serif text-section font-normal">
           {heading}

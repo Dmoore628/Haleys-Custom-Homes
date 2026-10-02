@@ -28,17 +28,17 @@ export function Nav() {
   useEffect(() => setOpen(false), [pathname]);
 
   const overDark = hasDarkHero(pathname) && !scrolled;
-  const text = overDark ? 'text-bone' : 'text-ink';
+  const text = overDark ? 'text-white' : 'text-ink';
 
   return (
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-200 ease-brand ${
-          scrolled ? 'border-ink/10 bg-bone' : 'border-transparent bg-transparent'
+          scrolled ? 'border-ink/10 bg-white' : 'border-transparent bg-transparent'
         }`}
       >
         <nav aria-label="Primary" className="section-x flex items-center justify-between py-4">
-          <Logo tone={overDark ? 'bone' : 'ink'} className="h-11 w-auto md:h-14" />
+          <Logo tone={overDark ? 'white' : 'ink'} className="h-11 w-auto md:h-14" />
 
           {/* Desktop: four links plus the CTA, always visible. */}
           <div className="hidden items-center gap-10 lg:flex">

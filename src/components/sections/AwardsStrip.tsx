@@ -24,7 +24,7 @@ export function AwardsStrip() {
   ];
   return (
     <section
-      className="section-x section-y bg-bone"
+      className="section-x section-y bg-white"
       aria-label="Awards, recognition and press"
       data-testid="recognition"
     >

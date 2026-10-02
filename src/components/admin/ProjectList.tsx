@@ -161,7 +161,7 @@ function Toggle({
       disabled={disabled}
       onClick={onClick}
       className={`rounded-full border px-3 py-1.5 text-[0.75rem] font-medium uppercase tracking-[0.06em] transition-colors disabled:opacity-60 ${
-        on ? 'border-ink bg-ink text-bone' : 'border-ink/25 text-ink/70 hover:border-ink'
+        on ? 'border-ink bg-ink text-white' : 'border-ink/25 text-ink/70 hover:border-ink'
       }`}
     >
       {label}

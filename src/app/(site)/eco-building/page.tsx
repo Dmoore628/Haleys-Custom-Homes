@@ -43,7 +43,7 @@ export default function EcoBuildingPage() {
   return (
     <CoverStack>
       {/* Hero */}
-      <section className="relative flex min-h-[80vh] w-full items-end overflow-hidden bg-ink text-bone">
+      <section className="relative flex min-h-[80vh] w-full items-end overflow-hidden bg-ink text-white">
         <SmartImage
           src={eco.hero.image}
           alt=""
@@ -61,12 +61,12 @@ export default function EcoBuildingPage() {
           <h1 className="mt-4 max-w-[14em] font-serif text-hero font-normal">
             {eco.hero.headline}
           </h1>
-          <p className="mt-6 max-w-[34rem] text-body text-bone/90">{eco.hero.intro}</p>
+          <p className="mt-6 max-w-[34rem] text-body text-white/90">{eco.hero.intro}</p>
         </div>
       </section>
 
       {/* Eco framing */}
-      <section className="section-x section-y bg-bone" aria-labelledby="framing-heading">
+      <section className="section-x section-y bg-white" aria-labelledby="framing-heading">
         <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:items-center md:gap-x-grid md:gap-y-0">
           <Reveal className="md:col-span-5">
             <div className="relative mx-auto aspect-[3/4] w-full max-w-[26rem] overflow-hidden rounded-tile md:mx-0">
@@ -102,7 +102,7 @@ export default function EcoBuildingPage() {
       </section>
 
       {/* Indoor airPLUS */}
-      <section className="section-x section-y bg-bone" aria-labelledby="airplus-heading">
+      <section className="section-x section-y bg-white" aria-labelledby="airplus-heading">
         <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:gap-x-grid md:gap-y-0">
           <Reveal className="md:col-span-5">
             <MarkImage
@@ -130,17 +130,17 @@ export default function EcoBuildingPage() {
       </section>
 
       {/* Net zero */}
-      <section className="section-x section-y bg-ink text-bone" aria-labelledby="netzero-heading">
+      <section className="section-x section-y bg-ink text-white" aria-labelledby="netzero-heading">
         <div className="flex flex-col gap-12 md:grid md:grid-cols-12 md:gap-x-grid md:gap-y-0">
           <Reveal className="md:col-span-6">
-            <p className="label text-bone/80">{eco.netZero.eyebrow}</p>
+            <p className="label text-white/80">{eco.netZero.eyebrow}</p>
             <h2 id="netzero-heading" className="mt-4 font-serif text-section font-normal">
               {eco.netZero.headline}
             </h2>
-            <p className="mt-6 max-w-text text-body text-bone/85">{eco.netZero.body}</p>
+            <p className="mt-6 max-w-text text-body text-white/85">{eco.netZero.body}</p>
             <ul className="mt-8 space-y-3">
               {eco.netZero.benefits.map((b) => (
-                <li key={b} className="flex gap-3 text-body text-bone/90">
+                <li key={b} className="flex gap-3 text-body text-white/90">
                   <span className="mt-[0.7em] h-px w-4 shrink-0 bg-[#C6BAAC]" aria-hidden="true" />
                   {b}
                 </li>
@@ -152,11 +152,11 @@ export default function EcoBuildingPage() {
             delay={0.1}
           >
             {eco.netZero.stats.map((st) => (
-              <div key={st.label} className="border-t border-bone/15 pt-6">
+              <div key={st.label} className="border-t border-white/15 pt-6">
                 <p className="font-serif text-[clamp(3rem,6vw,4.75rem)] leading-none text-[#C6BAAC]">
                   {st.value}
                 </p>
-                <p className="label mt-4 max-w-[20rem] leading-snug text-bone/80">{st.label}</p>
+                <p className="label mt-4 max-w-[20rem] leading-snug text-white/80">{st.label}</p>
               </div>
             ))}
           </Reveal>
@@ -164,7 +164,7 @@ export default function EcoBuildingPage() {
       </section>
 
       {/* Green features */}
-      <section className="section-x section-y bg-bone" aria-labelledby="features-heading">
+      <section className="section-x section-y bg-white" aria-labelledby="features-heading">
         <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:gap-x-grid md:gap-y-0">
           <Reveal className="md:col-span-5">
             <Eyebrow>{eco.features.eyebrow}</Eyebrow>
@@ -188,7 +188,7 @@ export default function EcoBuildingPage() {
                 as="li"
                 key={f.id}
                 delay={i * 0.06}
-                className="bg-bone p-[clamp(1.5rem,3vw,2.25rem)]"
+                className="bg-white p-[clamp(1.5rem,3vw,2.25rem)]"
               >
                 <FeatureIcon id={f.id} />
                 <h3 className="mt-6 font-serif text-[1.375rem] leading-tight">{f.title}</h3>
@@ -200,7 +200,7 @@ export default function EcoBuildingPage() {
       </section>
 
       {/* Boulder County BuildSmart and the programs */}
-      <section className="section-x section-y bg-bone" aria-labelledby="buildsmart-heading">
+      <section className="section-x section-y bg-white" aria-labelledby="buildsmart-heading">
         <Reveal className="mx-auto flex max-w-[46rem] flex-col items-center text-center">
           <EcoMarks className="justify-center" />
           <Eyebrow className="mt-12">{eco.buildSmart.eyebrow}</Eyebrow>

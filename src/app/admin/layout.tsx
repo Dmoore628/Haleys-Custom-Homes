@@ -15,8 +15,8 @@ export const metadata: Metadata = {
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const admin = await currentAdmin();
   return (
-    <div className="min-h-screen bg-bone text-ink">
-      <header className="border-b border-ink/10 bg-bone">
+    <div className="min-h-screen bg-white text-ink">
+      <header className="border-b border-ink/10 bg-white">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-4 md:px-8">
           <Link href="/admin" className="flex items-baseline gap-3">
             <span className="font-serif text-[1.375rem] leading-none">Haley Custom Homes</span>

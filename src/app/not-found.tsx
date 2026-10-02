@@ -17,7 +17,7 @@ export default function NotFound() {
   return (
     <PageFrame>
       <CoverStack>
-        <section className="section-x flex min-h-[80vh] flex-col items-center justify-center bg-bone pb-section pt-[calc(6.5rem+4rem)] text-center">
+        <section className="section-x flex min-h-[80vh] flex-col items-center justify-center bg-white pb-section pt-[calc(6.5rem+4rem)] text-center">
           <Eyebrow>{notFound.eyebrow}</Eyebrow>
           <h1 className="mt-6 max-w-[16em] font-serif text-section font-normal">
             <Sentences text={notFound.headline} />

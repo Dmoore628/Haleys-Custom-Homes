@@ -12,7 +12,8 @@ const config: Config = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-      bone: '#EFE9DE',
+      // The light surface and light text: crisp white (was the warm 'bone' #EFE9DE until October 2026).
+      white: '#FFFFFF',
       ink: '#1A1815',
       accent: '#7A6250',
       black: '#000000',

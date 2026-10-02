@@ -10,7 +10,7 @@ import { BuildTimeline } from './BuildTimeline';
 export function ProcessHighlight() {
   const { processHighlight } = copy.home;
   return (
-    <section className="section-x section-y bg-bone">
+    <section className="section-x section-y bg-white">
       <BuildTimeline
         intro={
           <>

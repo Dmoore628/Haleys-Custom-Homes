@@ -115,7 +115,7 @@ export function ProjectEditor({ project }: { project?: Project }) {
                 <label
                   key={value}
                   className={`cursor-pointer rounded-[4px] border px-4 py-2.5 text-[0.9375rem] ${
-                    f.category === value ? 'border-ink bg-ink text-bone' : 'border-ink/25'
+                    f.category === value ? 'border-ink bg-ink text-white' : 'border-ink/25'
                   }`}
                 >
                   <input

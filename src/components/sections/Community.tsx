@@ -12,7 +12,7 @@ import { keepTogether } from '@/lib/text';
 export function Community() {
   const { heading, partnersLabel } = copy.about.community;
   return (
-    <section className="section-x section-y bg-bone" aria-labelledby="community-heading">
+    <section className="section-x section-y bg-white" aria-labelledby="community-heading">
       <Reveal>
         <h2 id="community-heading" className="font-serif text-section font-normal">
           {heading}

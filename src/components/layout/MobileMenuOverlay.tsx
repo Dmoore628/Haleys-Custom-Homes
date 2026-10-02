@@ -71,18 +71,18 @@ export function MobileMenuOverlay({ open, onClose, pathname }: Props) {
           role="dialog"
           aria-modal="true"
           aria-label="Site menu"
-          className="fixed inset-0 z-[70] flex flex-col bg-ink text-bone lg:hidden"
+          className="fixed inset-0 z-[70] flex flex-col bg-ink text-white lg:hidden"
           initial={{ opacity: 0, scale: reduced ? 1 : 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: reduced ? 1 : 0.98 }}
           transition={{ duration: 0.3, ease: EASE }}
         >
           <div className="section-x flex items-center justify-between py-4">
-            <Logo tone="bone" className="h-11 w-auto" onClick={onClose} />
+            <Logo tone="white" className="h-11 w-auto" onClick={onClose} />
             <button
               ref={exitRef}
               type="button"
-              className="lift label py-2 text-bone"
+              className="lift label py-2 text-white"
               aria-label={copy.nav.exit}
               onClick={onClose}
             >

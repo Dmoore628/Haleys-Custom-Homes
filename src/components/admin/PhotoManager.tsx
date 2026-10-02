@@ -176,7 +176,7 @@ export function PhotoManager({
                 <span className="relative block aspect-[4/3] overflow-hidden rounded-[4px] bg-ink/10">
                   <Image src={img.src} alt="" fill sizes="240px" className="object-cover" />
                   {img.src === cover && (
-                    <span className="absolute left-2 top-2 rounded-full bg-ink px-2.5 py-1 text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-bone">
+                    <span className="absolute left-2 top-2 rounded-full bg-ink px-2.5 py-1 text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-white">
                       Cover
                     </span>
                   )}

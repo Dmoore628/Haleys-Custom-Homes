@@ -30,7 +30,7 @@ export function legalMetadata(doc: LegalDoc): Metadata {
 export function LegalPage({ doc }: { doc: LegalDoc }) {
   return (
     <CoverStack>
-      <section className="section-x bg-bone pb-section pt-[calc(6.5rem+clamp(3rem,7vw,6rem))]">
+      <section className="section-x bg-white pb-section pt-[calc(6.5rem+clamp(3rem,7vw,6rem))]">
         <article className="mx-auto max-w-[44rem]" data-testid="legal-page">
           <Eyebrow>Legal</Eyebrow>
           <h1 className="mt-5 font-serif text-section font-normal">{doc.title}</h1>

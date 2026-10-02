@@ -3,7 +3,7 @@ import Link from 'next/link';
 import siteConfig from '@content/site.config';
 
 interface LogoProps {
-  tone: 'bone' | 'ink';
+  tone: 'white' | 'ink';
   className?: string;
   onClick?: () => void;
 }

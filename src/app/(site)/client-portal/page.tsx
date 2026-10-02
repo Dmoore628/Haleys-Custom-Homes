@@ -27,7 +27,7 @@ export default function ClientPortalPage() {
   return (
     <CoverStack>
       <section
-        className="section-x flex min-h-[100svh] items-center justify-center bg-bone pb-section pt-[calc(6.5rem+clamp(2rem,5vw,4rem))]"
+        className="section-x flex min-h-[100svh] items-center justify-center bg-white pb-section pt-[calc(6.5rem+clamp(2rem,5vw,4rem))]"
         data-testid="client-portal"
       >
         <div className="flex w-full max-w-[34rem] flex-col items-center text-center">

@@ -10,10 +10,10 @@ import { YearText } from '@/components/providers/YearProvider';
 export function Footer() {
   const { contact, social, credit } = siteConfig;
   return (
-    <footer className="section-x relative z-10 bg-ink pb-12 pt-24 text-bone">
+    <footer className="section-x relative z-10 bg-ink pb-12 pt-24 text-white">
       <div className="grid gap-12 md:grid-cols-3 md:gap-grid">
         <div>
-          <Logo tone="bone" className="h-16 w-auto" />
+          <Logo tone="white" className="h-16 w-auto" />
           <p className="mt-6 max-w-[22rem] text-body">{copy.footer.tagline}</p>
         </div>
 
@@ -21,7 +21,7 @@ export function Footer() {
           <ul className="flex flex-col gap-4">
             {copy.footer.links.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="label hover:text-bone/70">
+                <Link href={link.href} className="label hover:text-white/70">
                   {link.label}
                 </Link>
               </li>
@@ -30,12 +30,12 @@ export function Footer() {
         </nav>
 
         <div className="flex flex-col gap-4">
-          <a href={contact.phoneHref} className="label hover:text-bone/70">
+          <a href={contact.phoneHref} className="label hover:text-white/70">
             {contact.phone}
           </a>
           <a
             href={`mailto:${contact.email}`}
-            className="label normal-case tracking-[0.06em] hover:text-bone/70"
+            className="label normal-case tracking-[0.06em] hover:text-white/70"
           >
             {contact.email}
           </a>
@@ -47,7 +47,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${s.label} (opens in a new tab)`}
-                  className="block text-bone transition-colors duration-200 ease-out hover:text-accent focus-visible:text-accent"
+                  className="block text-white transition-colors duration-200 ease-out hover:text-accent focus-visible:text-accent"
                 >
                   <SocialGlyph id={s.id} />
                 </a>
@@ -64,7 +64,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mt-20 flex flex-col gap-3 border-t border-bone/10 pt-6 md:flex-row md:items-baseline md:justify-between">
+      <div className="mt-20 flex flex-col gap-3 border-t border-white/10 pt-6 md:flex-row md:items-baseline md:justify-between">
         <div className="flex flex-col gap-3 md:flex-row md:items-baseline md:gap-8">
           <p className="label">
             <YearText text={copy.footer.copyright} />

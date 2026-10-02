@@ -21,7 +21,7 @@ export default function ContactPage() {
   const { phone, phoneHref, email } = siteConfig.contact;
   return (
     <CoverStack>
-      <section className="section-x bg-bone pb-section pt-[calc(6.5rem+clamp(3rem,7vw,7rem))]">
+      <section className="section-x bg-white pb-section pt-[calc(6.5rem+clamp(3rem,7vw,7rem))]">
         <div className="flex flex-col gap-16 lg:grid lg:grid-cols-12 lg:gap-x-grid lg:gap-y-0">
           {/* Left: the qualification form. */}
           <div className="lg:col-span-7">
@@ -57,7 +57,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="section-x bg-bone py-section" aria-labelledby="faq-heading">
+      <section className="section-x bg-white py-section" aria-labelledby="faq-heading">
         <div className="mx-auto w-[min(600px,100%)]">
           <Reveal>
             <Eyebrow>

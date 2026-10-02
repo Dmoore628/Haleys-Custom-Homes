@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default function Builder20Page() {
   return (
     <CoverStack>
-      <section className="section-x bg-bone pb-section pt-[calc(6.5rem+clamp(3rem,7vw,7rem))]">
+      <section className="section-x bg-white pb-section pt-[calc(6.5rem+clamp(3rem,7vw,7rem))]">
         <div className="flex flex-col gap-12 md:grid md:grid-cols-12 md:gap-x-grid md:gap-y-0">
           <Reveal className="md:col-span-5">
             <div className="md:sticky md:top-[18vh]">

@@ -24,7 +24,7 @@ export function PositioningStatement() {
       className="section-y relative isolate z-10 overflow-hidden"
       style={{
         background:
-          'radial-gradient(55% 45% at 12% 18%, rgba(122,98,80,0.09) 0%, rgba(122,98,80,0) 100%), radial-gradient(50% 40% at 85% 88%, rgba(122,98,80,0.08) 0%, rgba(122,98,80,0) 100%), #EFE9DE',
+          'radial-gradient(55% 45% at 12% 18%, rgba(122,98,80,0.09) 0%, rgba(122,98,80,0) 100%), radial-gradient(50% 40% at 85% 88%, rgba(122,98,80,0.08) 0%, rgba(122,98,80,0) 100%), #FFFFFF',
       }}
       aria-labelledby="positioning-heading"
     >

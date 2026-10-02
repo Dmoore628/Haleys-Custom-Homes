@@ -5,7 +5,7 @@ export function SkipLink() {
   return (
     <a
       href="#main"
-      className="label fixed left-4 top-4 z-[100] -translate-y-[200%] rounded-btn bg-ink px-4 py-3 text-bone focus:translate-y-0"
+      className="label fixed left-4 top-4 z-[100] -translate-y-[200%] rounded-btn bg-ink px-4 py-3 text-white focus:translate-y-0"
     >
       {copy.nav.skip}
     </a>

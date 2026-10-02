@@ -8,7 +8,7 @@ const INTERACTIVE = 'a, button, [role="button"], label, select, img, video, [dat
  * A small filled dot follows the pointer; over any link or image it expands into a 40px
  * outlined ring (1px border, transparent fill), 200ms. Fine pointers with hover only,
  * and never under prefers-reduced-motion. Difference blending keeps it visible on both
- * bone and ink surfaces without introducing a new color.
+ * white and ink surfaces without introducing a new color.
  */
 export function CustomCursor() {
   const ref = useRef<HTMLDivElement>(null);
@@ -59,8 +59,8 @@ export function CustomCursor() {
       <div
         className={`-translate-x-1/2 -translate-y-1/2 rounded-full transition-[width,height,background-color,border-color] duration-200 ease-brand ${
           expanded
-            ? 'h-10 w-10 border border-bone bg-transparent'
-            : 'h-2 w-2 border border-transparent bg-bone'
+            ? 'h-10 w-10 border border-white bg-transparent'
+            : 'h-2 w-2 border border-transparent bg-white'
         }`}
       />
     </div>

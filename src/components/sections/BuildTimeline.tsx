@@ -207,25 +207,25 @@ interface Status {
 function StatusCard({ closedCount, month }: Status) {
   return (
     <div
-      className="relative isolate overflow-hidden rounded-[6px] px-6 pb-6 pt-5 text-bone shadow-[0_40px_80px_-36px_rgba(26,24,21,0.55),0_16px_32px_-18px_rgba(26,24,21,0.35)] xl:px-7 xl:pb-7 xl:pt-6"
+      className="relative isolate overflow-hidden rounded-[6px] px-6 pb-6 pt-5 text-white shadow-[0_40px_80px_-36px_rgba(26,24,21,0.55),0_16px_32px_-18px_rgba(26,24,21,0.35)] xl:px-7 xl:pb-7 xl:pt-6"
       style={{
         background:
           'radial-gradient(90% 80% at 100% 0%, rgba(122,98,80,0.45) 0%, rgba(122,98,80,0) 62%), #1A1815',
       }}
       aria-hidden="true"
     >
-      <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-bone/30 to-transparent" />
+      <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
       <div className="flex items-end justify-between gap-4">
         <p className="font-serif text-[1.75rem] italic leading-none xl:text-[2rem]">{t.title}</p>
-        <p className="label flex items-baseline gap-2 text-bone/70">
-          <span className="font-serif text-[1.5rem] normal-case tabular-nums tracking-normal text-bone">
+        <p className="label flex items-baseline gap-2 text-white/70">
+          <span className="font-serif text-[1.5rem] normal-case tabular-nums tracking-normal text-white">
             {pad(closedCount)}
           </span>
           <span className="tabular-nums">/ {pad(STAGES.length)}</span>
           <span>{t.closed}</span>
         </p>
       </div>
-      <div className="mt-5 h-px bg-bone/15">
+      <div className="mt-5 h-px bg-white/15">
         <motion.div
           className="h-px origin-left bg-[#C6BAAC]"
           initial={false}
@@ -234,13 +234,13 @@ function StatusCard({ closedCount, month }: Status) {
         />
       </div>
       <div className="mt-6 flex items-end justify-between gap-4">
-        <p className="label min-w-0 max-w-[11rem] leading-snug text-bone/60">{t.note}</p>
+        <p className="label min-w-0 max-w-[11rem] leading-snug text-white/60">{t.note}</p>
         <p className="flex shrink-0 items-baseline gap-2 whitespace-nowrap">
-          <span className="label text-bone/60">{t.month}</span>
+          <span className="label text-white/60">{t.month}</span>
           <span className="font-serif text-[2.75rem] tabular-nums leading-none text-[#C6BAAC] xl:text-[3.25rem]">
             {pad(month)}
           </span>
-          <span className="label tabular-nums text-bone/45">/ {t.months}</span>
+          <span className="label tabular-nums text-white/45">/ {t.months}</span>
         </p>
       </div>
     </div>
@@ -251,7 +251,7 @@ function StatusCard({ closedCount, month }: Status) {
 function StatusPill({ closedCount, month }: Status) {
   return (
     <p
-      className="label flex items-center gap-3 whitespace-nowrap rounded-full bg-ink/95 px-5 py-3 text-bone/70 shadow-[0_18px_40px_-16px_rgba(26,24,21,0.6)] backdrop-blur"
+      className="label flex items-center gap-3 whitespace-nowrap rounded-full bg-ink/95 px-5 py-3 text-white/70 shadow-[0_18px_40px_-16px_rgba(26,24,21,0.6)] backdrop-blur"
       aria-hidden="true"
     >
       <span>
@@ -260,9 +260,9 @@ function StatusPill({ closedCount, month }: Status) {
           {pad(month)}
         </span>
       </span>
-      <span className="h-3 w-px bg-bone/25" />
+      <span className="h-3 w-px bg-white/25" />
       <span>
-        <span className="font-serif text-[1.0625rem] normal-case tabular-nums tracking-normal text-bone">
+        <span className="font-serif text-[1.0625rem] normal-case tabular-nums tracking-normal text-white">
           {pad(closedCount)}
         </span>{' '}
         / {pad(STAGES.length)} {t.closed}
@@ -364,7 +364,7 @@ function Stage({
           className="absolute inset-0 rounded-[5px] border"
           initial={false}
           animate={{
-            backgroundColor: closed ? '#7A6250' : '#EFE9DE',
+            backgroundColor: closed ? '#7A6250' : '#FFFFFF',
             borderColor:
               closed || (isMoveIn && active)
                 ? '#7A6250'
@@ -378,7 +378,7 @@ function Stage({
           <motion.path
             d={CHECK}
             fill="none"
-            stroke="#EFE9DE"
+            stroke="#FFFFFF"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -402,7 +402,7 @@ function Stage({
           <span
             className={`label shrink-0 rounded-full px-3 py-1 text-[0.6875rem] transition-colors duration-300 ${
               closed
-                ? 'bg-accent text-bone'
+                ? 'bg-accent text-white'
                 : isMoveIn
                   ? 'border border-accent text-accent'
                   : 'border border-ink/20 text-ink/55'
@@ -437,7 +437,7 @@ function Stage({
                 >
                   <span
                     className={`absolute inset-0 rounded-full border transition-colors duration-500 ${
-                      lit ? 'border-accent bg-accent' : 'border-ink/30 bg-bone'
+                      lit ? 'border-accent bg-accent' : 'border-ink/30 bg-white'
                     }`}
                   />
                 </span>

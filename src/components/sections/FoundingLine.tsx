@@ -27,7 +27,7 @@ export function FoundingLine() {
   return (
     <div ref={ref} className="flex items-center gap-4" data-testid="founding-line">
       <motion.span
-        className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-1 ring-accent ring-offset-4 ring-offset-bone"
+        className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-1 ring-accent ring-offset-4 ring-offset-white"
         initial={reduced ? false : { opacity: 0, scale: 0.8 }}
         animate={play ? { opacity: 1, scale: 1 } : undefined}
         transition={{ duration: 0.7, ease: EASE }}

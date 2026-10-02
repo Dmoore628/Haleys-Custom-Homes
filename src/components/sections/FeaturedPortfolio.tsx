@@ -9,7 +9,7 @@ export async function FeaturedPortfolio() {
   const { featured } = copy.home;
   const featuredProjects = await getFeaturedProjects();
   return (
-    <section className="section-x section-y bg-bone">
+    <section className="section-x section-y bg-white">
       <Reveal>
         <Eyebrow>{featured.eyebrow}</Eyebrow>
         <h2 className="mt-4 font-serif text-section font-normal">{featured.headline}</h2>

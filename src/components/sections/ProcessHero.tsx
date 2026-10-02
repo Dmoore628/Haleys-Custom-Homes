@@ -8,7 +8,7 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 const { intro } = copy.process;
 
-const BONE = '#EFE9DE';
+const WHITE = '#FFFFFF';
 const CHAMPAGNE = '#C6BAAC';
 const GLOW = '#E4C79F';
 
@@ -87,7 +87,7 @@ export function ProcessHero() {
 
   return (
     <section
-      className="relative isolate overflow-hidden bg-ink text-bone"
+      className="relative isolate overflow-hidden bg-ink text-white"
       style={{
         background:
           'radial-gradient(70% 60% at 72% 55%, rgba(122,98,80,0.30) 0%, rgba(122,98,80,0) 70%), #1A1815',
@@ -101,9 +101,9 @@ export function ProcessHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: EASE }}
         >
-          <p className="label text-bone/80">{intro.eyebrow}</p>
+          <p className="label text-white/80">{intro.eyebrow}</p>
           <h1 className="mt-5 font-serif text-hero font-normal">{intro.headline}</h1>
-          <p className="mt-8 max-w-text text-body text-bone/85">{intro.supporting}</p>
+          <p className="mt-8 max-w-text text-body text-white/85">{intro.supporting}</p>
         </motion.div>
 
         <div ref={ref} className="col-span-12 lg:col-span-7" data-done={done}>
@@ -117,7 +117,7 @@ export function ProcessHero() {
           >
             <defs>
               <pattern id={id('grid')} width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M40 0H0V40" fill="none" stroke={BONE} strokeWidth="0.6" />
+                <path d="M40 0H0V40" fill="none" stroke={WHITE} strokeWidth="0.6" />
               </pattern>
               <clipPath id={id('shell')}>
                 <path d={SILHOUETTE} />
@@ -176,14 +176,14 @@ export function ProcessHero() {
             {/* 02 Pre-construction: ground line, string line, survey stakes, footings. */}
             <motion.path
               d={`M40 ${GROUND} H1160`}
-              stroke={BONE}
+              stroke={WHITE}
               strokeWidth="1.5"
               fill="none"
               {...draw(T[1], 1.1, 0.9)}
             />
             <motion.path
               d={`M150 ${GROUND + 14} H1070 ${CORNERS.map((x) => `M${x} ${GROUND} V${GROUND + 34}`).join(' ')}`}
-              stroke={BONE}
+              stroke={WHITE}
               strokeWidth="1"
               strokeDasharray="5 5"
               fill="none"
@@ -211,7 +211,7 @@ export function ProcessHero() {
                 <motion.path
                   key={x}
                   d={`M${x} ${GROUND} V160`}
-                  stroke={BONE}
+                  stroke={WHITE}
                   strokeWidth="1"
                   fill="none"
                   {...draw(T[2] + i * 0.022, 0.7, 0.42)}
@@ -219,7 +219,7 @@ export function ProcessHero() {
               ))}
               <motion.path
                 d="M150 410 H380 M380 330 H760 M760 430 H1070"
-                stroke={BONE}
+                stroke={WHITE}
                 strokeWidth="1.25"
                 fill="none"
                 {...draw(T[2] + 0.9, 0.8, 0.6)}
@@ -229,14 +229,14 @@ export function ProcessHero() {
             {/* 04 Trade sequencing: the envelope, roofs with overhangs, chimney, openings. */}
             <motion.path
               d={SILHOUETTE}
-              stroke={BONE}
+              stroke={WHITE}
               strokeWidth="1.75"
               fill="none"
               {...draw(T[3], 1.6)}
             />
             <motion.path
               d="M130 425 L275 300 L380 390 M358 349 L570 165 L782 349 M745 422 H1085 M745 430 H1085"
-              stroke={BONE}
+              stroke={WHITE}
               strokeWidth="2"
               strokeLinecap="round"
               fill="none"
@@ -244,7 +244,7 @@ export function ProcessHero() {
             />
             <motion.path
               d="M990 422 V350 H1035 V422 M982 350 H1043 M982 343 H1043"
-              stroke={BONE}
+              stroke={WHITE}
               strokeWidth="1.5"
               fill="none"
               {...draw(T[3] + 0.9, 0.9)}
@@ -256,7 +256,7 @@ export function ProcessHero() {
                 y={w.y}
                 width={w.w}
                 height={w.h}
-                stroke={BONE}
+                stroke={WHITE}
                 strokeWidth="1.5"
                 fill="none"
                 {...draw(T[3] + 0.8 + i * 0.12, 0.8)}
@@ -270,7 +270,7 @@ export function ProcessHero() {
                   <motion.path
                     key={x}
                     d={`M${x} ${GROUND} V160`}
-                    stroke={BONE}
+                    stroke={WHITE}
                     strokeWidth="0.8"
                     fill="none"
                     {...draw(T[4] + i * 0.018, 0.7, 0.22)}
@@ -280,7 +280,7 @@ export function ProcessHero() {
             </g>
             <motion.path
               d="M992 600 V510 H1034 V600"
-              stroke={BONE}
+              stroke={WHITE}
               strokeWidth="1.25"
               fill="none"
               {...draw(T[4] + 0.2, 0.7, 0.8)}
@@ -340,7 +340,7 @@ export function ProcessHero() {
                 y={w.y}
                 width={w.w}
                 height={w.h}
-                stroke={BONE}
+                stroke={WHITE}
                 strokeWidth="1.5"
                 fill="none"
                 {...fade(T[5], 1, 0.4)}

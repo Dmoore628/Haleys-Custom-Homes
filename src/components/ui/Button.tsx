@@ -26,21 +26,21 @@ function classes({
     'group relative inline-flex items-center justify-center overflow-hidden rounded-btn px-7 py-4 font-sans text-label uppercase select-none disabled:pointer-events-none';
   const width = fullWidthMobile ? 'w-full md:w-auto' : '';
   if (variant === 'primary') {
-    // On a dark surface an ink button would vanish, so it inverts to bone with ink text,
-    // turning bone-on-accent as the hover layer sweeps in.
+    // On a dark surface an ink button would vanish, so it inverts to white with ink text,
+    // turning white-on-accent as the hover layer sweeps in.
     const tone =
       surface === 'dark'
-        ? 'bg-bone text-ink transition-colors duration-300 hover:text-bone focus-visible:text-bone'
-        : 'bg-ink text-bone';
+        ? 'bg-white text-ink transition-colors duration-300 hover:text-white focus-visible:text-white'
+        : 'bg-ink text-white';
     return [base, tone, width, className].filter(Boolean).join(' ');
   }
-  const tone = surface === 'dark' ? 'border border-bone text-bone' : 'border border-ink text-ink';
+  const tone = surface === 'dark' ? 'border border-white text-white' : 'border border-ink text-ink';
   return [base, tone, width, className].filter(Boolean).join(' ');
 }
 
 /**
  * Primary: a lighter (accent) layer sweeps in from the left, scaleX 0 to 1, 300ms.
- * Ghost: fills to 10% ink opacity (10% bone on dark surfaces), 200ms.
+ * Ghost: fills to 10% ink opacity (10% white on dark surfaces), 200ms.
  */
 function Layers({ variant, surface = 'light' }: { variant: Variant; surface?: Surface }) {
   if (variant === 'primary') {
@@ -55,7 +55,7 @@ function Layers({ variant, surface = 'light' }: { variant: Variant; surface?: Su
     <span
       aria-hidden="true"
       className={`absolute inset-0 opacity-0 transition-opacity duration-200 ease-brand group-hover:opacity-10 group-focus-visible:opacity-10 ${
-        surface === 'dark' ? 'bg-bone' : 'bg-ink'
+        surface === 'dark' ? 'bg-white' : 'bg-ink'
       }`}
     />
   );

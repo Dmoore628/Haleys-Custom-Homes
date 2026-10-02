@@ -13,7 +13,7 @@ import { Sentences } from '@/components/ui/Sentences';
 export function ClosingCta() {
   const { closingCta } = copy;
   const section = (
-    <section className="relative flex min-h-[70vh] w-full items-center justify-center overflow-hidden bg-ink text-bone">
+    <section className="relative flex min-h-[70vh] w-full items-center justify-center overflow-hidden bg-ink text-white">
       <SmartImage
         src="/images/sections/cta-twilight.jpg"
         alt=""

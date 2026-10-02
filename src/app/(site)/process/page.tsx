@@ -24,7 +24,7 @@ export default function ProcessPage() {
       <ProcessHero />
 
       {/* The build timeline: the punch list along the schedule, scrubbed by scroll. */}
-      <section className="section-x bg-bone py-section" aria-labelledby="difference-heading">
+      <section className="section-x bg-white py-section" aria-labelledby="difference-heading">
         <BuildTimeline
           intro={
             <>
@@ -38,12 +38,12 @@ export default function ProcessPage() {
       </section>
 
       {/* Six-phase sequence with the progress rail. */}
-      <section className="section-x section-y bg-bone" aria-label="The six phases">
+      <section className="section-x section-y bg-white" aria-label="The six phases">
         <PhaseSequence />
       </section>
 
       {/* Concierge: photo and plain text, asymmetric split. */}
-      <section className="section-x section-y bg-bone">
+      <section className="section-x section-y bg-white">
         <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:items-center md:gap-x-grid md:gap-y-0">
           <Reveal className="md:col-span-7">
             <div className="relative aspect-[4/5] overflow-hidden rounded-tile md:aspect-[4/3]">

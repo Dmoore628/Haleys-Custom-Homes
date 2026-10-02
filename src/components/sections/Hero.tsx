@@ -56,7 +56,7 @@ export function Hero() {
 
   return (
     <>
-      <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-ink text-bone lg:h-[100vh]">
+      <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-ink text-white lg:h-[100vh]">
         {/* The footage, filling the screen. */}
         <div className="absolute inset-0 overflow-hidden">
           <video
@@ -101,7 +101,7 @@ export function Hero() {
 
         <div
           aria-hidden="true"
-          className="absolute bottom-6 left-1/2 hidden h-6 w-px -translate-x-1/2 bg-bone/60 transition-opacity duration-300 ease-brand lg:block"
+          className="absolute bottom-6 left-1/2 hidden h-6 w-px -translate-x-1/2 bg-white/60 transition-opacity duration-300 ease-brand lg:block"
           style={{ opacity: indicatorVisible ? 1 : 0 }}
         />
       </section>

@@ -95,7 +95,7 @@ export function PhaseSequence() {
           <span
             key={i}
             className={`absolute left-1/2 h-3 w-3 -translate-x-1/2 rounded-full border border-accent transition-colors duration-300 ease-brand ${
-              i < passed ? 'bg-accent' : 'bg-bone'
+              i < passed ? 'bg-accent' : 'bg-white'
             }`}
             style={{ top: `${m * 100}%` }}
             data-testid="rail-marker"

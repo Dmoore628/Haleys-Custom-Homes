@@ -9,7 +9,7 @@ import { EcoMarks } from './EcoMarks';
 export function EcoSummary() {
   const { eco } = copy.process;
   return (
-    <section className="section-x section-y bg-bone" aria-labelledby="eco-summary-heading">
+    <section className="section-x section-y bg-white" aria-labelledby="eco-summary-heading">
       <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:items-center md:gap-x-grid md:gap-y-0">
         <Reveal className="md:col-span-6">
           <div className="relative aspect-[4/3] overflow-hidden rounded-tile">

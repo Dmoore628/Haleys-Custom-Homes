@@ -25,7 +25,7 @@ export default function AboutPage() {
   return (
     <CoverStack>
       {/* Founder intro. Desktop: 7/5 split, text left, centered in its column and on the portrait. */}
-      <section className="section-x bg-bone pb-section pt-[calc(6.5rem+clamp(3rem,7vw,7rem))]">
+      <section className="section-x bg-white pb-section pt-[calc(6.5rem+clamp(3rem,7vw,7rem))]">
         <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:items-center md:gap-x-grid md:gap-y-0">
           <Reveal className="md:order-2 md:col-span-5 md:col-start-8">
             <div className="relative mx-auto aspect-[4/5] w-full max-w-[26rem] overflow-hidden rounded-tile md:mx-0 md:max-w-none">
@@ -51,7 +51,7 @@ export default function AboutPage() {
       </section>
 
       {/* Philosophy: Home's large statement treatment over a quiet full-bleed detail shot. */}
-      <section className="relative z-10 overflow-hidden text-bone">
+      <section className="relative z-10 overflow-hidden text-white">
         <SmartImage src={philosophy.image} alt="" fill sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-black/30" aria-hidden="true" />
         <div className="section-x section-y relative">
@@ -69,7 +69,7 @@ export default function AboutPage() {
       </section>
 
       {/* Awards, expanded. The plumb bob hangs from the philosophy section above it. */}
-      <section className="section-x section-y relative bg-bone" aria-labelledby="awards-heading">
+      <section className="section-x section-y relative bg-white" aria-labelledby="awards-heading">
         <div className="pointer-events-none absolute right-[clamp(1.5rem,8vw,8rem)] top-0 hidden md:block">
           <PlumbBob />
         </div>

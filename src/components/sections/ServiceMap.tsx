@@ -32,7 +32,7 @@ import {
 
 const INK = '#1A1815';
 const ACCENT = '#7A6250';
-const BONE = '#EFE9DE';
+const WHITE = '#FFFFFF';
 const METRO = 'Denver Metro';
 const OFFICE = 'office';
 
@@ -249,7 +249,7 @@ export function ServiceMap({ headingLevel = 'h3' }: { headingLevel?: 'h2' | 'h3'
           {/* Terrain: plains and mountains as dot fields of two densities. */}
           <g clipPath={`url(#${id('state')})`} mask={`url(#${id('reveal')})`}>
             <rect x={x0} y={y0} width={STATE_W} height={STATE_H} fill={`url(#${id('plains')})`} />
-            <path d={polyPath(MOUNTAINS.map(project))} fill={BONE} stroke="none" />
+            <path d={polyPath(MOUNTAINS.map(project))} fill={WHITE} stroke="none" />
             <path d={polyPath(MOUNTAINS.map(project))} fill={`url(#${id('peaks')})`} />
           </g>
 
@@ -368,7 +368,7 @@ export function ServiceMap({ headingLevel = 'h3' }: { headingLevel?: 'h2' | 'h3'
                 <motion.circle
                   cx={x}
                   cy={y}
-                  stroke={BONE}
+                  stroke={WHITE}
                   strokeWidth="1.5"
                   initial={false}
                   animate={{ r: on ? 5 : 4.5, fill: on ? ACCENT : INK }}
@@ -410,7 +410,7 @@ export function ServiceMap({ headingLevel = 'h3' }: { headingLevel?: 'h2' | 'h3'
 
           {/* The lens. */}
           <motion.g {...fade(lensIn)}>
-            <circle cx={LENS_AT[0]} cy={LENS_AT[1]} r={LENS_R} fill={BONE} />
+            <circle cx={LENS_AT[0]} cy={LENS_AT[1]} r={LENS_R} fill={WHITE} />
             <circle cx={LENS_AT[0]} cy={LENS_AT[1]} r={LENS_R} fill={`url(#${id('metro')})`} />
           </motion.g>
           <motion.circle
@@ -450,7 +450,7 @@ export function ServiceMap({ headingLevel = 'h3' }: { headingLevel?: 'h2' | 'h3'
                   <motion.circle
                     cx={x}
                     cy={y}
-                    stroke={BONE}
+                    stroke={WHITE}
                     strokeWidth="1.5"
                     initial={false}
                     animate={{ r: 4, fill: on ? ACCENT : INK }}
@@ -481,7 +481,7 @@ export function ServiceMap({ headingLevel = 'h3' }: { headingLevel?: 'h2' | 'h3'
                 y={y - 5}
                 width="10"
                 height="10"
-                stroke={BONE}
+                stroke={WHITE}
                 strokeWidth="1.5"
                 transform={`rotate(45 ${x} ${y})`}
                 initial={false}

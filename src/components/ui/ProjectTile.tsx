@@ -70,7 +70,7 @@ export function ProjectTile({ project, frameClassName, sizes, priority }: Projec
             className="tile-img object-cover"
           />
           <div aria-hidden="true" className="tile-overlay absolute inset-0 bg-black" />
-          <div className="tile-caption absolute bottom-0 left-0 p-5 text-bone md:p-6">
+          <div className="tile-caption absolute bottom-0 left-0 p-5 text-white md:p-6">
             <p className="font-serif text-statement font-normal">{keepTogether(project.name)}</p>
             {project.location && <p className="label mt-2">{project.location}</p>}
           </div>
