@@ -226,11 +226,20 @@ const copy = {
       description:
         'Dan Haley Fuller founded Haley Custom Homes in 1998. A Denver luxury custom home builder that builds three to five homes a year.',
     },
+    // The founder introduction. Facts from Haley's About pages (haleycustomhomes.com/about-us
+    // and /new-home-custom-builders); each appears once: the dates in the story, the measures
+    // in the facts row. `{years}` counts from 1998 (src/lib/year.ts).
     founder: {
+      eyebrow: 'THE FOUNDER',
       headline: 'Dan Haley Fuller',
-      body: 'Dan Fuller founded Haley Custom Homes in 1998, building on real estate experience in the Colorado market that began in 1991. What started with renovating and reselling homes became, in 1996, a commitment to building new homes from the ground up. In the decades since, Dan has personally overseen custom homes ranging from 4,500 to 20,000 square feet, all without ever losing the habit of treating each one like his own.',
-      // From Haley's About page (haleycustomhomes.com/about-us).
-      more: 'Born and raised in Colorado, Dan knows the Denver metro area and its real estate. He has built for some of Denver’s most prominent families and athletes, in every style from modernist to traditionalist, and brings an entrepreneur’s and developer’s eye to a boutique building company. He lives in Greenwood Village with his wife and their two sons.',
+      lede: 'Born and raised in Colorado, Dan has never lost the habit of treating each home like his own.',
+      body: 'His work in the Colorado market began in 1991, renovating and reselling homes. By 1996 it had become a commitment to building new homes from the ground up, and in 1998 he founded Haley Custom Homes. He has built for some of Denver\u2019s most prominent families and athletes, bringing an entrepreneur\u2019s and developer\u2019s eye to a boutique building company.',
+      personal: 'He lives in Greenwood Village with his wife and their two sons.',
+      facts: [
+        { value: '{years}', label: 'Years building Haley homes' },
+        { value: '4,500\u201320,000', label: 'Square feet, homes he has overseen' },
+        { value: 'Every style', label: 'Modernist to traditionalist' },
+      ],
       image: '/images/people/dan-fuller.jpg',
       imageAlt: 'Dan Haley Fuller, founder of Haley Custom Homes',
     },

@@ -3,6 +3,8 @@ import copy from '@content/copy.config';
 import { awards } from '@/lib/content';
 import { MarkImage } from '@/components/ui/MarkImage';
 import { Reveal } from '@/components/ui/Reveal';
+import { Eyebrow } from '@/components/ui/Eyebrow';
+import { YearText } from '@/components/providers/YearProvider';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { PlumbBob } from '@/components/ui/SignatureAccents';
 import { ClosingCta } from '@/components/sections/ClosingCta';
@@ -24,28 +26,65 @@ export default function AboutPage() {
 
   return (
     <CoverStack>
-      {/* Founder intro. Desktop: 7/5 split, text left, centered in its column and on the portrait. */}
+      {/* Founder intro. Desktop: 7/5 split, the text centered in its column beside the
+          portrait; phones stack the portrait first. The portrait sits in a fine offset frame,
+          the site's drawing-line motif; the text runs eyebrow, name, rule, a serif lede, the
+          story, a row of facts, and a closing personal line. */}
       <section className="section-x bg-white pb-section pt-[calc(6.5rem+clamp(3rem,7vw,7rem))]">
-        <div className="flex flex-col gap-10 md:grid md:grid-cols-12 md:items-center md:gap-x-grid md:gap-y-0">
+        <div className="flex flex-col gap-14 md:grid md:grid-cols-12 md:items-center md:gap-x-grid md:gap-y-0">
           <Reveal className="md:order-2 md:col-span-5 md:col-start-8">
-            <div className="relative mx-auto aspect-[4/5] w-full max-w-[26rem] overflow-hidden rounded-tile md:mx-0 md:max-w-none">
-              <SmartImage
-                src={founder.image}
-                alt={founder.imageAlt}
-                fill
-                priority
-                sizes="(min-width: 768px) 40vw, 90vw"
-                className="object-cover object-top"
+            <div className="relative mx-auto w-full max-w-[24rem] md:mx-0 md:max-w-none">
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 translate-x-[clamp(0.75rem,1.5vw,1.25rem)] translate-y-[clamp(0.75rem,1.5vw,1.25rem)] rounded-tile border border-accent/40"
               />
+              <div className="relative aspect-[4/5] overflow-hidden rounded-tile">
+                <SmartImage
+                  src={founder.image}
+                  alt={founder.imageAlt}
+                  fill
+                  priority
+                  sizes="(min-width: 768px) 40vw, 90vw"
+                  className="object-cover object-top"
+                />
+              </div>
             </div>
           </Reveal>
+
           <Reveal
-            className="text-center md:order-1 md:col-span-7 md:pr-[clamp(0rem,4vw,4rem)]"
+            className="flex flex-col items-center text-center md:order-1 md:col-span-7 md:pr-[clamp(0rem,4vw,4rem)]"
             delay={0.1}
           >
-            <h1 className="font-serif text-section font-normal">{founder.headline}</h1>
-            <p className="mx-auto mt-8 max-w-text text-body">{founder.body}</p>
-            <p className="mx-auto mt-5 max-w-text text-body">{founder.more}</p>
+            <Eyebrow>{founder.eyebrow}</Eyebrow>
+            <h1 className="mt-5 font-serif text-[clamp(2.75rem,5.2vw,4.5rem)] font-normal leading-[1.05]">
+              {founder.headline}
+            </h1>
+            <span aria-hidden="true" className="mt-7 block h-px w-12 bg-accent" />
+            <p className="mt-7 max-w-[30rem] font-serif text-statement font-normal italic text-ink">
+              {keepTogether(founder.lede)}
+            </p>
+            <p className="mt-6 max-w-text text-body text-ink/75">{keepTogether(founder.body)}</p>
+
+            <dl
+              className="mt-10 grid w-full max-w-[34rem] grid-cols-1 border-y border-ink/10 md:grid-cols-3"
+              data-testid="founder-facts"
+            >
+              {founder.facts.map((f, i) => (
+                <div
+                  key={f.label}
+                  className={`flex flex-col items-center gap-2 px-2 py-5 ${i > 0 ? 'border-t border-ink/10 md:border-l md:border-t-0' : ''}`}
+                >
+                  <dt className="label order-2 text-[0.6875rem] leading-snug text-ink/60">
+                    {f.label}
+                  </dt>
+                  <dd className="order-1 whitespace-nowrap font-serif text-[clamp(1.375rem,2.2vw,1.75rem)] leading-none text-accent">
+                    <YearText text={f.value} />
+                  </dd>
+                </div>
+              ))}
+            </dl>
+
+            <p className="mt-8 text-[0.9375rem] text-ink/60">{founder.personal}</p>
           </Reveal>
         </div>
       </section>
