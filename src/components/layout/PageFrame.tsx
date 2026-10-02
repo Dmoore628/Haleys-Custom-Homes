@@ -6,9 +6,9 @@ import { Footer } from './Footer';
 
 /**
  * <main> plus the footer, arranged so the footer slides up over the page's last (pinned)
- * section. A sticky element can't outlive its parent, so <main> is padded by the footer's
- * height and the footer is pulled up over that padding: the last section stays pinned inside
- * <main> while the footer, a sibling landmark, covers it.
+ * section. A sticky element can't outlive its parent's content box, so <main> ends in an empty
+ * spacer the footer's height and the footer is pulled up over it: the last section stays
+ * pinned inside <main> while the footer, a sibling landmark, covers it.
  */
 export function PageFrame({ children }: { children: ReactNode }) {
   const reduced = useReducedMotion();
@@ -26,13 +26,9 @@ export function PageFrame({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <main
-        id="main"
-        tabIndex={-1}
-        className="outline-none"
-        style={reduced ? undefined : { paddingBottom: footerH }}
-      >
+      <main id="main" tabIndex={-1} className="outline-none">
         {children}
+        {!reduced && <div aria-hidden="true" data-footer-spacer style={{ height: footerH }} />}
       </main>
       <div
         ref={footerRef}

@@ -10,7 +10,7 @@ const MAX_DIM = 0.32;
  * The site's section transition: this section pins while whatever follows it (the next
  * section, or the footer after the last one) slides up over it.
  *
- * A section taller than the viewport pins by its bottom edge (top = viewport - height), so
+ * A section taller than the viewport pins by its bottom edge (top = 100svh - height), so
  * all of it is seen before it is covered. While it is being covered it dims toward ink, and
  * every section after the first casts a soft shadow up onto the one beneath, so the layering
  * reads even between two white sections. Under prefers-reduced-motion it scrolls normally.
@@ -28,20 +28,19 @@ export function Pinned({
   const ref = useRef<HTMLDivElement>(null);
   const dimRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
-  const [top, setTop] = useState(0);
+  const [height, setHeight] = useState(0);
 
+  // Only the section's own height is measured. The viewport side is CSS (100svh, the small
+  // viewport), which stays constant while a phone's browser toolbar shows and hides, so the
+  // sections never shift mid-scroll.
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const measure = () => setTop(Math.min(0, window.innerHeight - el.offsetHeight));
+    const measure = () => setHeight(el.offsetHeight);
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(el);
-    window.addEventListener('resize', measure);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener('resize', measure);
-    };
+    return () => ro.disconnect();
   }, []);
 
   useEffect(() => {
@@ -77,7 +76,9 @@ export function Pinned({
       className={`relative z-0 bg-white ${
         first || reduced ? '' : 'shadow-[0_-28px_56px_-28px_rgba(26,24,21,0.35)]'
       } ${className}`}
-      style={reduced ? undefined : { position: 'sticky', top }}
+      style={
+        reduced ? undefined : { position: 'sticky', top: `min(0px, calc(100svh - ${height}px))` }
+      }
       data-pinned={reduced ? 'false' : 'true'}
     >
       {children}

@@ -4,13 +4,18 @@ import Lenis from 'lenis';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
-/** Lenis momentum scrolling sitewide. Disabled entirely under prefers-reduced-motion. */
+/**
+ * Lenis momentum scrolling for mouse and trackpad. Off on touch devices, which keep native
+ * scrolling (smooth already, and Lenis could fight it at the ends of the page), and off
+ * entirely under prefers-reduced-motion.
+ */
 export function SmoothScroll() {
   const lenisRef = useRef<Lenis | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
     const lenis = new Lenis({
       duration: 1.1,
       easing: (t) => 1 - Math.pow(1 - t, 4),
