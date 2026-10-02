@@ -7,22 +7,30 @@ import { AmbientVideo } from '@/components/ui/AmbientVideo';
 import { Sentences } from '@/components/ui/Sentences';
 
 /**
- * Identical on Home, Process and About. A twilight flyover of a completed Haley home
- * (poster: the same house's twilight still), 30% overlay, centered content.
+ * The closing call to action on every page. By default, a twilight flyover of a completed Haley
+ * home (poster: the same house's twilight still); `still` replaces the film with a photograph,
+ * for a page whose hero already uses the flyover (Process). 30% overlay (50% over a still),
+ * centered content.
  */
-export function ClosingCta() {
+export function ClosingCta({ still }: { still?: string } = {}) {
   const { closingCta } = copy;
   const section = (
     <section className="relative flex min-h-[70vh] w-full items-center justify-center overflow-hidden bg-ink text-white">
       <SmartImage
-        src="/images/sections/cta-twilight.jpg"
+        src={still ?? '/images/sections/cta-twilight.jpg'}
         alt=""
         fill
         sizes="100vw"
         className="object-cover"
       />
-      <AmbientVideo src="/video/cta-flyover.mp4" poster="/images/sections/cta-twilight.jpg" />
-      <div className="absolute inset-0 bg-black/30" aria-hidden="true" />
+      {!still && (
+        <AmbientVideo src="/video/cta-flyover.mp4" poster="/images/sections/cta-twilight.jpg" />
+      )}
+      {/* A daylight-brighter still needs a deeper overlay than the twilight film. */}
+      <div
+        className={`absolute inset-0 ${still ? 'bg-black/50' : 'bg-black/30'}`}
+        aria-hidden="true"
+      />
       <Reveal className="section-x section-y relative flex flex-col items-center text-center">
         <Badge>{closingCta.scarcity}</Badge>
         <h2 className="mt-8 max-w-[20em] font-serif text-section font-normal">

@@ -61,18 +61,23 @@ test('reduced motion: the build timeline renders finished', async ({ page }) => 
   await expect(page.getByTestId('build-timeline')).toHaveAttribute('data-arrived', 'true');
 });
 
-test('process hero: the elevation draws through all six stages, then rests lit', async ({
+test('process hero: a Haley home on film fills the screen, headline over it; no repeat below', async ({
   page,
 }) => {
-  test.setTimeout(45000);
   await page.goto('/process');
   const hero = page.getByTestId('process-hero');
   await expect(hero.getByRole('heading', { level: 1 })).toHaveText('A Build That Moves in Order');
-  await expect(hero.getByRole('img', { name: /architectural elevation/ })).toBeVisible();
-  const drawing = hero.locator('[data-done]');
-  await expect(drawing).toHaveAttribute('data-done', 'true', { timeout: 20000 });
-  // Just the house: no stage ticker beneath it.
-  await expect(hero.getByText('Move-In', { exact: true })).toHaveCount(0);
+  const vp = page.viewportSize()!;
+  const box = (await hero.boundingBox())!;
+  expect(box.height).toBeGreaterThanOrEqual(vp.height - 1);
+  const video = hero.locator('video');
+  await expect(video).toHaveAttribute('src', '/video/cta-flyover.mp4');
+  await expect(video).toHaveCSS('object-fit', 'cover');
+  // The drawn elevation is gone, and the flyover appears once on the page.
+  await expect(hero.locator('svg')).toHaveCount(0);
+  await expect(
+    page.locator('video[src="/video/cta-flyover.mp4"], video[poster*="cta-twilight"]'),
+  ).toHaveCount(1);
   await expect(page.getByTestId('accent-framing-square')).toHaveCount(0);
 });
 
