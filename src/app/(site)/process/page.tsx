@@ -3,7 +3,6 @@ import copy from '@content/copy.config';
 import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { ProcessHero } from '@/components/sections/ProcessHero';
-import { BuildTimeline } from '@/components/sections/BuildTimeline';
 import { ApbMark } from '@/components/ui/ApbMark';
 import { PhaseSequence } from '@/components/sections/PhaseSequence';
 import { ClosingCta } from '@/components/sections/ClosingCta';
@@ -23,22 +22,15 @@ export default function ProcessPage() {
     <CoverStack>
       <ProcessHero />
 
-      {/* The build timeline: the punch list along the schedule, scrubbed by scroll. */}
-      <section className="section-x bg-white py-section" aria-labelledby="difference-heading">
-        <BuildTimeline
-          intro={
-            <>
-              <ApbMark />
-              <h2 id="difference-heading" className="mt-8 font-serif text-section font-normal">
-                {hook.headline}
-              </h2>
-            </>
-          }
-        />
-      </section>
-
-      {/* Six-phase sequence with the progress rail. */}
-      <section className="section-x section-y bg-white" aria-label="The six phases">
+      {/* The build process, phase by phase: photographs, months, milestones and the
+          punch-list rail, in one sequence. */}
+      <section className="section-x section-y bg-white" aria-labelledby="difference-heading">
+        <Reveal className="mb-[clamp(3rem,6vw,5rem)]">
+          <ApbMark />
+          <h2 id="difference-heading" className="mt-8 font-serif text-section font-normal">
+            {hook.headline}
+          </h2>
+        </Reveal>
         <PhaseSequence />
       </section>
 

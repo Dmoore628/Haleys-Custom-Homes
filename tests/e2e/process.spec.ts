@@ -1,64 +1,44 @@
 import { test, expect } from './fixtures';
 
-for (const route of ['/', '/process']) {
-  test(`build timeline on ${route}: scrubbing closes stages 1-5 in turn, Move-In stays open, and scrubbing back reopens them`, async ({
-    page,
-  }) => {
-    await page.goto(route);
-    const timeline = page.getByTestId('build-timeline');
-    const stages = timeline.getByTestId('build-stage');
-    await expect(stages).toHaveCount(6);
-    // Every stage, framed as Haley's commitment (no "typical build" risks), and the milestones.
-    await expect(timeline.getByText(/typical build risks/)).toHaveCount(0);
-    await expect(
-      timeline.getByText(/We ensure there are no surprise mid.build changes to layout or finishes/),
-    ).toHaveCount(1);
-    for (const name of [
-      'Design and Spec Lock',
-      'Pre-Construction Sequencing',
-      'Framing',
-      'Trade Sequencing',
-      'Finish Work',
-      'Move-In',
-    ]) {
-      await expect(timeline.getByRole('heading', { level: 3, name: new RegExp(name) })).toHaveCount(
-        1,
-      );
-    }
-    await expect(timeline.getByText('Permit applied for')).toHaveCount(1);
-    await expect(timeline.getByText('Keys handed over')).toHaveCount(1);
-    await expect(stages.first()).toHaveAttribute('data-status', 'open');
+test('process sequence: each phase has its months, Haley\u2019s work and its milestones', async ({
+  page,
+}) => {
+  await page.goto('/process');
+  // One sequence on the page: the separate timeline is gone.
+  await expect(page.getByTestId('build-timeline')).toHaveCount(0);
+  const phases = page.getByTestId('phase');
+  await expect(phases).toHaveCount(6);
+  await expect(phases.first()).toContainText('Month 1');
+  await expect(phases.first()).toContainText('Permit applied for');
+  await expect(phases.first()).toContainText(/no surprise changes to layout or.finishes/);
+  await expect(phases.nth(2)).toContainText('Months 3\u20136');
+  await expect(phases.nth(2).getByTestId('milestones').locator('li')).toHaveCount(3);
+  await expect(page.getByText(/typical build risks/)).toHaveCount(0);
+  const moveIn = phases.last();
+  await expect(moveIn).toContainText('Month 14');
+  await expect(moveIn).toContainText('Keys handed over');
+  await expect(moveIn.getByRole('link', { name: /Start the Conversation/ })).toBeVisible();
+  await expect(page.getByText(/a month earlier than scheduled/)).toBeAttached();
+  await expect(page.getByText(/illustrative schedule/)).toBeAttached();
+});
 
-    const scrubTo = (el: import('@playwright/test').Locator) =>
-      el.evaluate((node) => {
-        const r = node.getBoundingClientRect();
-        window.scrollTo(0, window.scrollY + r.bottom - window.innerHeight * 0.6 + 4);
-      });
-    // Scrub to the end of Framing: stages 1 to 3 closed, 4 still open.
-    await scrubTo(stages.nth(2).getByText('Framing inspected'));
-    await expect(stages.nth(2)).toHaveAttribute('data-status', 'closed');
-    await expect(stages.nth(3)).toHaveAttribute('data-status', 'open');
-    // Scrub back up: they reopen.
-    await scrubTo(stages.first().getByText('Plans and finishes locked'));
-    await expect(stages.nth(2)).toHaveAttribute('data-status', 'open');
-    // Scrub to move-in: five closed, Move-In open, with the way to close it and the quote.
-    await scrubTo(stages.last().getByText('Keys handed over'));
-    await expect(timeline).toHaveAttribute('data-arrived', 'true');
-    for (let i = 0; i < 5; i++)
-      await expect(stages.nth(i)).toHaveAttribute('data-status', 'closed');
-    await expect(stages.last()).toHaveAttribute('data-status', 'open');
-    await expect(timeline.getByRole('link', { name: /Start the Conversation/ })).toBeVisible();
-    await expect(timeline.getByText(/a month earlier than scheduled/)).toBeVisible();
-  });
-}
+test('home: the timeline is replaced by a transition to the Process page', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByTestId('build-timeline')).toHaveCount(0);
+  const teaser = page.getByTestId('process-teaser');
+  await expect(teaser.getByRole('heading', { level: 2 })).toHaveText('A Build That Moves in Order');
+  await expect(teaser.locator('ol li')).toHaveCount(6);
+  await teaser.getByRole('link', { name: 'See the Process' }).click();
+  await expect(page).toHaveURL(/\/process$/);
+});
 
-test('reduced motion: the build timeline renders finished', async ({ page }) => {
+test('reduced motion: the rail shows phases 1-5 ticked and Move-In open', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/process');
-  const stages = page.getByTestId('build-stage');
-  await expect(stages.nth(4)).toHaveAttribute('data-status', 'closed');
-  await expect(stages.last()).toHaveAttribute('data-status', 'open');
-  await expect(page.getByTestId('build-timeline')).toHaveAttribute('data-arrived', 'true');
+  const markers = page.getByTestId('rail-marker');
+  await expect(markers).toHaveCount(6);
+  await expect(markers.nth(4)).toHaveAttribute('data-status', 'closed');
+  await expect(markers.last()).toHaveAttribute('data-status', 'open');
 });
 
 test('process hero: a Haley home on film fills the screen, headline over it; no repeat below', async ({
@@ -90,4 +70,7 @@ test('progress rail markers fill as the phases scroll past', async ({ page }) =>
     .getByTestId('phase-sequence')
     .evaluate((el) => window.scrollTo(0, el.getBoundingClientRect().bottom + window.scrollY));
   await expect(markers.last()).toHaveAttribute('data-passed', 'true');
+  // Passed phases tick off like a punch list; Move-In stays open.
+  await expect(markers.first()).toHaveAttribute('data-status', 'closed');
+  await expect(markers.last()).toHaveAttribute('data-status', 'open');
 });

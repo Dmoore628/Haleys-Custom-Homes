@@ -47,9 +47,11 @@ const copy = {
       href: 'https://www.houzz.com/professionals/home-builders/haley-custom-homes-pfvwus-pf~1703183129',
       label: 'Client reviews',
     },
+    // The transition into the Process page (ProcessTeaser).
     processHighlight: {
+      headline: 'A Build That Moves in Order',
       body: 'Every Haley home follows a proprietary sequencing method built on LEAN construction principles, the same discipline that eliminates waste and delay in advanced manufacturing, applied to a custom home. The result is a build that moves in order, without the idle weeks that stretch a typical project.',
-      button: { label: 'Learn the Process', href: '/process' },
+      button: { label: 'See the Process', href: '/process' },
     },
     featured: {
       eyebrow: 'SELECTED WORK',
@@ -69,76 +71,18 @@ const copy = {
     name: 'Accelerated Precision Building System™',
   },
 
-  // The build timeline (Home and Process): the Haley build process, stage by stage, as a punch
-  // list laid along an illustrative build schedule, scrubbed by scroll. Each stage carries Haley's
-  // commitment for it (drawn from the Process page's phase descriptions and the old site's
-  // continuous quality checks) and its example on-site milestones; `month` places each on the schedule (0 to `months`), shown as the
-  // calendar month it falls in. Stages 1 to 5 close; Move-In stays open for the visitor. The
-  // quote is two consecutive sentences from the McDonalds' testimonial (content/testimonials.json).
-  buildTimeline: {
-    title: 'Punch List',
-    note: 'An illustrative build schedule',
-    label:
-      'The Haley build process, stage by stage, as a punch list along an illustrative build schedule: six stages from design to move-in over fourteen months. Stages one to five are closed; Move-In is open.',
+  // Shared details of the process sequence (Process page): each phase's months and on-site
+  // milestones come from an illustrative schedule; `month` places a milestone on it (0 to
+  // `months`), shown as the calendar month it falls in. Phases 1 to 5 tick off on the rail as the
+  // visitor scrolls past; Move-In stays open, with the way to close it. The quote is two
+  // consecutive sentences from the McDonalds' testimonial (content/testimonials.json).
+  processSchedule: {
+    note: 'Months shown are an illustrative schedule; every home\u2019s is its own.',
     month: 'Month',
+    monthsLabel: 'Months',
     months: 14,
-    closed: 'Closed',
     open: 'Open',
     cta: { label: 'Start the Conversation', href: '/contact' },
-    stages: [
-      {
-        name: 'Design and Spec Lock',
-        commitment:
-          'We ensure there are no surprise mid‑build changes to layout or finishes: every detail is locked in advance, before the first shovel moves.',
-        milestones: [
-          { month: 0.3, label: 'Plans and finishes locked' },
-          { month: 0.6, label: 'Permit applied for' },
-        ],
-      },
-      {
-        name: 'Pre-Construction Sequencing',
-        commitment:
-          "We order materials and schedule every trade in the exact sequence they're needed, so no crew stands idle waiting on a delivery or a permit.",
-        milestones: [
-          { month: 1.3, label: 'Trades and materials scheduled' },
-          { month: 2.4, label: 'Permit issued' },
-        ],
-      },
-      {
-        name: 'Framing',
-        commitment:
-          'We make every decision before framing begins, so framing crews are never left waiting on one.',
-        milestones: [
-          { month: 2.8, label: 'Ground broken' },
-          { month: 3.9, label: 'Foundation poured' },
-          { month: 5.5, label: 'Framing inspected' },
-        ],
-      },
-      {
-        name: 'Trade Sequencing',
-        commitment:
-          'We bring each trade in right behind the last, with no gap between them, so no one waits on another trade to finish before starting their own work.',
-        milestones: [
-          { month: 6.6, label: 'Roof on, windows in' },
-          { month: 8.3, label: 'Rough-ins inspected' },
-        ],
-      },
-      {
-        name: 'Finish Work',
-        commitment:
-          'We lock finish selections early and inspect every detail against the original specification, so each one installs on schedule.',
-        milestones: [
-          { month: 10.4, label: 'Cabinetry and stone set' },
-          { month: 12.5, label: 'Final inspection' },
-        ],
-      },
-      {
-        name: 'Move-In',
-        commitment:
-          'We check quality throughout the build, not only at the end, so the final walk-through confirms your home instead of pushing move-in back.',
-        milestones: [{ month: 13.6, label: 'Keys handed over' }],
-      },
-    ],
     quote:
       'We were in the house a month earlier than scheduled. This is my third time building a custom home, and I have never been more satisfied.',
     attribution: 'Michael and Jane McDonald',
@@ -210,33 +154,55 @@ const copy = {
     phases: [
       {
         title: 'Design and Spec Lock',
-        body: 'Every detail, from layout to finish selections, is locked before the first shovel moves. Changes mid-build are the single largest source of delay in custom construction, and we design them out from the start.',
+        body: 'Every detail, from layout to finish selections, is locked before the first shovel moves. Mid-build changes are the single largest source of delay in custom construction, so we design them out from the start: no surprise changes to layout or finishes.',
         image: '/images/phases/1-design-spec-lock.jpg',
+        milestones: [
+          { month: 0.3, label: 'Plans and finishes locked' },
+          { month: 0.6, label: 'Permit applied for' },
+        ],
       },
       {
         title: 'Pre-Construction Sequencing',
-        body: "Materials are ordered and trades are scheduled in the exact sequence they'll be needed, so no crew is ever standing idle waiting on a delivery or a decision.",
+        body: 'We order materials and schedule every trade in the exact sequence they\u2019ll be needed, so no crew is ever standing idle waiting on a delivery, a permit or a decision.',
         image: '/images/phases/2-pre-construction.jpg',
+        milestones: [
+          { month: 1.3, label: 'Trades and materials scheduled' },
+          { month: 2.4, label: 'Permit issued' },
+        ],
       },
       {
         title: 'Framing',
-        body: 'Framing follows a fixed sequence built on LEAN construction principles, the same discipline manufacturers use to eliminate wasted motion and wasted time.',
+        body: 'Every decision is made before framing begins, so framing crews are never left waiting on one. Framing then follows a fixed sequence built on LEAN construction principles, the same discipline manufacturers use to eliminate wasted motion and wasted time.',
         image: '/images/phases/3-framing.jpg',
+        milestones: [
+          { month: 2.8, label: 'Ground broken' },
+          { month: 3.9, label: 'Foundation poured' },
+          { month: 5.5, label: 'Framing inspected' },
+        ],
       },
       {
         title: 'Trade Sequencing',
-        body: "Each trade moves in behind the last with no gap between them. This is where most custom builds lose their timeline. It's where a Haley build holds it.",
+        body: 'Each trade moves in right behind the last, with no gap between them, so no one waits on another trade to finish before starting their own work. This is where most custom builds lose their timeline. It\u2019s where a Haley build holds it.',
         image: '/images/phases/4-trade-sequencing.jpg',
+        milestones: [
+          { month: 6.6, label: 'Roof on, windows in' },
+          { month: 8.3, label: 'Rough-ins inspected' },
+        ],
       },
       {
         title: 'Finish Work',
-        body: "Every detail is inspected against the original specification, not against what's merely acceptable.",
+        body: 'Finish selections are locked early, so each one installs on schedule, and every detail is inspected against the original specification, not against what\u2019s merely acceptable.',
         image: '/images/phases/5-finish-work.jpg',
+        milestones: [
+          { month: 10.4, label: 'Cabinetry and stone set' },
+          { month: 12.5, label: 'Final inspection' },
+        ],
       },
       {
         title: 'Move-In',
-        body: 'One family moved in a full month ahead of schedule. This is what the system is built to do, on every home, not just the ones that go right.',
+        body: 'We check quality throughout the build, not only at the end, so the final walk-through confirms your home instead of pushing move-in back. One family moved in a full month ahead of schedule. This is what the system is built to do, on every home, not just the ones that go right.',
         image: '/images/phases/6-move-in.jpg',
+        milestones: [{ month: 13.6, label: 'Keys handed over' }],
       },
     ],
     concierge: {

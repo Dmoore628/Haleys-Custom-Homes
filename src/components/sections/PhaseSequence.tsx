@@ -1,12 +1,29 @@
 'use client';
 
 import { motion, useMotionValueEvent, useScroll, useSpring } from 'framer-motion';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import copy from '@content/copy.config';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { Reveal } from '@/components/ui/Reveal';
 import { SmartImage } from '@/components/ui/SmartImage';
+import { Sentences } from '@/components/ui/Sentences';
 import { keepTogether } from '@/lib/text';
+
+const schedule = copy.processSchedule;
+const phases = copy.process.phases;
+const LAST = phases.length - 1;
+const CHECK = 'M4 8.4l2.6 2.6L12 5.6';
+
+/** The calendar month (1 to months) a point on the schedule falls in. */
+const monthOf = (m: number) => Math.min(schedule.months, Math.floor(m) + 1);
+
+/** "Month 1" or "Months 3–6", from a phase's milestones. */
+function monthSpan(milestones: readonly { month: number }[]) {
+  const first = monthOf(milestones[0].month);
+  const last = monthOf(milestones[milestones.length - 1].month);
+  return first === last ? `${schedule.month} ${first}` : `${schedule.monthsLabel} ${first}–${last}`;
+}
 
 /**
  * The one place the blueprint-line motif appears: a 1px architectural dimension line
@@ -44,9 +61,45 @@ function BlueprintLine() {
 }
 
 /**
- * Six phase blocks in alternating 7/5 splits, with a scroll-linked progress rail down the
- * left margin: 4px ink-at-10% track, accent fill tied to real scroll progress through the
- * section, and a marker per phase that fills once the visitor scrolls past it.
+ * A rail marker as a punch-list box: it fills and takes a check once the visitor scrolls past
+ * its phase. Move-In alone stays open, its box breathing once reached.
+ */
+function RailBox({ done, isLast, reduced }: { done: boolean; isLast: boolean; reduced: boolean }) {
+  const checked = done && !isLast;
+  return (
+    <span className="relative block h-4 w-4">
+      {isLast && done && !reduced && (
+        <span className="punch-breathe absolute -inset-[4px] rounded-[5px] border border-accent" />
+      )}
+      <span
+        className={`absolute inset-0 rounded-[4px] border transition-colors duration-300 ease-brand ${
+          checked ? 'border-accent bg-accent' : 'border-accent bg-white'
+        }`}
+      />
+      <svg viewBox="0 0 16 16" className="absolute inset-0 h-full w-full">
+        <motion.path
+          d={CHECK}
+          fill="none"
+          stroke="#FFFFFF"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          initial={false}
+          animate={{ pathLength: checked ? 1 : 0, opacity: checked ? 1 : 0 }}
+          transition={{ duration: reduced ? 0 : 0.35 }}
+        />
+      </svg>
+    </span>
+  );
+}
+
+/**
+ * The Haley build process, phase by phase: six photographic blocks in alternating 7/5 splits,
+ * each with its months on an illustrative schedule, what Haley does in that phase, and the
+ * on-site milestones a client waits for. A scroll-linked rail runs down the left margin (4px
+ * ink-at-10% track, accent fill tied to scroll progress), its markers punch-list boxes that tick
+ * off as each phase is passed; Move-In stays open, with the way to close it. The McDonalds'
+ * words close the sequence.
  */
 export function PhaseSequence() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -75,73 +128,145 @@ export function PhaseSequence() {
     return () => ro.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (reduced) setPassed(phases.length);
+  }, [reduced]);
+
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    setPassed(markers.filter((m) => v >= m).length);
+    if (!reduced) setPassed(markers.filter((m) => v >= m).length);
   });
 
-  const phases = copy.process.phases;
-
   return (
-    <div ref={sectionRef} className="relative pl-10 md:pl-20" data-testid="phase-sequence">
-      {/* Rail */}
-      <div className="absolute bottom-0 left-0 top-0 w-1 bg-ink/10 md:left-4" aria-hidden="true">
-        {!reduced && (
-          <motion.div
-            className="absolute inset-x-0 top-0 h-full origin-top bg-accent"
-            style={{ scaleY: fill }}
-          />
-        )}
-        {markers.map((m, i) => (
-          <span
-            key={i}
-            className={`absolute left-1/2 h-3 w-3 -translate-x-1/2 rounded-full border border-accent transition-colors duration-300 ease-brand ${
-              i < passed ? 'bg-accent' : 'bg-white'
-            }`}
-            style={{ top: `${m * 100}%` }}
-            data-testid="rail-marker"
-            data-passed={i < passed}
-          />
-        ))}
+    <div>
+      <div ref={sectionRef} className="relative pl-10 md:pl-20" data-testid="phase-sequence">
+        {/* Rail */}
+        <div className="absolute bottom-0 left-0 top-0 w-1 bg-ink/10 md:left-4" aria-hidden="true">
+          {!reduced && (
+            <motion.div
+              className="absolute inset-x-0 top-0 h-full origin-top bg-accent"
+              style={{ scaleY: fill }}
+            />
+          )}
+          {markers.map((m, i) => (
+            <span
+              key={i}
+              className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
+              style={{ top: `${m * 100}%` }}
+              data-testid="rail-marker"
+              data-passed={i < passed}
+              data-status={i < passed && i < LAST ? 'closed' : 'open'}
+            >
+              <RailBox done={i < passed} isLast={i === LAST} reduced={reduced} />
+            </span>
+          ))}
+        </div>
+
+        <ol>
+          {phases.map((phase, i) => {
+            const imageLeft = i % 2 === 0;
+            const isMoveIn = i === LAST;
+            return (
+              <li key={phase.title}>
+                {i > 0 && <BlueprintLine />}
+                <article
+                  ref={(el) => {
+                    blockRefs.current[i] = el;
+                  }}
+                  className="flex flex-col gap-8 md:grid md:grid-cols-12 md:items-center md:gap-x-grid md:gap-y-0"
+                  data-testid="phase"
+                >
+                  <Reveal className={`md:col-span-7 ${imageLeft ? 'md:order-1' : 'md:order-2'}`}>
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-tile">
+                      <SmartImage
+                        src={phase.image}
+                        alt=""
+                        fill
+                        sizes="(min-width: 768px) 55vw, 100vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  </Reveal>
+                  <Reveal
+                    className={`md:col-span-5 ${imageLeft ? 'md:order-2' : 'md:order-1'}`}
+                    delay={0.1}
+                  >
+                    <p className="label flex flex-wrap items-baseline gap-x-3 text-ink/70">
+                      <span className="font-serif text-[1rem] normal-case tabular-nums tracking-normal text-accent">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        className="h-px w-6 translate-y-[-0.25em] bg-ink/25"
+                      />
+                      <span>{monthSpan(phase.milestones)}</span>
+                      {isMoveIn && (
+                        <span className="ml-auto rounded-full border border-accent px-3 py-0.5 text-[0.6875rem] text-accent">
+                          {schedule.open}
+                        </span>
+                      )}
+                    </p>
+                    <h3 className="mt-3 font-serif text-statement font-normal">
+                      {keepTogether(phase.title)}
+                    </h3>
+                    <p className="mt-5 max-w-text text-body">{keepTogether(phase.body)}</p>
+
+                    {/* The on-site milestones of this phase, each in its month. */}
+                    <ul
+                      className="mt-7 max-w-text border-t border-ink/15 pt-5"
+                      data-testid="milestones"
+                    >
+                      {phase.milestones.map((m) => (
+                        <li
+                          key={m.label}
+                          className="grid grid-cols-[5.5rem_1fr] items-baseline gap-x-4 py-1.5"
+                        >
+                          <span className="label text-[0.6875rem] tabular-nums text-accent">
+                            {schedule.month} {monthOf(m.month)}
+                          </span>
+                          <span className="text-[0.9375rem] leading-snug text-ink/85">
+                            {keepTogether(m.label)}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {isMoveIn && (
+                      <Link
+                        href={schedule.cta.href}
+                        className="label group mt-7 inline-flex items-center gap-2 text-accent underline decoration-accent/40 underline-offset-[6px] transition-colors duration-200 hover:text-ink hover:decoration-ink"
+                      >
+                        {schedule.cta.label}
+                        <span
+                          aria-hidden="true"
+                          className="transition-transform duration-300 ease-brand group-hover:translate-x-1"
+                        >
+                          →
+                        </span>
+                      </Link>
+                    )}
+                  </Reveal>
+                </article>
+              </li>
+            );
+          })}
+        </ol>
       </div>
 
-      <ol>
-        {phases.map((phase, i) => {
-          const imageLeft = i % 2 === 0;
-          return (
-            <li key={phase.title}>
-              {i > 0 && <BlueprintLine />}
-              <article
-                ref={(el) => {
-                  blockRefs.current[i] = el;
-                }}
-                className="flex flex-col gap-8 md:grid md:grid-cols-12 md:items-center md:gap-x-grid md:gap-y-0"
-              >
-                <Reveal className={`md:col-span-7 ${imageLeft ? 'md:order-1' : 'md:order-2'}`}>
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-tile">
-                    <SmartImage
-                      src={phase.image}
-                      alt=""
-                      fill
-                      sizes="(min-width: 768px) 55vw, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
-                </Reveal>
-                <Reveal
-                  className={`md:col-span-5 ${imageLeft ? 'md:order-2' : 'md:order-1'}`}
-                  delay={0.1}
-                >
-                  <p className="label text-ink/70">{String(i + 1).padStart(2, '0')}</p>
-                  <h3 className="mt-3 font-serif text-statement font-normal">
-                    {keepTogether(phase.title)}
-                  </h3>
-                  <p className="mt-5 max-w-text text-body">{keepTogether(phase.body)}</p>
-                </Reveal>
-              </article>
-            </li>
-          );
-        })}
-      </ol>
+      {/* In their words, then the schedule's footnote. */}
+      <Reveal className="mx-auto mt-[clamp(4rem,8vw,7rem)] max-w-[44rem] text-center">
+        <figure>
+          <blockquote className="font-serif text-[clamp(1.25rem,2.2vw,1.75rem)] italic leading-snug text-ink">
+            <Sentences text={`“${schedule.quote}”`} />
+          </blockquote>
+          <span aria-hidden="true" className="mx-auto mt-6 block h-px w-10 bg-accent" />
+          <figcaption className="label mt-5 text-ink">
+            {schedule.attribution}
+            <span className="hidden text-ink/70 md:inline"> · </span>
+            <span className="mt-1 block text-ink/70 md:mt-0 md:inline">{schedule.projectType}</span>
+          </figcaption>
+        </figure>
+        <p className="mt-12 text-[0.8125rem] text-ink/70">{schedule.note}</p>
+      </Reveal>
     </div>
   );
 }

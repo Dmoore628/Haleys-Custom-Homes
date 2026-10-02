@@ -33,7 +33,7 @@ test('2 and 15: every section on every page covers the one before it', async ({ 
     '/': 7,
     '/portfolio': 1,
     '/portfolio/modern-elevated': 2,
-    '/process': 6,
+    '/process': 5,
     '/eco-building': 7,
     '/about': 6,
     '/contact': 2,

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import copy from '@content/copy.config';
 import { Hero } from '@/components/sections/Hero';
 import { PositioningStatement } from '@/components/sections/PositioningStatement';
-import { ProcessHighlight } from '@/components/sections/ProcessHighlight';
+import { ProcessTeaser } from '@/components/sections/ProcessTeaser';
 import { FeaturedPortfolio } from '@/components/sections/FeaturedPortfolio';
 import { ClientReviews } from '@/components/sections/ClientReviews';
 import { AwardsStrip } from '@/components/sections/AwardsStrip';
@@ -24,7 +24,7 @@ export default function HomePage() {
       <PositioningStatement />
       <FeaturedPortfolio />
       <ClientReviews />
-      <ProcessHighlight />
+      <ProcessTeaser />
       <AwardsStrip />
       <ClosingCta />
     </CoverStack>
