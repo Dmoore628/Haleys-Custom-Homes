@@ -102,3 +102,25 @@ test('link previews: every page has a full share card; home adds the hero video'
     expect(await meta('og:image')).toContain(card);
   }
 });
+
+test('every page opens at its hero, by link or by the back button', async ({ page }) => {
+  const atTop = () => page.waitForFunction(() => window.scrollY === 0, null, { timeout: 5000 });
+  const toBottom = () =>
+    page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  for (const [from, link, to] of [
+    ['/', 'Portfolio', /\/portfolio$/],
+    ['/about', 'Process', /\/process$/],
+    ['/process', 'Contact', /\/contact$/],
+  ] as const) {
+    await page.goto(from);
+    await toBottom();
+    await page.waitForFunction(() => window.scrollY > 500);
+    await page.locator('footer').getByRole('link', { name: link, exact: true }).click();
+    await expect(page).toHaveURL(to);
+    await atTop();
+  }
+  // Back to the Process page, scrolled down earlier: it still opens at the top.
+  await page.goBack();
+  await expect(page).toHaveURL(/\/process$/);
+  await atTop();
+});

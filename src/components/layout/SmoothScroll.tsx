@@ -2,7 +2,10 @@
 
 import Lenis from 'lenis';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
+
+/** useLayoutEffect in the browser (before paint), useEffect during server rendering. */
+const useBrowserLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
 /**
  * Lenis momentum scrolling for mouse and trackpad. Off on touch devices, which keep native
@@ -41,9 +44,22 @@ export function SmoothScroll() {
     };
   }, []);
 
-  // New route: start at the top.
+  // Every page opens at its hero, however it was reached: links, the back and forward buttons,
+  // and on every device (touch devices don't run Lenis, so the reset can't depend on it). The
+  // browser's own scroll restoration is turned off, and the reset runs again on the next frame
+  // so the pinned sections' layout can't carry the old position over.
   useEffect(() => {
-    lenisRef.current?.scrollTo(0, { immediate: true });
+    if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+  }, []);
+
+  useBrowserLayoutEffect(() => {
+    const toTop = () => {
+      lenisRef.current?.scrollTo(0, { immediate: true, force: true });
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    };
+    toTop();
+    const raf = requestAnimationFrame(toTop);
+    return () => cancelAnimationFrame(raf);
   }, [pathname]);
 
   return null;
