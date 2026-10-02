@@ -124,3 +124,46 @@ test('every page opens at its hero, by link or by the back button', async ({ pag
   await expect(page).toHaveURL(/\/process$/);
   await atTop();
 });
+
+test('the header logo and Start the Conversation always land at the top', async ({
+  page,
+  isMobile,
+}) => {
+  const atTop = () => page.waitForFunction(() => window.scrollY === 0, null, { timeout: 5000 });
+  const toBottom = async () => {
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    await page.waitForFunction(() => window.scrollY > 500);
+  };
+  const header = page.locator('header');
+  const logo = header.getByRole('link', { name: /Haley Custom Homes, home/ });
+  const cta = async () => {
+    if (isMobile) {
+      await header.getByRole('button', { name: /menu/i }).click();
+      await page.getByRole('dialog').getByRole('link', { name: 'Start the Conversation' }).click();
+    } else {
+      await header.getByRole('link', { name: 'Start the Conversation' }).click();
+    }
+  };
+  // From another page.
+  for (const from of ['/portfolio', '/about']) {
+    await page.goto(from);
+    await toBottom();
+    await logo.click();
+    await expect(page).toHaveURL(/\/$/);
+    await atTop();
+  }
+  await page.goto('/about');
+  await toBottom();
+  await cta();
+  await expect(page).toHaveURL(/\/contact$/);
+  await atTop();
+  // On the page you're already on.
+  await page.goto('/');
+  await toBottom();
+  await logo.click();
+  await atTop();
+  await page.goto('/contact');
+  await toBottom();
+  await cta();
+  await atTop();
+});

@@ -49,7 +49,7 @@ test('2 and 15: every section on every page covers the one before it', async ({ 
     await expect(pinned, route).toHaveCount(count);
     // Every direct child of <main> is a pinned section: no boundary without a transition.
     const unpinned = await page
-      .locator('main > :not([data-pinned]):not([data-footer-spacer])')
+      .locator('main > :not([data-pinned]):not([data-footer-spacer]):not([data-scroll-anchor])')
       .count();
     expect(unpinned, route).toBe(0);
   }

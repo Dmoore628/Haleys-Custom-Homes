@@ -56,7 +56,7 @@ export function MobileMenuOverlay({ open, onClose, pathname }: Props) {
       document.removeEventListener('keydown', onKey);
       document.documentElement.style.overflow = '';
       window.dispatchEvent(new CustomEvent('lenis:start'));
-      previouslyFocused?.focus?.();
+      previouslyFocused?.focus?.({ preventScroll: true });
     };
   }, [open, onClose]);
 

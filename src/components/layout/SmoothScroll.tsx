@@ -62,5 +62,26 @@ export function SmoothScroll() {
     return () => cancelAnimationFrame(raf);
   }, [pathname]);
 
+  // A link to the page already open (the logo on Home, Start the Conversation on Contact)
+  // doesn't change the route, so the reset above can't fire: send it to the top here. In-page
+  // anchors (#section), new tabs and modified clicks are left alone.
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)
+        return;
+      const a = (e.target as Element | null)?.closest('a[href]') as HTMLAnchorElement | null;
+      if (!a || (a.target && a.target !== '_self') || a.hasAttribute('download')) return;
+      const url = new URL(a.href, window.location.href);
+      if (url.origin !== window.location.origin || url.hash) return;
+      if (url.pathname !== window.location.pathname) return;
+      lenisRef.current?.scrollTo(0, { immediate: true, force: true });
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    };
+    // Capture phase: Next's <Link> marks its clicks handled (preventDefault) before a
+    // bubbling listener would see them.
+    document.addEventListener('click', onClick, true);
+    return () => document.removeEventListener('click', onClick, true);
+  }, []);
+
   return null;
 }

@@ -6,26 +6,28 @@ import { DURATION, REVEAL_VIEWPORT, revealVariants, transition } from '@/lib/ani
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { ProjectTile } from '@/components/ui/ProjectTile';
 
-type Slot = { span: string; frame: string; sizes: string };
+/**
+ * A grid slot. `vw` is the tile's width and `hVw` its height on md+ screens, both in viewport
+ * widths, so each tile can ask for an image as wide as the photo actually renders: object-cover
+ * scales a photo to fill the frame's height too, and a wide photo in a tall frame renders far
+ * wider than the tile (Naturally Modern, 2.1:1 in the 4-column tall tile, renders ~97vw wide).
+ */
+type Slot = { span: string; frame: string; vw: number; hVw: number };
 
-const TALL = 'aspect-[4/3] md:aspect-auto md:h-[clamp(26rem,46vw,46rem)]';
-const LARGE: Slot = { span: 'md:col-span-8', frame: TALL, sizes: '(min-width: 768px) 66vw, 100vw' };
-const SIDE: Slot = { span: 'md:col-span-4', frame: TALL, sizes: '(min-width: 768px) 33vw, 100vw' };
-const THIRD: Slot = {
-  span: 'md:col-span-4',
-  frame: 'aspect-[4/3]',
-  sizes: '(min-width: 768px) 33vw, 100vw',
-};
-const HALF: Slot = {
-  span: 'md:col-span-6',
-  frame: 'aspect-[4/3]',
-  sizes: '(min-width: 768px) 50vw, 100vw',
-};
-const FULL: Slot = {
-  span: 'md:col-span-12',
-  frame: 'aspect-[4/3] md:aspect-auto md:h-[clamp(26rem,46vw,46rem)]',
-  sizes: '100vw',
-};
+const TALL_FRAME = 'aspect-[4/3] md:aspect-auto md:h-[clamp(26rem,46vw,46rem)]';
+const TALL_VW = 46;
+const LARGE: Slot = { span: 'md:col-span-8', frame: TALL_FRAME, vw: 66, hVw: TALL_VW };
+const SIDE: Slot = { span: 'md:col-span-4', frame: TALL_FRAME, vw: 33, hVw: TALL_VW };
+const THIRD: Slot = { span: 'md:col-span-4', frame: 'aspect-[4/3]', vw: 33, hVw: 33 * 0.75 };
+const HALF: Slot = { span: 'md:col-span-6', frame: 'aspect-[4/3]', vw: 50, hVw: 50 * 0.75 };
+const FULL: Slot = { span: 'md:col-span-12', frame: TALL_FRAME, vw: 100, hVw: TALL_VW };
+
+/** The `sizes` for a photo of this aspect ratio in this slot (phones: full width, 4:3 frame). */
+function sizesFor(slot: Slot, aspect: number) {
+  const md = Math.ceil(Math.max(slot.vw, slot.hVw * aspect));
+  const phone = Math.ceil(Math.max(100, 75 * aspect));
+  return `(min-width: 768px) ${md}vw, ${phone}vw`;
+}
 
 /**
  * The defined asymmetric module, repeating every five projects:
@@ -73,7 +75,7 @@ export function ProjectGrid({
             <ProjectTile
               project={project}
               frameClassName={slot.frame}
-              sizes={slot.sizes}
+              sizes={sizesFor(slot, project.cover.width / project.cover.height)}
               priority={priorityFirst && i < 2}
             />
           </motion.li>
