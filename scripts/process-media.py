@@ -14,6 +14,8 @@ import base64
 import io
 import json
 import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import re
 import shutil
 
@@ -297,52 +299,39 @@ def main():
         'width': 423, 'height': 433, 'color': 'transparent', 'blurDataURL': ''}
     make_logo_marks()
 
-    # Hero video. The source is a 1920x1080 screen recording of a social post, so the real
-    # footage (about 2.29:1) sits inside black borders that change partway through:
-    #   0.00-4.05s  a small window at 1452x652+182+228
-    #   4.05s-end   full width at 1900x852+8+118
-    # A white progress-bar dot from the post's player also sits on the bottom edge. Each
-    # section is cropped a few pixels inside its picture area (22px off the bottom to drop the
-    # dot), scaled to one 1920x838 frame and joined. The post also dimmed the footage (whites
-    # peak near 185/255). That dimming is deliberately kept: the footage is mostly white
-    # interiors, and stretching it back to full brightness drops the white headline's contrast
-    # under the spec's 20% overlay to about 2:1 (it measures about 3.7:1 as is). No audio.
+    # Hero film: six of Haley's professional photographs as one seamless looping video with slow
+    # camera moves (scripts/hero_film.py), replacing a low-resolution screen recording. Two
+    # renders, each framed for its shape: 1920x1080 for wide screens and 1080x1920 for phones.
+    # CRF 28 keeps fine detail (brick, mullions, leaves) at 100% while holding each file near
+    # 9 MB; a device loads only one. Posters are each film's first frame. No audio.
     # Uses the ffmpeg binary from the imageio-ffmpeg package.
     import subprocess
     import imageio_ffmpeg
+    import hero_film
     ff = imageio_ffmpeg.get_ffmpeg_exe()
-    src_video = os.path.join(SRC, 'videos', 'HaleysCustomHomesHeroVideo.mp4')
-    # Constant 30 fps, level 4.0, 2s keyframes: the screen-recorded source is variable frame
-    # rate, which iPhone Safari handles poorly (stalls, black frames).
-    out_video = os.path.join(PUB, 'video', 'hero-30.mp4')
     os.makedirs(os.path.join(PUB, 'video'), exist_ok=True)
-    hero_filter = (
-        '[0:v]trim=0:4.05,setpts=PTS-STARTPTS,crop=1444:630:186:232,'
-        'scale=1920:838:flags=lanczos,setsar=1[a];'
-        '[0:v]trim=start=4.05,setpts=PTS-STARTPTS,crop=1892:826:12:122,'
-        'scale=1920:838:flags=lanczos,setsar=1[b];'
-        '[a][b]concat=n=2:v=1:a=0,fps=30,format=yuv420p[out]'
-    )
-    subprocess.run([ff, '-y', '-loglevel', 'error', '-i', src_video, '-filter_complex', hero_filter,
-                    '-map', '[out]', '-an', '-c:v', 'libx264', '-preset', 'slow', '-crf', '23',
-                    '-profile:v', 'high', '-level:v', '4.0', '-r', '30', '-g', '60',
-                    '-movflags', '+faststart', out_video], check=True)
-    subprocess.run([ff, '-y', '-loglevel', 'error', '-ss', '0.1', '-i', out_video, '-frames:v', '1',
-                    '-q:v', '3', os.path.join(PUB, 'video', 'hero-poster.jpg')], check=True)
+    out_video = os.path.join(PUB, 'video', 'hero-wide.mp4')
+    out_tall = os.path.join(PUB, 'video', 'hero-tall.mp4')
+    projects_src = os.path.join(SRC, 'projects')
+    hero_film.render(projects_src, out_video, 1920, 1080, False, ff)
+    hero_film.render(projects_src, out_tall, 1080, 1920, True, ff)
+    for film, poster in ((out_video, 'hero-poster.jpg'), (out_tall, 'hero-poster-tall.jpg')):
+        subprocess.run([ff, '-y', '-loglevel', 'error', '-i', film, '-frames:v', '1', '-q:v', '5',
+                        os.path.join(PUB, 'video', poster)], check=True)
+    for old in ('hero-30.mp4',):
+        if os.path.exists(os.path.join(PUB, 'video', old)):
+            os.remove(os.path.join(PUB, 'video', old))
 
-    # Link previews (og:video and the home share card). The same footage at the 1.91:1 share
-    # size, 1200x630: a centered crop of the 1920x838 hero, with its brightness restored (the
-    # site's copy is dimmed to hold the headline; a preview carries no text over it). The home
-    # card's photo is the finished exterior at 9.5s.
-    og_filter = ('crop=1596:838:162:0,scale=1200:630:flags=lanczos,'
-                 'colorlevels=rimax=0.76:gimax=0.76:bimax=0.76,format=yuv420p')
-    subprocess.run([ff, '-y', '-loglevel', 'error', '-i', out_video, '-vf', og_filter, '-an',
-                    '-c:v', 'libx264', '-preset', 'slow', '-crf', '26', '-profile:v', 'high',
+    # Link previews (og:video and the home share card): the wide film at the 1.91:1 share size,
+    # 1200x630 (a centred crop), and the opening exterior as the card's photo.
+    subprocess.run([ff, '-y', '-loglevel', 'error', '-i', out_video, '-vf',
+                    'crop=1920:1005:0:37,scale=1200:630:flags=lanczos,format=yuv420p', '-an',
+                    '-c:v', 'libx264', '-preset', 'slow', '-crf', '28', '-profile:v', 'high',
                     '-level:v', '4.0', '-r', '30', '-g', '60', '-movflags', '+faststart',
                     os.path.join(PUB, 'video', 'og-hero.mp4')], check=True)
-    subprocess.run([ff, '-y', '-loglevel', 'error', '-ss', '9.5', '-i', out_video, '-frames:v', '1',
-                    '-vf', 'colorlevels=rimax=0.76:gimax=0.76:bimax=0.76', '-q:v', '2',
-                    os.path.join(PUB, 'images', 'sections', 'og-hero-frame.jpg')], check=True)
+    subprocess.run([ff, '-y', '-loglevel', 'error', '-ss', '1.5', '-i', out_video, '-frames:v', '1',
+                    '-q:v', '2', os.path.join(PUB, 'images', 'sections', 'og-hero-frame.jpg')],
+                   check=True)
 
     # Closing CTA background: the whole Timian twilight flyover (8s, 1280x720, 24fps), looped.
     # Its last frame (the close pool view) and first frame (the high aerial) don't match, so the

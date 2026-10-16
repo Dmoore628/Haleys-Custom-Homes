@@ -8,19 +8,38 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { ButtonLink } from '@/components/ui/Button';
 import { Sentences } from '@/components/ui/Sentences';
 
+/** Portrait screens (phones, upright tablets) get the tall film; everything else the wide one. */
+const TALL = '(max-aspect-ratio: 4/5)';
+const FILM = {
+  wide: { src: '/video/hero-wide.mp4', poster: '/video/hero-poster.jpg' },
+  tall: { src: '/video/hero-tall.mp4', poster: '/video/hero-poster-tall.jpg' },
+};
+
 /**
- * Video hero: the footage fills the screen at every size, with the headline and buttons laid
- * over its lower part. The footage is a wide panorama (about 2.3:1, 1920x838), so on phones the
- * fill is a centered crop; a 20% black overlay plus a gradient rising from the bottom (deeper
- * on narrow screens, where more of the frame sits behind the text) keeps the copy legible.
- * `svh` keeps it to the visible screen on iPhone, toolbar included. No scroll reveal: the
- * content fades in together (400ms) the instant the page is ready.
+ * Video hero: the film fills the screen at every size, with the headline and buttons laid over
+ * its lower part. The film is Haley's own photography with slow camera moves
+ * (scripts/hero_film.py), rendered twice, 1920x1080 and 1080x1920, so each screen shape plays a
+ * version framed for it and nothing is stretched. The matching first frame sits underneath as
+ * a poster (chosen by CSS media query, so it is right before any script runs), and the video's
+ * source is chosen once mounted, and again if the screen is rotated. A 25% black overlay plus a
+ * gradient rising from the bottom keeps the copy legible. `svh` keeps it to the visible screen
+ * on iPhone, toolbar included. No scroll reveal: the content fades in the instant the page is
+ * ready.
  */
 export function Hero() {
   const { hero } = copy.home;
   const reduced = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [indicatorVisible, setIndicatorVisible] = useState(true);
+  const [film, setFilm] = useState<'wide' | 'tall' | null>(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia(TALL);
+    const pick = () => setFilm(mq.matches ? 'tall' : 'wide');
+    pick();
+    mq.addEventListener('change', pick);
+    return () => mq.removeEventListener('change', pick);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setIndicatorVisible(window.scrollY <= window.innerHeight * 0.1);
@@ -52,18 +71,28 @@ export function Hero() {
       v.removeEventListener('canplay', tryPlay);
       window.removeEventListener('touchstart', tryPlay);
     };
-  }, [reduced]);
+  }, [reduced, film]);
 
   return (
     <>
       <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-ink text-white lg:h-[100vh]">
         {/* The footage, filling the screen. */}
         <div className="absolute inset-0 overflow-hidden">
+          <picture>
+            <source media={TALL} srcSet={FILM.tall.poster} />
+            {/* eslint-disable-next-line @next/next/no-img-element -- a poster frame, not content */}
+            <img
+              src={FILM.wide.poster}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover object-center"
+              fetchPriority="high"
+            />
+          </picture>
           <video
             ref={videoRef}
+            key={film ?? 'none'}
             className="absolute inset-0 h-full w-full object-cover object-center"
-            src="/video/hero-30.mp4"
-            poster="/video/hero-poster.jpg"
+            src={film ? FILM[film].src : undefined}
             muted
             autoPlay
             loop
@@ -72,7 +101,7 @@ export function Hero() {
             aria-hidden="true"
             tabIndex={-1}
           />
-          <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
+          <div className="absolute inset-0 bg-black/25" aria-hidden="true" />
           <div
             className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-b from-transparent via-black/35 to-black/75 lg:h-1/2 lg:via-black/10 lg:to-black/45"
             aria-hidden="true"
