@@ -9,7 +9,7 @@ import { Sentences } from '@/components/ui/Sentences';
 /**
  * The closing call to action on every page. By default, a twilight flyover of a completed Haley
  * home (poster: the same house's twilight still); `still` replaces the film with a photograph,
- * for a page whose hero already uses the flyover (Process). 30% overlay (50% over a still),
+ * for a page whose hero already uses the flyover (Home). 30% overlay (50% over a still),
  * centered content.
  */
 export function ClosingCta({ still }: { still?: string } = {}) {

@@ -48,6 +48,7 @@ test('reduced motion: the rail shows phases 1-5 ticked and Move-In open', async 
 
 test('process hero: a Haley home on film fills the screen, headline over it; no repeat below', async ({
   page,
+  isMobile,
 }) => {
   await page.goto('/process');
   const hero = page.getByTestId('process-hero');
@@ -55,14 +56,14 @@ test('process hero: a Haley home on film fills the screen, headline over it; no 
   const vp = page.viewportSize()!;
   const box = (await hero.boundingBox())!;
   expect(box.height).toBeGreaterThanOrEqual(vp.height - 1);
+  // The photo film, framed for the screen's shape.
   const video = hero.locator('video');
-  await expect(video).toHaveAttribute('src', '/video/cta-flyover.mp4');
+  await expect(video).toHaveAttribute(
+    'src',
+    isMobile ? '/video/hero-tall.mp4' : '/video/hero-wide.mp4',
+  );
   await expect(video).toHaveCSS('object-fit', 'cover');
-  // The drawn elevation is gone, and the flyover appears once on the page.
   await expect(hero.locator('svg')).toHaveCount(0);
-  await expect(
-    page.locator('video[src="/video/cta-flyover.mp4"], video[poster*="cta-twilight"]'),
-  ).toHaveCount(1);
   await expect(page.getByTestId('accent-framing-square')).toHaveCount(0);
 });
 
@@ -78,4 +79,21 @@ test('progress rail markers fill as the phases scroll past', async ({ page }) =>
   // Passed phases tick off like a punch list; Move-In stays open.
   await expect(markers.first()).toHaveAttribute('data-status', 'closed');
   await expect(markers.last()).toHaveAttribute('data-status', 'open');
+});
+
+test('the real flyover appears exactly once on Home (hero) and once on Process (closing)', async ({
+  page,
+}) => {
+  const flyovers = () => page.locator('video[src="/video/cta-flyover.mp4"]');
+  await page.goto('/');
+  await expect(page.locator('section').first().locator('video')).toHaveAttribute(
+    'src',
+    '/video/cta-flyover.mp4',
+  );
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await page.waitForTimeout(500);
+  await expect(flyovers()).toHaveCount(1);
+  await page.goto('/process');
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await expect(flyovers()).toHaveCount(1);
 });

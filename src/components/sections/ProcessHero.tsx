@@ -4,18 +4,15 @@ import { motion } from 'framer-motion';
 import copy from '@content/copy.config';
 import { EASE } from '@/lib/animation';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { SmartImage } from '@/components/ui/SmartImage';
-import { AmbientVideo } from '@/components/ui/AmbientVideo';
+import { HeroVideo } from '@/components/ui/HeroVideo';
 
 const { intro } = copy.process;
 
 /**
- * The Process page hero: a completed Haley home on film, filling the screen. The aerial circles
- * the lit house at dusk, then settles at the pool (the Timian flyover, 1280x720, seamless loop),
- * over its own twilight still, which is what shows under reduced motion and while the video
- * loads. A 30% overlay and a gradient rising from the bottom hold the headline, set low on the
- * left as on Home. The Process page's closing section uses a still of a different home, so the
- * footage appears once on the page.
+ * The Process page hero: a film of finished Haley homes, filling the screen, built from Haley's
+ * professional photography with slow camera moves (scripts/hero_film.py) and rendered twice,
+ * 1920x1080 and 1080x1920, so each screen shape plays a version framed for it. A 30% overlay
+ * and a gradient rising from the bottom hold the headline, set low on the left as on Home.
  */
 export function ProcessHero() {
   const reduced = useReducedMotion();
@@ -25,15 +22,10 @@ export function ProcessHero() {
       data-testid="process-hero"
     >
       <div className="absolute inset-0" aria-hidden="true">
-        <SmartImage
-          src="/images/sections/cta-twilight.jpg"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
+        <HeroVideo
+          wide={{ src: '/video/hero-wide.mp4', poster: '/video/hero-poster.jpg' }}
+          tall={{ src: '/video/hero-tall.mp4', poster: '/video/hero-poster-tall.jpg' }}
         />
-        <AmbientVideo src="/video/cta-flyover.mp4" poster="/images/sections/cta-twilight.jpg" />
         <div className="absolute inset-0 bg-black/30" />
         <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-b from-transparent via-black/30 to-black/70 lg:h-1/2 lg:via-black/10 lg:to-black/50" />
       </div>
