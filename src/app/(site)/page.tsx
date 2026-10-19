@@ -26,8 +26,7 @@ export default function HomePage() {
       <ClientReviews />
       <ProcessTeaser />
       <AwardsStrip />
-      {/* The hero is the flyover; close on a different home. */}
-      <ClosingCta still="/images/projects/heaven-at-sunset/cover.jpg" />
+      <ClosingCta />
     </CoverStack>
   );
 }

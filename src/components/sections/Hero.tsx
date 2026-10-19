@@ -9,11 +9,13 @@ import { Sentences } from '@/components/ui/Sentences';
 import { HeroVideo } from '@/components/ui/HeroVideo';
 
 /**
- * Video hero: real aerial footage of a completed Haley home (the Timian flyover at dusk,
- * 1280x720, a seamless loop), filling the screen at every size, with the headline and buttons
- * laid over its lower part. A 25% black overlay plus a gradient rising from the bottom keeps
- * the copy legible. `svh` keeps it to the visible screen on iPhone, toolbar included. No scroll
- * reveal: the content fades in the instant the page is ready.
+ * Video hero: a film of finished Haley homes, the same film as the Process hero, built from
+ * Haley's professional photography with slow camera moves (scripts/hero_film.py) and rendered
+ * twice, 1920x1080 and 1080x1920, so each screen shape plays a version framed for it. It fills
+ * the screen at every size, with the headline and buttons laid over its lower part. A 25% black
+ * overlay plus a gradient rising from the bottom keeps the copy legible. `svh` keeps it to the
+ * visible screen on iPhone, toolbar included. No scroll reveal: the content fades in the
+ * instant the page is ready.
  */
 export function Hero() {
   const { hero } = copy.home;
@@ -32,7 +34,8 @@ export function Hero() {
         {/* The footage, filling the screen. */}
         <div className="absolute inset-0 overflow-hidden">
           <HeroVideo
-            wide={{ src: '/video/cta-flyover.mp4', poster: '/video/flyover-poster.jpg' }}
+            wide={{ src: '/video/hero-wide.mp4', poster: '/video/hero-poster.jpg' }}
+            tall={{ src: '/video/hero-tall.mp4', poster: '/video/hero-poster-tall.jpg' }}
           />
           <div className="absolute inset-0 bg-black/25" aria-hidden="true" />
           <div

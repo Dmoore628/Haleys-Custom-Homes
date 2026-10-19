@@ -81,19 +81,19 @@ test('progress rail markers fill as the phases scroll past', async ({ page }) =>
   await expect(markers.last()).toHaveAttribute('data-status', 'open');
 });
 
-test('the real flyover appears exactly once on Home (hero) and once on Process (closing)', async ({
+test('Home leads with the photo film; the real flyover closes Home and Process, once each', async ({
   page,
+  isMobile,
 }) => {
   const flyovers = () => page.locator('video[src="/video/cta-flyover.mp4"]');
   await page.goto('/');
   await expect(page.locator('section').first().locator('video')).toHaveAttribute(
     'src',
-    '/video/cta-flyover.mp4',
+    isMobile ? '/video/hero-tall.mp4' : '/video/hero-wide.mp4',
   );
-  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
-  await page.waitForTimeout(500);
-  await expect(flyovers()).toHaveCount(1);
-  await page.goto('/process');
-  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
-  await expect(flyovers()).toHaveCount(1);
+  for (const route of ['/', '/process']) {
+    await page.goto(route);
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    await expect(flyovers()).toHaveCount(1);
+  }
 });

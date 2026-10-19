@@ -299,8 +299,8 @@ def main():
         'width': 423, 'height': 433, 'color': 'transparent', 'blurDataURL': ''}
     make_logo_marks()
 
-    # Process hero film: six of Haley's professional photographs as one seamless looping video
-    # with slow camera moves (scripts/hero_film.py). (The home hero is the real flyover.) Two
+    # Hero film (Home and Process): six of Haley's professional photographs as one seamless
+    # looping video with slow camera moves (scripts/hero_film.py). Two
     # renders, each framed for its shape: 1920x1080 for wide screens and 1080x1920 for phones.
     # CRF 28 keeps fine detail (brick, mullions, leaves) at 100% while holding each file near
     # 9 MB; a device loads only one. Posters are each film's first frame. No audio.
@@ -335,18 +335,15 @@ def main():
     subprocess.run([ff, '-y', '-loglevel', 'error', '-i', cta_src, '-filter_complex', cta_filter,
                     '-map', '[out]', '-an', '-c:v', 'libx264', '-preset', 'slow', '-crf', '20',
                     '-profile:v', 'high', '-movflags', '+faststart', cta_out], check=True)
-    # Its first frame as the poster (shown before it plays, and under reduced motion).
-    subprocess.run([ff, '-y', '-loglevel', 'error', '-i', cta_out, '-frames:v', '1', '-q:v', '4',
-                    os.path.join(PUB, 'video', 'flyover-poster.jpg')], check=True)
 
-    # Link previews (og:video and the home share card), from the flyover that leads the home
-    # page: 1200x630 (a centred crop of the 1280x720 film) and its lit-house frame for the card.
-    subprocess.run([ff, '-y', '-loglevel', 'error', '-i', cta_out, '-vf',
-                    'crop=1280:672:0:24,scale=1200:630:flags=lanczos,format=yuv420p', '-an',
+    # Link previews (og:video and the home share card), from the film that leads the home page:
+    # 1200x630 (a centred crop of the 1920x1080 film) and its opening exterior for the card.
+    subprocess.run([ff, '-y', '-loglevel', 'error', '-i', out_video, '-vf',
+                    'crop=1920:1005:0:37,scale=1200:630:flags=lanczos,format=yuv420p', '-an',
                     '-c:v', 'libx264', '-preset', 'slow', '-crf', '24', '-profile:v', 'high',
                     '-level:v', '4.0', '-movflags', '+faststart',
                     os.path.join(PUB, 'video', 'og-hero.mp4')], check=True)
-    subprocess.run([ff, '-y', '-loglevel', 'error', '-ss', '2.5', '-i', cta_out, '-frames:v', '1',
+    subprocess.run([ff, '-y', '-loglevel', 'error', '-ss', '1.5', '-i', out_video, '-frames:v', '1',
                     '-q:v', '2', os.path.join(PUB, 'images', 'sections', 'og-hero-frame.jpg')],
                    check=True)
 
